@@ -1,0 +1,89 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Carlos Santa Cruz <cmanon@gmail.com>, 2011.
+#
+#, fuzzy
+msgid   ""
+msgstr  "Project-Id-Version: wp-strava-0.5\n"
+        "Report-Msgid-Bugs-To: Carlos Santa Cruz\n"
+        "POT-Creation-Date: 2011-06-30 08:42-0500\n"
+        "PO-Revision-Date: 2011-06-30 08:42-0500\n"
+        "Last-Translator: Carlos Santa Cruz <cmanon@gmail.com>\n"
+        "Language-Team: LANGUAGE <LL@li.org>\n"
+        "Language: \n"
+        "MIME-Version: 1.0\n"
+        "Content-Type: text/plain; charset=CHARSET\n"
+        "Content-Transfer-Encoding: 8bit\n"
+
+#: ../wp-strava.php:221
+msgid   " climbing "
+msgstr  " escalando "
+
+#: ../wp-strava.php:220
+msgid   " during "
+msgstr  " durante "
+
+#: ../wp-strava.php:219
+msgid   " rode "
+msgstr  " rodo "
+
+#: ../wp-strava.php:92
+msgid   "Athlete"
+msgstr  "Atleta"
+
+#: ../wp-strava.php:93
+msgid   "Club"
+msgstr  "Club"
+
+#: ../wp-strava.php:168
+msgid   "Could not get information from strava.com for the ride id: "
+msgstr  "No se pudo obtener informacion desde strava.com para la rodada numero: "
+
+#: ../wp-strava.php:218
+msgid   "On "
+msgstr  "El dia "
+
+#: ../wp-strava.php:207
+msgid   "Please configure the Strava search id on the widget options."
+msgstr  "Por favor configura la opcion buscar identificador Strava en las opciones del widget."
+
+#: ../wp-strava.php:173
+msgid   "Please provide the rides array to be processed."
+msgstr  "Por favor proporciona el arreglo de rodadas para ser procesado."
+
+#: ../wp-strava.php:126
+msgid   "Please specify your Strava athlete name."
+msgstr  "Por favor configura tu nombre de atleta/club."
+
+#: ../wp-strava.php:101
+msgid   "Quantity:"
+msgstr  "Cantidad:"
+
+#: ../wp-strava.php:49 ../wp-strava.php:79
+msgid   "Rides"
+msgstr  "Rodadas"
+
+#: ../wp-strava.php:97
+msgid   "Search Id:"
+msgstr  "Id Busqueda"
+
+#: ../wp-strava.php:90
+msgid   "Search Option:"
+msgstr  "Opcion Busqueda"
+
+#: ../wp-strava.php:195
+msgid   "There was an error pulling data of strava.com."
+msgstr  "Hubo un error al obtener informacion de strava.com"
+
+#: ../wp-strava.php:189
+msgid   "There's an error on the widget options combination."
+msgstr  "Existe un error en la combinacion de opciones del widget."
+
+#: ../wp-strava.php:86
+msgid   "Title:"
+msgstr  "Titulo:"
+
+#: ../wp-strava.php:39
+msgid   "Will publish your latest rides activity from strava.com."
+msgstr  "Publicara las ultimas rodadas registradas en el sitio strava.com."

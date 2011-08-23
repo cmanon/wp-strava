@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+.ride-item:before {
+	content: "";
+	width: 16px;
+	height: 16px;
+	float: left;
+	background: url('../images/fugue-sprite.png') -48px -96px no-repeat;
+	margin: 0 6px 2px 0;
+}
+.table {
+	display: table;
+	margin: 0 auto;
+}
+#ride-details-table tr td {
+	padding: 5px;
+}
+#ride-details-table th {
+	padding: 5px;
+	text-align: center;
+	font-size: 0.8em;
+}
+#ride-details-table td {
+	text-align: center;
+	border: 1px solid #e7e7e7;
+}
+.ride-details-table-info {
+	font-size: 1.2em;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4);
+}
+.ride-details-table-units {
+	font-size: 0.8em;
+}
+.map img {
+	max-width: none;
+}
