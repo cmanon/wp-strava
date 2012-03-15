@@ -123,7 +123,7 @@ class Rides {
 			$this->feedback .= __('There was an error pulling data of strava.com.', 'wp-strava');
 			return false;
 		}
-    } // getAuthenticationToken
+  } // getAuthenticationToken
     
     public function getRideMap($rideId, $token, $efforts, $threshold) {
     	if($rideId != 0 AND $token != "") {
