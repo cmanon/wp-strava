@@ -36,7 +36,7 @@ if(file_exists(dirname(__FILE__) . '/lang/' . get_locale() . '.mo' ) ) {
 }
 
 // Creating the admin menu options
-//add_action('admin_menu', '\WP\Strava\wp_strava_plugin_menu');
+add_action('admin_menu', '\WP\Strava\wp_strava_plugin_menu');
 
 function wp_strava_plugin_menu() {
 	add_options_page('WP Strava Options', 'WP Strava', 'manage_options', '\WP\Strava\wp-strava-options', '\WP\Strava\wp_strava_plugin_options');
