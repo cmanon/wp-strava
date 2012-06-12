@@ -6,7 +6,7 @@ require_once 'util.class.php';
 Plugin Name: WP Strava
 Plugin URI: http://cmanon.com
 Description: Plugin to show your strava.com information in your wordpress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.  
-Version: 0.61
+Version: 0.62
 Author: Carlos Santa Cruz (cmanon)
 Author URI: http://cmanon.com
 License: GPL2
@@ -48,6 +48,21 @@ function register_strava_settings() {
 	register_setting('wp-strava-settings-group','strava_token');
 	//register_setting('wp-strava-settings-group','strava_som');
 }
+
+function load_styles() {
+	// Register a personalized stylesheet
+	wp_register_style('wp-strava-style', plugins_url('css/wp-strava.css', __FILE__));
+	wp_enqueue_style('wp-strava');
+}
+add_action('wp_enqueue_script', 'load_styles');
+
+function load_scripts() {
+	// Load required javascript libraries
+	wp_enqueue_script('jquery');
+	//wp_enqueue_script('google-maps', 'http://maps.google.com/maps/api/js?sensor=false');
+}
+add_action('wp-enqueue_script', 'load_scripts');
+
 
 function wp_strava_plugin_options() {
 	if (!current_user_can('administrator'))  {
@@ -102,12 +117,6 @@ function wp_strava_plugin_options() {
 	</div>
 <?php } // Finished admin menu options
 
-// Load required javascript libraries
-wp_enqueue_script('jquery');
-//wp_enqueue_script('google-maps', 'http://maps.google.com/maps/api/js?sensor=false');
-
-// Register a personalized stylesheet
-wp_register_style('wp-strava', plugins_url('css/wp-strava.css', __FILE__));
 
 /**
  * WP Strava Latest Rides Widget Class
@@ -250,126 +259,130 @@ function strava_request_handler($strava_search_option, $strava_search_id, $strav
 	return $response;
 } // Function strava_request_handler
 
-// Shortcode handler function
-// [ride id=id efforts=false threshold=5 map-width="100%" map-height="400px"] tag
-function strava_ride_shortcode_handler($atts) {
-	$token = get_option('strava_token');
-	$strava_som = get_option('strava_som');
-	
-	if($token) {
-		$pairs = array(
-			'id' => 0,
-			'efforts' => false,
-			'threshold' => 0,
-			'map_width' => "100%",
-			'map_height' => "400px"
-		);
-		
-		extract(shortcode_atts($pairs, $atts));
-		
-		$ride = new Rides();
-		$rideDetails = $ride->getRideDetails($id, $strava_som_option);
-		$rideCoordinates = $ride->getRideMap($id, $token, $efforts, $threshold);
-		
-		if ($strava_som == "metric") {
-			$units = array(
-				'elapsedTime' => __('hours','wp-strava'),
-				'movingTime' => __('hours','wp-strava'),
-				'distance' => __('km','wp-strava'),
-				'averageSpeed' => __('km/h','wp-strava'),
-				'maximumSpeed' => __('km/h','wp-strava'),
-				'elevationGain' => __('meters','wp-strava')
-			);
-		} elseif ($strava_som_option == "english") {
-			$units = array(
-				'elapsedTime' => __('hours','wp-strava'),
-				'movingTime' => __('hours','wp-strava'),
-				'distance' => __('miles','wp-strava'),
-				'averageSpeed' => __('miles/h','wp-strava'),
-				'maximumSpeed' => __('miles/h','wp-strava'),
-				'elevationGain' => __('feet','wp-strava')
-			);
-		}
-		
-		if($rideCoordinates) {
-			return "
-				<div id='ride-header-{$id}' class='table'>
-					<table id='ride-details-table'>
-						<thead>
-							<tr>
-								<th>Elapsed Time</th>
-								<th>Moving Time</th>
-								<th>Distance</th>
-								<th>Average Speed</th>
-								<th>Max Speed</th>
-								<th>Elevation Gain</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class='ride-details-table-info'>
-								<td>{$rideDetails['elapsedTime']}</td>
-								<td>{$rideDetails['movingTime']}</td>
-								<td>{$rideDetails['distance']}</td>
-								<td>{$rideDetails['averageSpeed']}</td>
-								<td>{$rideDetails['maximumSpeed']}</td>
-								<td>{$rideDetails['elevationGain']}</td>
-							</tr>
-							<tr class='ride-details-table-units'>
-								<td>{$units['elapsedTime']}</td>
-								<td>{$units['movingTime']}</td>
-								<td>{$units['distance']}</td>
-								<td>{$units['averageSpeed']}</td>
-								<td>{$units['maximumSpeed']}</td>
-								<td>{$units['elevationGain']}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div id='ride-map-{$id}' class='map' style='width: {$map_width}; height: {$map_height}; border: 1px solid lightgrey;'></div>
-				<script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=false'></script>
-				<script type='text/javascript'>
-					jQuery(document).ready(function($){
-						var coordinates = eval({$rideCoordinates});
-						var rideCoordinates = coordinates.latlng;
-						var mapCenter = new google.maps.LatLng(23.091860, -102.839356);
-						var mapOptions = {
-			                zoom: 5,
-			                center: mapCenter,
-			                //mapTypeControl: true,
-			                //mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
-			                zoomControl: true,
-			                zoomControlOptions: {style: google.maps.MapTypeControlStyle.SMALL},
-			                mapTypeId: google.maps.MapTypeId.TERRAIN
-			            };
-			            var mapObject = new google.maps.Map($('#ride-map-{$id}')[0], mapOptions);
-			            var mapBounds = new google.maps.LatLngBounds();
-			            var mapCoordinates = new google.maps.MVCArray();
-			            var size = rideCoordinates.length;
-			            for(i = 0; i < size; i++) {
-			            	point = new google.maps.LatLng(parseFloat(rideCoordinates[i][0]), parseFloat(rideCoordinates[i][1]));
-			            	mapBounds.extend(point);
-			            	mapCoordinates.push(point);
-			            }
-			            
-			            var polylineOptions = {
-							path: mapCoordinates,
-							strokeColor: '#e0642e',
-							strokeOpacity: 0.8,
-							strokeWeight: 3
-					    };
-					    
-					    var polyline = new google.maps.Polyline(polylineOptions);
-					    polyline.setMap(mapObject);
-					    mapObject.fitBounds(mapBounds);
-					    //google.maps.event.trigger(mapObject, 'resize');
-					});
-				</script>
-			";
-		}
-	} else {
-		return _e('Please first get your strava token using the settings wp strava page.', 'wp-strava');
+
+class RideShortcode {
+	static $add_script;
+
+	static function init() {
+		add_shortcode('ride', array(__CLASS__, 'handler'));
+
+		add_action('init', array(__CLASS__, 'registerScripts'));
+		add_action('wp_footer', array(__CLASS__, 'printScripts'));
 	}
-} // strava_ride_shortcode_handler
-//add_shortcode('ride', 'WP\Strava\strava_ride_shortcode_handler');
+
+	// Shortcode handler function
+	// [ride id=id som=metric efforts=false threshold=5 map-width="100%" map-height="400px"] tag
+	function handler($atts) {
+		self::$add_script = true;
+
+		$token = get_option('strava_token');
+		
+		if($token) {
+			$pairs = array(
+				'id' => 0,
+				'som' => "metric",
+				'efforts' => false,
+				'threshold' => 0,
+				'map_width' => "100%",
+				'map_height' => "400px"
+			);
+			
+			extract(shortcode_atts($pairs, $atts));
+
+			if (isset($som)) {
+				$strava_som = $som;
+			} else {
+				$strava_som = get_option('strava_som_option', 'metric');
+			}
+			
+			$ride = new Rides();
+			$rideDetails = $ride->getRideDetails($id, $strava_som);
+			$rideCoordinates = $ride->getRideMap($id, $token, $efforts, $threshold);
+			
+			if ($strava_som == "metric") {
+				$units = array(
+					'elapsedTime' => __('hours','wp-strava'),
+					'movingTime' => __('hours','wp-strava'),
+					'distance' => __('km','wp-strava'),
+					'averageSpeed' => __('km/h','wp-strava'),
+					//'maximumSpeed' => __('km/h','wp-strava'),
+					'elevationGain' => __('meters','wp-strava')
+				);
+			} elseif ($strava_som == "english") {
+				$units = array(
+					'elapsedTime' => __('hours','wp-strava'),
+					'movingTime' => __('hours','wp-strava'),
+					'distance' => __('miles','wp-strava'),
+					'averageSpeed' => __('miles/h','wp-strava'),
+					//'maximumSpeed' => __('miles/h','wp-strava'),
+					'elevationGain' => __('feet','wp-strava')
+				);
+			}
+			
+			if($rideCoordinates) {
+				return "
+					<div id='ride-header-{$id}' class='table'>
+						<table id='ride-details-table'>
+							<thead>
+								<tr>
+									<th>Elapsed Time</th>
+									<th>Moving Time</th>
+									<th>Distance</th>
+									<th>Average Speed</th>
+									<th>Elevation Gain</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class='ride-details-table-info'>
+									<td>{$rideDetails['elapsedTime']}</td>
+									<td>{$rideDetails['movingTime']}</td>
+									<td>{$rideDetails['distance']}</td>
+									<td>{$rideDetails['averageSpeed']}</td>
+									<td>{$rideDetails['elevationGain']}</td>
+								</tr>
+								<tr class='ride-details-table-units'>
+									<td>{$units['elapsedTime']}</td>
+									<td>{$units['movingTime']}</td>
+									<td>{$units['distance']}</td>
+									<td>{$units['averageSpeed']}</td>
+									<td>{$units['elevationGain']}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id='{$id}' class='map' style='width: {$map_width}; height: {$map_height}; border: 1px solid lightgrey;'></div>
+					<script type='text/javascript'>
+						if (window.coordinates === undefined) {
+							window.coordinates = [];
+						}
+						window.coordinates[{$id}] = eval({$rideCoordinates});
+					</script>
+				";
+			}
+		} else {
+			return _e('Please first get your strava token using the settings wp strava page.', 'wp-strava');
+		}
+	} // handler
+
+	static function registerScripts() {
+		wp_register_style('wp-strava-style', plugins_url('css/wp-strava.css', __FILE__));
+
+		wp_register_script('wp-strava-script', plugins_url('js/wp-strava.js', __FILE__), array('jquery'), '1.0', true);
+		wp_register_script('google-maps', 'http://maps.google.com/maps/api/js?sensor=false');
+	}
+
+	static function printScripts() {
+		if (self::$add_script) {
+			wp_enqueue_style('wp-strava-style');
+			wp_enqueue_script('jquery');
+
+			wp_print_scripts('google-maps');
+			wp_print_scripts('wp-strava-script');
+		}
+	}
+}
+
+// Initialize short code
+RideShortcode::init();
 
 ?>

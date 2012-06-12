@@ -5,10 +5,12 @@ namespace WP\Strava;
  */
 class Rides {
 	private $rideUrl = "http://www.strava.com/api/v1/rides/:id";
+	private $rideUrlV2 = "http://www.strava.com/api/v2/rides/:id";
 	private $ridesUrl = "http://www.strava.com/api/v1/rides";
 	private $authenticationUrl = "https://www.strava.com/api/v1/authentication/login";
+	private $authenticationUrlV2 = "https://www.strava.com/api/v2/authentication/login";
 	private $rideMapDetailsUrl = "http://www.strava.com/api/v1/rides/:id/map_details";
-	private $rideMapDetailsUrlv2 = "http://www.strava.com/api/v2/rides/:id/map_details";
+	private $rideMapDetailsUrlV2 = "http://www.strava.com/api/v2/rides/:id/map_details";
 	
 	public $ridesLinkUrl = "http://app.strava.com/rides/";
 	public $stravaRides;
@@ -19,35 +21,37 @@ class Rides {
 	} // __construct
 	
 	public function getRideDetails($rideId, $systemOfMeasurement) {
-		$url = preg_replace('/:id/', $rideId, $this->rideUrl);
-		//$url = $this->ridesUrl . $rideId;
+		$url = preg_replace('/:id/', $rideId, $this->rideUrlV2);
 		$json = file_get_contents($url);
+
 		if($json) {
 			$strava_ride = json_decode($json);
 			
 			//Transform data to a ready to be displayed format
-			$startDate = date("F j, Y - H:i a", strtotime($strava_ride->ride->startDateLocal));
-			$elapsedTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->elapsedTime));
-			$movingTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->movingTime));
+			$startDate = date("F j, Y - H:i a", strtotime($strava_ride->ride->start_date_local));
+			$elapsedTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->elapsed_time));
+			$movingTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->moving_time));
 			
 			if ($systemOfMeasurement == "metric") {
 				//To km
 				$distance = number_format($strava_ride->ride->distance/1000, 2);
 				//To km/h
-				$averageSpeed = number_format($strava_ride->ride->averageSpeed * 3.6, 2);
+				$averageSpeed = number_format($strava_ride->ride->average_speed * 3.6, 2);
 				//To km/h
-				$maximumSpeed = number_format($strava_ride->ride->maximumSpeed/1000, 2);
+				// Removed on version 2 of the Strava API
+				//$maximumSpeed = number_format($strava_ride->ride->maximumSpeed/1000, 2);
 				//It is already in meters
-				$elevationGain = number_format($strava_ride->ride->elevationGain, 2);
+				$elevationGain = number_format($strava_ride->ride->elevation_gain, 2);
 			} elseif ($systemOfMeasurement == "english") {
 				//To miles
 				$distance = number_format($strava_ride->ride->distance/1609.34, 2);
 				//To miles/h
-				$averageSpeed = number_format($strava_ride->ride->averageSpeed * 2.2369, 2);
+				$averageSpeed = number_format($strava_ride->ride->average_speed * 2.2369, 2);
 				//To miles/h
-				$maximumSpeed = number_format($strava_ride->ride->maximumSpeed/1609.34, 2);
+				// Removed on version 2 of the Strava API
+				//$maximumSpeed = number_format($strava_ride->ride->maximumSpeed/1609.34, 2);
 				//To foot
-				$elevationGain = number_format($strava_ride->ride->elevationGain/0.3048, 2);
+				$elevationGain = number_format($strava_ride->ride->elevation_gain/0.3048, 2);
 			}
 			
 			$ride_details = array(
@@ -59,7 +63,7 @@ class Rides {
 				'movingTime' => $movingTime,
 				'distance' => $distance,
 				'averageSpeed' => $averageSpeed,
-				'maximumSpeed' => $maximumSpeed,
+				//'maximumSpeed' => $maximumSpeed,
 				'elevationGain' => $elevationGain
 			);
 			return $ride_details;
@@ -91,7 +95,7 @@ class Rides {
 			} else {
 				$json = file_get_contents($url . '?athleteName=' . urlencode($searchId));
 			}
-		} elseif ($this->searchOption == "club" AND is_numeric($searchId)) {
+		} elseif ($searchOption == "club" AND is_numeric($searchId)) {
 			$json = file_get_contents($url . '?clubId=' . urlencode($searchId));
 		} else {
 			$this->feedback .= _e("There's an error on the widget options combination.", "wp-strava");
@@ -108,11 +112,11 @@ class Rides {
 	public function getAuthenticationToken($email, $password) {
 		$util = new Util;
 		$data = array('email' => $email, 'password' => $password);
-		$json = $util->makePostRequest($this->authenticationUrl, $data);
+		$json = $util->makePostRequest($this->authenticationUrlV2, $data);
 
 		if($json) {
 			$strava_login = json_decode($json);
-			if($strava_login->success == "true") {
+			if(!isset($strava_login->error)) {
 				$this->feedback .= __('Successfully authenticated.', 'wp-strava');
 				return $strava_login->token;
 			} else {
@@ -127,7 +131,7 @@ class Rides {
     
     public function getRideMap($rideId, $token, $efforts, $threshold) {
     	if($rideId != 0 AND $token != "") {
-    		$url = preg_replace('/:id/', $rideId, $this->rideMapDetailsUrlv2);
+    		$url = preg_replace('/:id/', $rideId, $this->rideMapDetailsUrlV2);
     		$json = file_get_contents($url . '?token=' . $token . '&threshold=' . $threshold);
     		
     		if($json) {

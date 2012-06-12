@@ -4,7 +4,8 @@
 	width: 16px;
 	height: 16px;
 	float: left;
-	background: url('../images/fugue-sprite.png') -48px -96px no-repeat;
+	background: url('../images/fugue-sprite.png') no-repeat;
+	background-position: -224px -160px;
 	margin: 0 6px 2px 0;
 }
 .table {
