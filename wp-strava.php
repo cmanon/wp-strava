@@ -248,6 +248,9 @@ function strava_request_handler($strava_search_option, $strava_search_id, $strav
 			$response .= "<a href='" . $strava_rides->ridesLinkUrl . $ride['id'] . "' >" . $ride['name'] . "</a>";
 			$response .= "<div class='ride-item'>";
 				$response .= __("On ", "wp-strava") . $ride['startDate'];
+				if ($strava_search_option == "club") {
+					$response .= " <a href='" . $strava_rides->athletesLinkUrl . $ride['athleteId'] . "'>" . $ride['athleteName'] . "</a>";
+				}
 				$response .= __(" rode ", "wp-strava") . $ride['distance'] . " " . $units['distance'];
 				$response .= __(" during ", "wp-strava") . $ride['elapsedTime'] . " " . $units['elapsedTime'];
 				$response .= __(" climbing ", "wp-strava") . $ride['elevationGain'] . " " . $units['elevationGain'] . ".";			

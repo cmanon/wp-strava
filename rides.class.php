@@ -13,6 +13,7 @@ class Rides {
 	private $rideMapDetailsUrlV2 = "http://www.strava.com/api/v2/rides/:id/map_details";
 	
 	public $ridesLinkUrl = "http://app.strava.com/rides/";
+	public $athletesLinkUrl = "http://app.strava.com/athletes/";
 	public $stravaRides;
 	public $feedback;
 	
@@ -21,43 +22,45 @@ class Rides {
 	} // __construct
 	
 	public function getRideDetails($rideId, $systemOfMeasurement) {
-		$url = preg_replace('/:id/', $rideId, $this->rideUrlV2);
+		$url = preg_replace('/:id/', $rideId, $this->rideUrl);
 		$json = file_get_contents($url);
 
 		if($json) {
 			$strava_ride = json_decode($json);
 			
 			//Transform data to a ready to be displayed format
-			$startDate = date("F j, Y - H:i a", strtotime($strava_ride->ride->start_date_local));
-			$elapsedTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->elapsed_time));
-			$movingTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->moving_time));
+			$startDate = date("F j, Y - H:i a", strtotime($strava_ride->ride->startDateLocal));
+			$elapsedTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->elapsedTime));
+			$movingTime = date("H:i:s", mktime(0, 0, $strava_ride->ride->movingTime));
 			
 			if ($systemOfMeasurement == "metric") {
 				//To km
 				$distance = number_format($strava_ride->ride->distance/1000, 2);
 				//To km/h
-				$averageSpeed = number_format($strava_ride->ride->average_speed * 3.6, 2);
+				$averageSpeed = number_format($strava_ride->ride->averageSpeed * 3.6, 2);
 				//To km/h
 				// Removed on version 2 of the Strava API
 				//$maximumSpeed = number_format($strava_ride->ride->maximumSpeed/1000, 2);
 				//It is already in meters
-				$elevationGain = number_format($strava_ride->ride->elevation_gain, 2);
+				$elevationGain = number_format($strava_ride->ride->elevationGain, 2);
 			} elseif ($systemOfMeasurement == "english") {
 				//To miles
 				$distance = number_format($strava_ride->ride->distance/1609.34, 2);
 				//To miles/h
-				$averageSpeed = number_format($strava_ride->ride->average_speed * 2.2369, 2);
+				$averageSpeed = number_format($strava_ride->ride->averageSpeed * 2.2369, 2);
 				//To miles/h
 				// Removed on version 2 of the Strava API
 				//$maximumSpeed = number_format($strava_ride->ride->maximumSpeed/1609.34, 2);
 				//To foot
-				$elevationGain = number_format($strava_ride->ride->elevation_gain/0.3048, 2);
+				$elevationGain = number_format($strava_ride->ride->elevationGain/0.3048, 2);
 			}
 			
 			$ride_details = array(
 				'id' => $rideId,
 				'name' => $strava_ride->ride->name,
-				//'description' => $stravaRide->rides->description,
+				'athleteId' => $strava_ride->ride->athlete->id,
+				'athleteName' => $strava_ride->ride->athlete->name,
+				'athleteUserName' => $strava_ride->ride->athlete->username,
 				'startDate' => $startDate,
 				'elapsedTime' => $elapsedTime,
 				'movingTime' => $movingTime,
