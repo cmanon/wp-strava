@@ -1,9 +1,8 @@
 <?php
-namespace WP\Strava;
 /*
- * WP\Strava\Util is a class with all the utility methods.
+ * Util is a class with all the utility methods.
  */
-class Util {
+class WPStrava_Util {
 	public function makePostRequest ($url, $data) {
     	$data = http_build_query($data);
     	$url = parse_url($url);

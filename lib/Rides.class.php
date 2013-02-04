@@ -1,9 +1,8 @@
 <?php
-namespace WP\Strava;
 /*
- * WP\Strava\Rides is a class wrapper for the Strava REST API functions.
+ * Rides is a class wrapper for the Strava REST API functions.
  */
-class Rides {
+class WPStrava_Rides {
 	private $rideUrl = "http://www.strava.com/api/v1/rides/:id";
 	private $rideUrlV2 = "http://www.strava.com/api/v2/rides/:id";
 	private $ridesUrl = "http://www.strava.com/api/v1/rides";
@@ -113,7 +112,8 @@ class Rides {
 	} // getLatestRides
 	
 	public function getAuthenticationToken($email, $password) {
-		$util = new Util;
+		require_once WPSTRAVA_PLUGIN_DIR . 'lib/Util.class.php';
+		$util = new WPStrava_Util();
 		$data = array('email' => $email, 'password' => $password);
 		$json = $util->makePostRequest($this->authenticationUrlV2, $data);
 
