@@ -18,10 +18,12 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 		//$widget_id = $args['widget_id'];
 		$title = apply_filters('widget_title', empty($instance['title']) ? _e('Rides', 'wp-strava') : $instance['title']);
 		$strava_search_option = empty($instance['strava_search_option']) ? 'athlete' : $instance['strava_search_option'];
-		$strava_som_option = empty($instance['strava_som_option']) ? 'metric' : $instance['strava_som_option'];
 		$strava_search_id = empty($instance['strava_search_id']) ? '' : $instance['strava_search_id'];
 		$quantity = empty($instance['quantity']) ? '5' : $instance['quantity'];
-		
+
+		$wpstrava = WPStrava::get_instance();
+		$strava_som_option = $wpstrava->settings->som;
+	   
 		?>
 		<?php echo $before_widget; ?>
 			<?php if ( $title ) echo $before_title . $title . $after_title; ?>
@@ -54,7 +56,6 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 	public function form($instance) {
 		$title = isset($instance['title']) ? esc_attr($instance['title']) : _e('Rides', 'wp-strava');
 		$strava_search_option = isset($instance['strava_search_option']) ? esc_attr($instance['strava_search_option']) : "athlete";
-		$strava_som_option = isset($instance['strava_som_option']) ? esc_attr($instance['strava_som_option']) : "metric";
 		$strava_search_id = isset($instance['strava_search_id']) ? esc_attr($instance['strava_search_id']) : "";
 		$quantity = isset($instance['quantity']) ? absint($instance['quantity']) : 5;
 		
@@ -69,13 +70,6 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 				<select class="widefat" id="<?php echo $this->get_field_id('strava_search_option'); ?>" name="<?php echo $this->get_field_name('strava_search_option'); ?>">
 					<option value="athlete" <?php selected($strava_search_option, 'athlete'); ?>><?php _e("Athlete", "wp-strava")?></option>
 					<option value="club" <?php selected($strava_search_option, 'club'); ?>><?php _e("Club", "wp-strava")?></option>
-				</select>
-			</p>
-			<p>
-				<label for="<?php echo $this->get_field_id('strava_som_option'); ?>"><?php _e('System of Measurement:'); ?></label> 
-				<select class="widefat" id="<?php echo $this->get_field_id('strava_som_option'); ?>" name="<?php echo $this->get_field_name('strava_som_option'); ?>">
-					<option value="metric" <?php selected($strava_som_option, 'metric'); ?>><?php _e("Metric", "wp-strava")?></option>
-					<option value="english" <?php selected($strava_som_option, 'english'); ?>><?php _e("English", "wp-strava")?></option>
 				</select>
 			</p>
 			<p>
@@ -117,8 +111,8 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 					'elapsedTime' => __('hours','wp-strava'),
 					'movingTime' => __('hours','wp-strava'),
 					'distance' => __('miles','wp-strava'),
-					'averageSpeed' => __('miles/h','wp-strava'),
-					'maximumSpeed' => __('miles/h','wp-strava'),
+					'averageSpeed' => __('mph','wp-strava'),
+					'maximumSpeed' => __('mph','wp-strava'),
 					'elevationGain' => __('feet','wp-strava')
 							   );
 			}

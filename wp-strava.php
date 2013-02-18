@@ -36,7 +36,7 @@ if( file_exists( WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' ) ) {
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/Strava.class.php';
 $wpstrava = WPStrava::get_instance();
 
-//@TODO only load these when needed
+//@TODO only load these when needed using is_active_widget()
 function load_styles() {
 	// Register a personalized stylesheet
 	wp_register_style('wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css' );
