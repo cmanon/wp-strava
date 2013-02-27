@@ -1,18 +1,23 @@
 === Plugin Name ===
-Contributors: cmanon (@cmanon)
+Contributors: cmanon (@cmanon), jrfoell
 Donate link: http://cmanon.com/
-Tags: bycicle, strava
+Tags: bicycle, cycling, strava
 Requires at least: 2.0
-Tested up to: 3.3.2
+Tested up to: 3.5.1
 Stable tag: 0.62
+License: GPLv2 or later
 
-This plugin is inteneded to show your strava.com information in your wordpress blog.
+This plugin is intended to show your strava.com information in your WordPress site.
 
 == Description ==
 
-This plugin uses the REST strava.com API to pull the data out and show the information in your wordpress blog.
+This plugin uses the REST strava.com API to pull the data out and show the information in your WordPress site.
 
 == Changelog ==
+
+= 0.70 =
+Use WordPress Settings API for settings page
+
 = 0.62 =
 Refactor some code.
 Fixed several bugs.
