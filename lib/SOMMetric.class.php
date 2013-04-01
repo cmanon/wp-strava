@@ -44,3 +44,4 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 	public function get_elevation_label() {
 		return __( 'meters', 'wp-strava' );
 	}
+}
