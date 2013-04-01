@@ -1,6 +1,6 @@
 <?php
 
-class WPStrava_SOMMetric extends WPStrava_SOM
+class WPStrava_SOMMetric extends WPStrava_SOM {
 	/**
 	 * @param $m meters
 	 * @return string km
