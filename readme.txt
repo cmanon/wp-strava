@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: cmanon (@cmanon), jrfoell
+Contributors: cmanon, jrfoell
 Donate link: http://cmanon.com/
 Tags: bicycle, cycling, strava
 Requires at least: 2.0

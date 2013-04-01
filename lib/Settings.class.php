@@ -2,6 +2,8 @@
 
 class WPStrava_Settings {
 
+	private $feedback;
+	
 	//register admin menus
 	public function hook() {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
@@ -80,15 +82,12 @@ class WPStrava_Settings {
 
 	public function sanitize_token( $token ) {
 		if ( ! empty( $_POST['strava_password'] ) ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Rides.class.php';
-			$ride = new WPStrava_Rides();
-			$email = get_option( 'strava_email' );
-			$token = $ride->getAuthenticationToken( $email, $_POST['strava_password'] );
+			$token = $this->get_authentication_token( $this->email, $_POST['strava_password'] );
 			if ( $token ) {
-				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava Token Retrieved: %s', 'wp-strava' ), $ride->feedback ) , 'updated' );
+				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava Token Retrieved: %s', 'wp-strava' ), $this->feedback ) , 'updated' );
 				return $token;
 			} else {
-				add_settings_error( 'strava_token', 'strava_token', $ride->feedback );
+				add_settings_error( 'strava_token', 'strava_token', $this->feedback );
 				return NULL;
 			}
 		}
@@ -96,6 +95,25 @@ class WPStrava_Settings {
 		return $token;
 	}
 
+	private function get_authentication_token( $email, $password ) {
+		$data = array( 'email' => $email, 'password' => $password );
+		$strava_login = WPStrava::get_instance()->api->post( 'authentication/login', $data );
+
+		if( $strava_login ) {
+			if( ! isset( $strava_login->error ) ) {
+				$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
+				return $strava_login->token;
+			} else {
+				$this->feedback .= __( 'Authentication failed, please check your credentials.', 'wp-strava' );
+				return false;
+			}
+		} else {
+			$this->feedback .= __( 'There was an error pulling data of strava.com.', 'wp-strava' );
+			return false;
+		}
+	} // get_authentication_token
+
+	
 	public function print_options_label() {
 		?><p>Options</p><?php
 	}

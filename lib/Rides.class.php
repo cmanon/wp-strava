@@ -3,23 +3,9 @@
  * Rides is a class wrapper for the Strava REST API functions.
  */
 class WPStrava_Rides {
-	private $rideUrl = "http://www.strava.com/api/v1/rides/:id";
-	private $rideUrlV2 = "http://www.strava.com/api/v2/rides/:id";
-	private $ridesUrl = "http://www.strava.com/api/v1/rides";
-	private $authenticationUrl = "https://www.strava.com/api/v1/authentication/login";
-	private $authenticationUrlV2 = "https://www.strava.com/api/v2/authentication/login";
-	private $rideMapDetailsUrl = "http://www.strava.com/api/v1/rides/:id/map_details";
-	private $rideMapDetailsUrlV2 = "http://www.strava.com/api/v2/rides/:id/map_details";
-	
-	public $ridesLinkUrl = "http://app.strava.com/rides/";
-	public $athletesLinkUrl = "http://app.strava.com/athletes/";
 	public $stravaRides;
 	public $feedback;
-	
-	public function __construct() {
-		// Empty constructor
-	} // __construct
-	
+		
 	public function getRideDetails($rideId, $systemOfMeasurement) {
 		$url = preg_replace('/:id/', $rideId, $this->rideUrl);
 		$json = file_get_contents($url);
@@ -110,28 +96,7 @@ class WPStrava_Rides {
 			return false;
 		}
 	} // getLatestRides
-	
-	public function getAuthenticationToken($email, $password) {
-		require_once WPSTRAVA_PLUGIN_DIR . 'lib/Util.class.php';
-		$util = new WPStrava_Util();
-		$data = array('email' => $email, 'password' => $password);
-		$json = $util->makePostRequest($this->authenticationUrlV2, $data);
-
-		if($json) {
-			$strava_login = json_decode($json);
-			if(!isset($strava_login->error)) {
-				$this->feedback .= __('Successfully authenticated.', 'wp-strava');
-				return $strava_login->token;
-			} else {
-				$this->feedback .= __('Authentication failed, please check your credentials.', 'wp-strava');
-				return false;
-			}
-		} else {
-			$this->feedback .= __('There was an error pulling data of strava.com.', 'wp-strava');
-			return false;
-		}
-  } // getAuthenticationToken
-    
+	    
     public function getRideMap($rideId, $token, $efforts, $threshold) {
     	if($rideId != 0 AND $token != "") {
     		$url = preg_replace('/:id/', $rideId, $this->rideMapDetailsUrlV2);
