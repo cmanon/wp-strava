@@ -87,9 +87,8 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		if ( $ride ):			
 			echo $before_widget;
-			//die('<pre>' . print_r($ride, true));
-			?><h3 class="widget-title"><?php echo $ride->ride->name ?></h3>
-			<a href="http://app.strava.com/activities/<?php echo $ride->id ?>"><?php
+			?><h3 class="widget-title">Latest Ride</h3>
+			<a title="<?php echo $ride->ride->name ?>" href="http://app.strava.com/activities/<?php echo $ride->id ?>"><?php
 			echo $this->getStaticImage( $ride->id, $build_new );
 			?></a><?php
 			echo $after_widget;
