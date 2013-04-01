@@ -14,7 +14,7 @@ class WPStrava_SOMMetric extends WPStrava_SOM
 	 * @return string meters
 	 */
 	public function distance_inverse( $dist ) {
-		return number_format( $dist * 1000, 2 );
+		return $dist * 1000;
 	}
 
 	public function get_distance_label() {

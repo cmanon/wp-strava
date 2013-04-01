@@ -56,38 +56,85 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		extract( $args );
 		$ride_index_params = $instance['ride_index_params'];
 		$distance_min = $instance['distance_min'];
-
-		$rides = $this->getRides( $ride_index_params );
-
-		if ( ! empty( $rides ) ):
-			
-			if ( ! empty( $distance_min ) )
-				$rides = $this->getRidesLongerThan( $rides, $distance_min );
+		$build_new = false;
 		
-			$ride = current( $rides );
+		//try our transient first
+		$ride_transient = get_transient( 'strava_latest_map_ride' );
+		$ride_option = get_option( 'strava_latest_map_ride' );
 
-			$map_deets = $this->getMapDetails( $ride->id );
+		if ( $ride_transient )
+			$ride = $ride_transient;
+		
+		if ( ! $ride ) {
+			$rides = $this->getRides( $ride_index_params );
+			if ( ! empty( $rides ) ) {
 			
-			echo $before_widget;
+				if ( ! empty( $distance_min ) )
+					$rides = $this->getRidesLongerThan( $rides, $distance_min );
 
-			$max = 50;
-			$count = count( $map_deets->latlng );
-			$mod = (int) ( $count / $max );
+				$ride = current( $rides );
+
+				//update transients & options
+				if ( $ride->id != $ride_option->id ) {
+					$build_new = true;
+					update_option( 'strava_latest_map_ride', $ride );
+				}
+
+				if ( $ride->id != $ride_transient->id )
+					set_transient( 'strava_latest_map_ride', $ride, 60 * 60 ); //one hour
+			}
+		}
+
+		if ( $ride ):			
+			echo $before_widget;
+			//die('<pre>' . print_r($ride, true));
+			?><h3 class="widget-title"><?php echo $ride->ride->name ?></h3>
+			<a href="http://app.strava.com/activities/<?php echo $ride->id ?>"><?php
+			echo $this->getStaticImage( $ride->id, $build_new );
+			?></a><?php
+			echo $after_widget;
+		endif;
+	}
+
+	private function buildImage( $map_details ) {
+		$url = 'http://maps.google.com/maps/api/staticmap?maptype=terrain&size=390x260&sensor=false&path=color:0xFF0000BF|weight:2|';
+		$url_len = strlen( $url );
+		$point_len = 0;
+		$num = 50;
+		$count = count( $map_details->latlng );
+		$full_url = '';
+		$max_chars = 1865;
+		
+		//get the longest usable URL
+		while ( $url_len + $point_len < $max_chars ) {
+			$mod = (int) ( $count / $num );
 			$points = array();
 			for ( $i = 0; $i < $count; $i += $mod ) {
-				$point = $map_deets->latlng[$i];
-				$points[] = number_format( $point[0],4 ) . ',' . number_format( $point[1],4 );
+				$point = $map_details->latlng[$i];
+				$points[] = number_format( $point[0], 4 ) . ',' . number_format( $point[1], 4 );
 			}
 
 			$url_points = join( '|', $points );
-			echo "<img src='http://maps.google.com/maps/api/staticmap?maptype=terrain&size=390x260&sensor=false&path=color:0xFF0000BF|weight:2|{$url_points}' />";
-			/*
-			echo '<pre>';
-			print_r($map_deets);
-			echo '</pre>';
-			*/
-			echo $after_widget;
-		endif;
+			$point_len = strlen( $url_points );
+			if ( $url_len + $point_len < $max_chars )
+				$full_url = $url . $url_points;
+			$num++;
+		}
+		
+		return "<img src='{$full_url}' />";
+	}
+
+	private function getStaticImage( $ride_id, $build_new ) {
+
+		$img = get_option( 'strava_latest_map' );
+		
+		if ( $build_new || ! $img ) {
+			$map_details = $this->getMapDetails( $ride_id );
+			$img = $this->buildImage( $map_details );
+			update_option( 'strava_latest_map', $img );
+		}
+
+		return $img;
 	}
 	
 	private function getRides( $params ) {
@@ -104,7 +151,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 	private function getRidesLongerThan( $rides, $dist ) {
 		$meters = $this->som->distance_inverse( $dist );
-		
+
 		$long_rides = array();
 		foreach ( $rides as $ride ) {
 			$ride_info = $this->getRideInfo( $ride->id );
@@ -112,6 +159,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 				$long_rides[] = $ride_info;
 			}
 		}
+		
 		return $long_rides;
 	}
 		

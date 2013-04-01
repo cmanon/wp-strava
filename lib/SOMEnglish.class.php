@@ -12,10 +12,10 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 
 	/**
 	 * @param string $dist miles
-	 * @return string meters
+	 * @return float meters
 	 */
 	public function distance_inverse( $dist ) {
-		return number_format( $dist * 1609.344, 2 );
+		return $dist * 1609.344;
 	}
 
 	public function get_distance_label() {
