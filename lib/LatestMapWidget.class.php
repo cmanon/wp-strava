@@ -66,13 +66,15 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			$ride = $ride_transient;
 		
 		if ( ! $ride ) {
-			die('<pre>'.print_r($ride_index_params, true));
-			$rides = WPStrava::get_instance()->rides->getRidesAdvanced( $ride_index_params );
-			//$rides = $this->getRides( $ride_index_params );
+			$strava_rides = WPStrava::get_instance()->rides;
+			$ride_index_params = implode( '&', explode( "\n", $ride_index_params ) );
+			parse_str( $ride_index_params, $params );
+			$rides = $strava_rides->getRidesAdvanced( $params );
+
 			if ( ! empty( $rides ) ) {
 			
 				if ( ! empty( $distance_min ) )
-					$rides = $this->getRidesLongerThan( $rides, $distance_min );
+					$rides = $strava_rides->getRidesLongerThan( $rides, $distance_min );
 
 				$ride = current( $rides );
 
@@ -126,11 +128,10 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	}
 
 	private function getStaticImage( $ride_id, $build_new ) {
-
 		$img = get_option( 'strava_latest_map' );
 		
 		if ( $build_new || ! $img ) {
-			$map_details = $this->getMapDetails( $ride_id );
+			$map_details = WPStrava::get_instance()->rides->getMapDetails( $ride_id );
 			$img = $this->buildImage( $map_details );
 			update_option( 'strava_latest_map', $img );
 		}
@@ -138,34 +139,4 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		return $img;
 	}
 	
-	private function getRides( $params ) {
-		$data = WPStrava::get_instance()->api->get( 'rides?' . implode( '&', explode( "\n", $params ) ), 1 ); //version 1
-		
-		if ( isset( $data->rides ) )
-			return $data->rides;
-		return array();
-	}
-
-	private function getRideInfo( $ride_id ) {
-		return WPStrava::get_instance()->api->get( "rides/{$ride_id}" );
-	}
-
-	private function getRidesLongerThan( $rides, $dist ) {
-		$meters = $this->som->distance_inverse( $dist );
-
-		$long_rides = array();
-		foreach ( $rides as $ride ) {
-			$ride_info = $this->getRideInfo( $ride->id );
-			if ( $ride_info->ride->distance > $meters ) {
-				$long_rides[] = $ride_info;
-			}
-		}
-		
-		return $long_rides;
-	}
-		
-	private function getMapDetails( $ride_id ) {
-		$token = WPStrava::get_instance()->settings->token;
-		return WPStrava::get_instance()->api->get( "rides/{$ride_id}/map_details", array( 'token' => $token ) );
-	}
 }

@@ -52,7 +52,7 @@ class WPStrava_Rides {
 	} // getRidesSimple
 
 	public function getRidesAdvanced( $params ) {	
-		$data = WPStrava::get_instance()->api->get( 'rides', explode( "\n", $params ), 1 ); //version 1
+		$data = WPStrava::get_instance()->api->get( 'rides', $params, 1 ); //version 1
 
 		if ( is_wp_error( $data ) )
 			return $data;
@@ -81,5 +81,27 @@ class WPStrava_Rides {
 			return false;
     	}
     } // getRideDetails
+
+	public function getRidesLongerThan( $rides, $dist ) {
+		$som = WPStrava_SOM::get_som();		
+		$meters = $som->distance_inverse( $dist );
+
+		$long_rides = array();
+		foreach ( $rides as $ride ) {
+			$ride_info = $this->getRideDetails( $ride->id );
+			if ( $ride_info->ride->distance > $meters ) {
+				$long_rides[] = $ride_info;
+			}
+		}
+		
+		return $long_rides;
+	}
+		
+	public function getMapDetails( $ride_id ) {
+		$token = WPStrava::get_instance()->settings->token;
+		return WPStrava::get_instance()->api->get( "rides/{$ride_id}/map_details", array( 'token' => $token ) );
+	}
+	
+	
 } // class Rides
 ?>
