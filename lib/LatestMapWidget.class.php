@@ -66,7 +66,9 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			$ride = $ride_transient;
 		
 		if ( ! $ride ) {
-			$rides = $this->getRides( $ride_index_params );
+			die('<pre>'.print_r($ride_index_params, true));
+			$rides = WPStrava::get_instance()->rides->getRidesAdvanced( $ride_index_params );
+			//$rides = $this->getRides( $ride_index_params );
 			if ( ! empty( $rides ) ) {
 			
 				if ( ! empty( $distance_min ) )
@@ -164,6 +166,6 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		
 	private function getMapDetails( $ride_id ) {
 		$token = WPStrava::get_instance()->settings->token;
-		return WPStrava::get_instance()->api->get( "rides/{$ride_id}/map_details?token={$token}" );
+		return WPStrava::get_instance()->api->get( "rides/{$ride_id}/map_details", array( 'token' => $token ) );
 	}
 }

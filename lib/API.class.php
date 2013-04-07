@@ -17,10 +17,6 @@ class WPStrava_API {
 	private $rideMapDetailsUrlV2 = "http://www.strava.com/api/v2/rides/:id/map_details";
 	*/
 	
-	public $ridesLinkUrl = "http://app.strava.com/rides/";
-	public $athletesLinkUrl = "http://app.strava.com/athletes/";
-	public $feedback = '';
-	
 	public function post( $uri, $data = NULL, $version = 2 ) {
 		$url = ( $version == 2 ) ? self::STRAVA_V2_API : self::STRAVA_V1_API;
 
@@ -33,22 +29,49 @@ class WPStrava_API {
 
 		$response = wp_remote_post( $url . $uri, $args );
 
-		if ( empty( $response['response']['code'] ) || $response['response']['code'] != 200 ) {
-    		$this->feedback .= sprintf( __( 'ERROR - %s', 'wp-strava'), print_r( $response, true ) );
-			return false;
+		if ( $response['response']['code'] != 200 ) {
+			//see if there's useful info in the body
+			$body = json_decode( $response['body'] );
+			$error = '';
+			if ( ! empty( $body->error ) )
+				$error = $body->error;
+			else
+				$error = print_r( $response, true );
+
+			return new WP_Error( 'wp-strava_post',
+								 sprintf( __( 'ERROR %s %s - %s', 'wp-strava'), $response['response']['code'], $response['response']['message'], $error ),
+								 $response );
 		}
 
 		return json_decode( $response['body'] );
 	}
 
-	public function get( $uri, $version = 2 ) {
+	public function get( $uri, $args = NULL, $version = 2 ) {
 		$url = ( $version == 2 ) ? self::STRAVA_V2_API : self::STRAVA_V1_API;
 
-		$response = wp_remote_get( $url . $uri );
+		$url .= $uri;
 
-		if ( empty( $response['response']['code'] ) || $response['response']['code'] != 200 ) {
-    		$this->feedback .= sprintf( __( 'ERROR - %s', 'wp-strava'), print_r( $response, true ) );
-			return false;
+		if ( ! empty( $args ) )
+			$url = add_query_arg( $args, $url );
+
+		$response = wp_remote_get( $url );
+
+		if ( is_wp_error( $response ) )
+			return $response;
+		
+		if ( $response['response']['code'] != 200 ) {
+			die($url);
+			//see if there's useful info in the body
+			$body = json_decode( $response['body'] );
+			$error = '';
+			if ( ! empty( $body->error ) )
+				$error = $body->error;
+			else
+				$error = print_r( $response, true );
+
+			return new WP_Error( 'wp-strava_get',
+								 sprintf( __( 'ERROR %s %s - %s', 'wp-strava'), $response['response']['code'], $response['response']['message'], $error ),
+								 $response );
 		}
 
 		return json_decode( $response['body'] );

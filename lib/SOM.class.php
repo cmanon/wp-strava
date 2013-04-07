@@ -22,4 +22,11 @@ abstract class WPStrava_SOM {
 	abstract public function elevation( $m );
 	abstract public function get_elevation_label();
 
+	public function time( $seconds ) {
+		return date( 'H:i:s', mktime( 0, 0, $seconds ) );
+	}
+
+	public function get_time_label() {
+		return __( 'hours', 'wp-strava' );
+	}
 }

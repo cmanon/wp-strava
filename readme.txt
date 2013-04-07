@@ -16,6 +16,7 @@ This plugin uses the REST strava.com API to pull the data out and show the infor
 == Changelog ==
 
 = 0.70 =
+Use WordPress HTTP API for all remote calls
 Use WordPress Settings API for settings page
 
 = 0.62 =

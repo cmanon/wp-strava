@@ -4,15 +4,15 @@
  * WP Strava Latest Rides Widget Class
  */
 class WPStrava_LatestRidesWidget extends WP_Widget {
-
+	
 	public function __construct() {
 		$widget_ops = array('classname' => 'LatestRidesWidget', 'description' => __( 'Will publish your latest rides activity from strava.com.') );
 		parent::__construct('wp-strava', $name = 'Strava Latest Rides', $widget_ops);
-		wp_enqueue_style('wp-strava');
+		wp_enqueue_style('wp-strava'); //TODO only load this when wigit is loaded
 	}
 	
 	/** @see WP_Widget::widget */
-	public function widget($args, $instance) {
+	public function widget( $args, $instance ) {
 		extract($args);
 		
 		//$widget_id = $args['widget_id'];
@@ -21,9 +21,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 		$strava_search_id = empty($instance['strava_search_id']) ? '' : $instance['strava_search_id'];
 		$quantity = empty($instance['quantity']) ? '5' : $instance['quantity'];
 
-		$wpstrava = WPStrava::get_instance();
-		$strava_som_option = $wpstrava->settings->som;
-	   
+	   	$this->som = WPStrava_SOM::get_som();
 		?>
 		<?php echo $before_widget; ?>
 			<?php if ( $title ) echo $before_title . $title . $after_title; ?>
@@ -86,54 +84,44 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 	// The handler to the ajax call, we will avoid this if Strava support jsonp request and we can do it
 	// the parsing directly on the jQuery ajax call, the returned text will be enclosed in the $response variable.
 	private function strava_request_handler( $strava_search_option, $strava_search_id, $strava_som_option, $quantity ) {
-		$response = "";
 	
 		//Check if the username is empty.
-		if (empty($strava_search_id)) {
-			$response .= __("Please configure the Strava search id on the widget options.", "wp-strava");
-		} else {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Rides.class.php';
-			$strava_rides = new WPStrava_Rides(); 
-			$strava_rides->getLatestRides($strava_search_option, $strava_search_id, $quantity);
-			$rides_details = $strava_rides->getRidesDetails($strava_som_option);
+		if ( empty( $strava_search_id ) )
+			return __("Please configure the Strava search id on the widget options.", "wp-strava");		
+		//else
+		$strava_rides = WPStrava::get_instance()->rides;
 		
-			if ($strava_som_option == "metric") {
-				$units = array(
-					'elapsedTime' => __('hours','wp-strava'),
-					'movingTime' => __('hours','wp-strava'),
-					'distance' => __('km','wp-strava'),
-					'averageSpeed' => __('km/h','wp-strava'),
-					'maximumSpeed' => __('km/h','wp-strava'),
-					'elevationGain' => __('meters','wp-strava')
-							   );
-			} elseif ($strava_som_option == "english") {
-				$units = array(
-					'elapsedTime' => __('hours','wp-strava'),
-					'movingTime' => __('hours','wp-strava'),
-					'distance' => __('miles','wp-strava'),
-					'averageSpeed' => __('mph','wp-strava'),
-					'maximumSpeed' => __('mph','wp-strava'),
-					'elevationGain' => __('feet','wp-strava')
-							   );
-			}
+		$rides = $strava_rides->getRidesSimple( $strava_search_option, $strava_search_id );
+		if ( is_wp_error( $rides ) )
+			return $rides->get_error_message();
+
+		//adjust quantity
+		$rides = array_slice( $rides, 0, $quantity );
 		
-			$response .= "<ul id='rides'>";
-			foreach($rides_details as $ride) {
-				$response .= "<li class='ride'>";
-				$response .= "<a href='" . $strava_rides->ridesLinkUrl . $ride['id'] . "' >" . $ride['name'] . "</a>";
-				$response .= "<div class='ride-item'>";
-				$response .= __("On ", "wp-strava") . $ride['startDate'];
-				if ($strava_search_option == "club") {
-					$response .= " <a href='" . $strava_rides->athletesLinkUrl . $ride['athleteId'] . "'>" . $ride['athleteName'] . "</a>";
-				}
-				$response .= __(" rode ", "wp-strava") . $ride['distance'] . " " . $units['distance'];
-				$response .= __(" during ", "wp-strava") . $ride['elapsedTime'] . " " . $units['elapsedTime'];
-				$response .= __(" climbing ", "wp-strava") . $ride['elevationGain'] . " " . $units['elevationGain'] . ".";			
-				$response .= "</div>";
-				$response .= "</li>";
+		$rides_details = $strava_rides->getRidesDetails( $rides );
+		if ( is_wp_error( $rides_details ) )
+			return $rides_details->get_error_message();
+
+		$response = "<ul id='rides'>";
+		foreach($rides_details as $ride_obj) {
+			$ride = $ride_obj->ride;
+			$response .= "<li class='ride'>";
+			$response .= "<a href='" . WPStrava_Rides::RIDES_URL . $ride->id . "' >" . $ride->name . "</a>";
+			$response .= "<div class='ride-item'>";
+			$unixtime = strtotime( $ride->start_date_local );
+			$response .= sprintf( __("On %s %s", "wp-strava"), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );
+			
+			if ($strava_search_option == "club") {
+				$response .= " <a href='" . WPStrava_Rides::ATHLETES_URL . $ride->athlete_id . "'>" . $ride->athlete_name . "</a>";
 			}
-			$response .= "</ul>";
+			
+			$response .= sprintf( __(" rode %s %s", "wp-strava"), $this->som->distance( $ride->distance ), $this->som->get_distance_label() );
+			$response .= sprintf( __( " during %s %s", "wp-strava" ), $this->som->time( $ride->elapsed_time ), $this->som->get_time_label() );
+			$response .= sprintf( __( " climbing %s %s", "wp-strava" ), $this->som->elevation( $ride->elevation_gain ), $this->som->get_elevation_label() );
+			$response .= "</div>";
+			$response .= "</li>";
 		}
+		$response .= "</ul>";
 		return $response;
 	} // Function strava_request_handler
 	

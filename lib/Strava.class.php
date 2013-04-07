@@ -10,6 +10,7 @@ class WPStrava {
 	private static $instance = NULL;
 	private $settings = NULL;
 	private $api = NULL;
+	private $rides = NULL;
 	
 	private function __construct() {
 		$this->settings = new WPStrava_Settings();
@@ -19,8 +20,8 @@ class WPStrava {
 		}
 
 		// Register StravaLatestRidesWidget widget
-		add_action( 'widgets_init', function() {	return register_widget( 'WPStrava_LatestRidesWidget' ); } );
-		add_action( 'widgets_init', function() {	return register_widget( 'WPStrava_LatestMapWidget' ); } );
+		add_action( 'widgets_init', function() { return register_widget( 'WPStrava_LatestRidesWidget' ); } );
+		add_action( 'widgets_init', function() { return register_widget( 'WPStrava_LatestMapWidget' ); } );
 		
 	}
 
@@ -34,8 +35,12 @@ class WPStrava {
 		if ( isset( $this->{$name} ) )
 			return $this->{$name};
 
+		//on-demand classes
 		if ( $name == 'api' )
 			return $this->get_api();
+
+		if ( $name == 'rides' )
+			return $this->get_rides();
 
 		return NULL;
 	}
@@ -47,5 +52,14 @@ class WPStrava {
 		}
 
 		return $this->api;
+	}
+	
+	public function get_rides() {
+		if ( ! $this->rides ) {
+			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Rides.class.php';
+			$this->rides = new WPStrava_Rides();
+		}
+
+		return $this->rides;
 	}
 }
