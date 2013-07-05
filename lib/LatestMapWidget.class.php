@@ -64,12 +64,21 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		if ( $ride_transient )
 			$ride = $ride_transient;
-		
+
 		if ( ! $ride ) {
 			$strava_rides = WPStrava::get_instance()->rides;
 			$ride_index_params = implode( '&', explode( "\n", $ride_index_params ) );
 			parse_str( $ride_index_params, $params );
 			$rides = $strava_rides->getRidesAdvanced( $params );
+
+			if ( is_wp_error( $rides ) ) {
+				echo $before_widget;
+				echo '<pre>';
+				print_r($rides);
+				echo '</pre>';
+				echo $after_widget;
+				return;
+			}
 
 			if ( ! empty( $rides ) ) {
 			

@@ -60,7 +60,6 @@ class WPStrava_API {
 			return $response;
 		
 		if ( $response['response']['code'] != 200 ) {
-			die($url);
 			//see if there's useful info in the body
 			$body = json_decode( $response['body'] );
 			$error = '';
