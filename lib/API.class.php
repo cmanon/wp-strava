@@ -4,28 +4,25 @@
  */
 class WPStrava_API {
 
-	const STRAVA_V1_API = 'http://www.strava.com/api/v1/'; //rides?athleteId=134698
-	const STRAVA_V2_API = 'http://www.strava.com/api/v2/'; //rides/:ride_id/map_details
+	//deactivated
+	//const STRAVA_V1_API = 'http://www.strava.com/api/v1/'; //rides?athleteId=134698
+	//const STRAVA_V2_API = 'http://www.strava.com/api/v2/'; //rides/:ride_id/map_details
+	const STRAVA_V3_API = 'https://www.strava.com/api/v3/';
 
-	/*
-	private $rideUrl = "http://www.strava.com/api/v1/rides/:id";
-	private $rideUrlV2 = "http://www.strava.com/api/v2/rides/:id";
-	private $ridesUrl = "http://www.strava.com/api/v1/rides";
-	private $authenticationUrl = "https://www.strava.com/api/v1/authentication/login";
-	private $authenticationUrlV2 = "https://www.strava.com/api/v2/authentication/login";
-	private $rideMapDetailsUrl = "http://www.strava.com/api/v1/rides/:id/map_details";
-	private $rideMapDetailsUrlV2 = "http://www.strava.com/api/v2/rides/:id/map_details";
-	*/
+	public function __construct( $access_token ) {
+		$this->access_token = $access_token;
+	}
 	
-	public function post( $uri, $data = NULL, $version = 2 ) {
-		$url = ( $version == 2 ) ? self::STRAVA_V2_API : self::STRAVA_V1_API;
+	public function post( $uri, $data = NULL ) {
+		$url = self::STRAVA_V3_API;
 
 		$args = array(
 			'body' => http_build_query( $data ),
+			'sslverify' => false,
+			'headers' => array(
+				'Authorization' => 'Bearer: ' . $this->access_token,
+			)
 		);
-
-		if ( $version == 2 )
-			$args['sslverify'] = false;
 
 		$response = wp_remote_post( $url . $uri, $args );
 
@@ -46,15 +43,21 @@ class WPStrava_API {
 		return json_decode( $response['body'] );
 	}
 
-	public function get( $uri, $args = NULL, $version = 2 ) {
-		$url = ( $version == 2 ) ? self::STRAVA_V2_API : self::STRAVA_V1_API;
+	public function get( $uri, $args = NULL ) {
+		$url = self::STRAVA_V3_API;
 
 		$url .= $uri;
 
 		if ( ! empty( $args ) )
 			$url = add_query_arg( $args, $url );
 
-		$response = wp_remote_get( $url );
+		$get_args = array(
+			'headers' => array(
+				'Authorization' => 'Bearer: ' . $this->access_token,
+			)
+		);
+		
+		$response = wp_remote_get( $url, $get_args );
 
 		if ( is_wp_error( $response ) )
 			return $response;

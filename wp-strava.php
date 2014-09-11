@@ -35,6 +35,7 @@ if( file_exists( WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' ) ) {
 
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/Strava.class.php';
 $wpstrava = WPStrava::get_instance();
+//wp_die( '<pre>' . var_export( $wpstrava->api->get( 'athlete' ), true ) );
 
 //@TODO only load these when needed using is_active_widget()
 function load_styles() {
