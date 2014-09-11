@@ -35,8 +35,8 @@ class WPStrava_RideShortcode {
 				$strava_som = get_option('strava_som_option', 'metric');
 			}
 			
-			$ride = new Rides();
-			$rideDetails = $ride->getRideDetails($id, $strava_som);
+			$ride = WPStrava::get_instance()->rides;
+			$rideDetails = $ride->getRide($id);
 			$rideCoordinates = $ride->getRideMap($id, $token, $efforts, $threshold);
 			
 			if ($strava_som == "metric") {
@@ -123,4 +123,4 @@ class WPStrava_RideShortcode {
 }
 
 // Initialize short code
-RideShortcode::init();
+WPStrava_RideShortcode::init();

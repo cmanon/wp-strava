@@ -72,7 +72,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 	
 		$strava_rides = WPStrava::get_instance()->rides;
 		
-		$rides = $strava_rides->getRides( $quantity, $strava_club_id );
+		$rides = $strava_rides->getRides( $strava_club_id, $quantity );
 		if ( is_wp_error( $rides ) )
 			return $rides->get_error_message();
 		

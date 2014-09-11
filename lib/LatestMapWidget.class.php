@@ -17,7 +17,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	public function form( $instance ) {
 		// outputs the options form on admin
         $distance_min = isset( $instance['distance_min'] ) ? esc_attr( $instance['distance_min'] ) : '';
-        $ride_index_params = isset( $instance['ride_index_params'] ) ? esc_attr( $instance['ride_index_params'] ) : '';
+		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';
 
 		//provide some defaults
         //$ride_index_params = $ride_index_params ? $ride_index_params : 'athleteId=21';
@@ -27,35 +27,25 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'distance_min' ); ?>"><?php echo sprintf( __( 'Min. Distance (%s):', 'wp-strava' ), $this->som->get_distance_label() ); ?></label> 
         	<input class="widefat" id="<?php echo $this->get_field_id( 'distance_min' ); ?>" name="<?php echo $this->get_field_name( 'distance_min' ); ?>" type="text" value="<?php echo $distance_min; ?>" />
         </p>
-        <p>
-			<label for="<?php echo $this->get_field_id( 'ride_index_params' ); ?>"><?php _e( 'Ride Search Parameters (one per line): ' ); ?>
-			<a href="https://stravasite-main.pbworks.com/w/page/51754146/Strava%20REST%20API%20Method%3A%20rides%20index" target="_blank"><?php _e( 'help' ); ?></a></label>
-			<textarea name="<?php echo $this->get_field_name( 'ride_index_params' ); ?>" id="<?php echo $this->get_field_id( 'ride_index_params' ); ?>" cols="10" rows="5" class="widefat"><?php echo $ride_index_params; ?></textarea>
-        </p>
+			<p>
+				<label for="<?php echo $this->get_field_id('strava_club_id'); ?>"><?php _e('Club ID (leave blank to show Athlete):'); ?></label> 
+				<input class="widefat" id="<?php echo $this->get_field_id('strava_club_id'); ?>" name="<?php echo $this->get_field_name('strava_club_id'); ?>" type="text" value="<?php echo $strava_club_id; ?>" />
+			</p>
         <?php		
 	}
 	
 	public function update( $new_instance, $old_instance ) {
 		// processes widget options to be saved from the admin
 		$instance = $old_instance;
-		$instance['ride_index_params'] = strip_tags( $new_instance['ride_index_params'] );
+		$instance['strava_club_id'] = strip_tags( $new_instance['strava_club_id'] );
 		$instance['distance_min'] = strip_tags( $new_instance['distance_min'] );
-
-		/*
-		if ( empty( $instance['ride_index_params'] ) ) {
-			$instance['ride_index_params'] = "athleteId={$auth->athlete->id}";
-		}
-		*/
-
-		//$instance['athlete_hash'] = strip_tags( $new_instance['athlete_hash'] );
-
         return $instance;
 	}
 
 	public function widget( $args, $instance ) {
 		extract( $args );
-		$ride_index_params = $instance['ride_index_params'];
 		$distance_min = $instance['distance_min'];
+		$strava_club_id = empty( $instance['strava_club_id'] ) ? NULL : $instance['strava_club_id'];
 		$build_new = false;
 		
 		//try our transient first
@@ -67,9 +57,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		if ( ! $ride ) {
 			$strava_rides = WPStrava::get_instance()->rides;
-			$ride_index_params = implode( '&', explode( "\n", $ride_index_params ) );
-			parse_str( $ride_index_params, $params );
-			$rides = $strava_rides->getRidesAdvanced( $params );
+			$rides = $strava_rides->getRides( $strava_club_id );
 
 			if ( is_wp_error( $rides ) ) {
 				echo $before_widget;
@@ -101,47 +89,32 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		if ( $ride ):			
 			echo $before_widget;
 			?><h3 class="widget-title">Latest Ride</h3>
-			<a title="<?php echo $ride->ride->name ?>" href="http://app.strava.com/activities/<?php echo $ride->id ?>"><?php
+			<a title="<?php echo $ride->name ?>" href="http://app.strava.com/activities/<?php echo $ride->id ?>"><?php
 			echo $this->getStaticImage( $ride->id, $build_new );
 			?></a><?php
 			echo $after_widget;
 		endif;
 	}
 
-	private function buildImage( $map_details ) {
-		$url = 'http://maps.google.com/maps/api/staticmap?maptype=terrain&size=390x260&sensor=false&path=color:0xFF0000BF|weight:2|';
+	private function buildImage( $ride ) {
+		$url = 'http://maps.google.com/maps/api/staticmap?maptype=terrain&size=390x260&sensor=false&path=color:0xFF0000BF|weight:2|enc:';
 		$url_len = strlen( $url );
-		$point_len = 0;
-		$num = 50;
-		$count = count( $map_details->latlng );
-		$full_url = '';
 		$max_chars = 1865;
-		
-		//get the longest usable URL
-		while ( $url_len + $point_len < $max_chars ) {
-			$mod = (int) ( $count / $num );
-			$points = array();
-			for ( $i = 0; $i < $count; $i += $mod ) {
-				$point = $map_details->latlng[$i];
-				$points[] = number_format( $point[0], 4 ) . ',' . number_format( $point[1], 4 );
-			}
 
-			$url_points = join( '|', $points );
-			$point_len = strlen( $url_points );
-			if ( $url_len + $point_len < $max_chars )
-				$full_url = $url . $url_points;
-			$num++;
-		}
+		if ( $url_len + strlen( $ride->map->polyline ) < $max_chars )
+			$url .= $ride->map->polyline;
+		else
+			$url .= $ride->map->summary_polyline;
 		
-		return "<img src='{$full_url}' />";
+		return "<img src='{$url}' />";
 	}
 
 	private function getStaticImage( $ride_id, $build_new ) {
 		$img = get_option( 'strava_latest_map' );
 		
 		if ( $build_new || ! $img ) {
-			$map_details = WPStrava::get_instance()->rides->getMapDetails( $ride_id );
-			$img = $this->buildImage( $map_details );
+			$ride = WPStrava::get_instance()->rides->getRide( $ride_id );
+			$img = $this->buildImage( $ride );
 			update_option( 'strava_latest_map', $img );
 		}
 

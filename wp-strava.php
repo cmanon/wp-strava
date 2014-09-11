@@ -3,7 +3,7 @@
 Plugin Name: WP Strava
 Plugin URI: http://cmanon.com
 Description: Plugin to show your strava.com information in your wordpress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.  
-Version: 0.70
+Version: 1.0
 Author: Carlos Santa Cruz (cmanon), Justin Foell <justin@foell.org>
 Author URI: http://cmanon.com
 License: GPL2
@@ -35,7 +35,6 @@ if( file_exists( WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' ) ) {
 
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/Strava.class.php';
 $wpstrava = WPStrava::get_instance();
-//wp_die( '<pre>' . var_export( $wpstrava->api->get( 'athlete' ), true ) );
 
 //@TODO only load these when needed using is_active_widget()
 function load_styles() {
