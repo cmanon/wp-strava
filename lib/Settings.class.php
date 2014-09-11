@@ -92,23 +92,26 @@ class WPStrava_Settings {
 	}
 
 	public function print_api_instructions() {
-		?><p>Steps:</p>
+		$signup_url = 'http://www.strava.com/developers';
+		$settings_url = 'https://www.strava.com/settings/api';
+		$blog_name = get_bloginfo( 'name' ); 
+		$app_name =  $blog_name . ' Strava';
+		$url_parts = parse_url( site_url() );
+		$site_url = $url_parts['host']; //strip http/https for copying/pasting into strava
+		$description = 'WP-Strava for ' . $blog_name;
+	   	printf( __( "<p>Steps:</p>
 			<ol>
-				<li>Create your app here: http://www.strava.com/developers</li>
-				<p>Use the following information:</p>
+				<li>Create your API Application here: <a href='%s' target='_blank'>%s</a> using the following information:</li>
 				<ul>
-					<li>Application Name: [SiteName] Strava</li>
-					<li>Website: [site_url]
-					<li>Application Description: WP-Strava for [SiteName]
-					<li>Authorization Callback Domain: [site_url] + oauth path
+					<li>Application Name: <strong>%s</strong></li>
+					<li>Website: <strong>%s</strong></li>
+					<li>Application Description: <strong>%s</strong></li>
+					<li>Authorization Callback Domain: <strong>%s</strong></li>
 				</ul>
-				<li>Once you've created your application, enter the Client ID and Client Secret below, which can be found at https://www.strava.com/settings/api</li>
-				<li>You'll be redirected to strava to authorize your app after saving your Client ID and Secret. If successful, your Strava Token will display</li>
-				<li>Erase your Strava Token if you need to re-authorize</li>
-			</ol>
-
-		<?php
-		//'
+				<li>Once you've created your API Application at strava.com, enter the Client ID and Client Secret below, which can be found at <a href='%s' target='_blank'>%s</a></li>
+				<li>After saving your Client ID and Secret, you'll be redirected to strava to authorize your API Application. If successful, your Strava Token will display instead of Client ID and Client Secret.</li>
+				<li>If you need to re-authorize your API Application, erase your Strava Token here and click 'Save Changes' to start over.</li>
+			</ol>", 'wp-strava' ), $signup_url, $signup_url, $app_name, $site_url, $description, $site_url, $settings_url, $settings_url );
 	}
 	
 	public function print_strava_options() {
