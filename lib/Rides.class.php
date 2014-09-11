@@ -8,7 +8,7 @@ class WPStrava_Rides {
 	const ATHLETES_URL = "http://app.strava.com/athletes/";
 	
 	public function getRideDetails( $rideId ) {
-		return WPStrava::get_instance()->api->get( "rides/{$rideId}" );
+		return WPStrava::get_instance()->api->get( "activities/{$rideId}" );
 	} // getRideDetails
 		
 	public function getRidesDetails( $rides ) {
@@ -24,32 +24,26 @@ class WPStrava_Rides {
 		return $rides_details;
 	} // getRidesDetails
 	
-	public function getRidesSimple( $searchOption, $searchId ) {
+	public function getRides( $quantity, $club_id = NULL ) {
 		$api = WPStrava::get_instance()->api;
 
 		$data = NULL;
 		//Get the json results using the constructor specified values.
-		if ( $searchOption == 'athlete' ) {
-			if ( is_numeric( $searchId ) ) {
-				$data = $api->get( 'rides', array( 'athleteId' => $searchId ), 1 );
-			} else {
-				$data = $api->get( 'rides', array( 'athleteName' => $searchId ), 1 );
-			}
-		} elseif ($searchOption == 'club' && is_numeric($searchId)) {
-			$data = $api->get( 'rides', array( 'clubId' => $searchId ), 1 );
+		if ( is_numeric( $club_id ) ) {
+			$data = $api->get( "clubs/{$club_id}/activities", array( 'per_page' => $quantity ) );
 		} else {
-			return new WP_Error( 'wp-strava_options', __("There's an error in your simple options.", 'wp-strava') );
+			$data = $api->get( 'athlete/activities', array( 'per_page' => $quantity ) );
 		}
 
 		if ( is_wp_error( $data ) )
 			return $data;
 		
-		if ( isset( $data->rides ) )
-			return $data->rides;
+		if ( is_array( $data ) )
+			return $data;
 		
 		return array();	
 		
-	} // getRidesSimple
+	} // getRides
 
 	public function getRidesAdvanced( $params ) {	
 		$data = WPStrava::get_instance()->api->get( 'rides', $params, 1 ); //version 1

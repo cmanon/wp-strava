@@ -20,22 +20,7 @@ class WPStrava_Settings {
 	public function hook() {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
-		add_action( 'current_screen', array( $this, 'current_screen' ) );
 		add_action( 'option_home', array( $this, 'option_home' ) );
-	}
-
-	public function current_screen( $screen ) {
-		if ( $screen->id = 'settings_page_' . $this->page_name ) {			
-			if ( isset( $_GET['code'] ) ) {
-				$token = $this->get_token( $_GET['code'] );
-				if ( $token ) {
-					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava Token Retrieved: %s', 'wp-strava' ), $this->feedback ) , 'updated' );
-					update_option( 'strava_token', $token );
-				} else {
-					add_settings_error( 'strava_token', 'strava_token', $this->feedback );
-				}
-			}
-		}
 	}
 
 	/**
@@ -47,9 +32,13 @@ class WPStrava_Settings {
 			$errors = get_settings_errors();
 			if ( ! empty( $errors ) )
 				return;
+
+			//clearing to start-over
+			if ( isset( $_POST['strava_token'] ) && empty( $_POST['strava_token'] ) )
+				return;
 			
 			$client_id = get_option( 'strava_client_id' );
-			$client_secret = get_option( 'strava_client_secret' );
+			$client_secret = get_option( 'strava_client_secret' );			
 
 			if ( $client_id && $client_secret ) {
 				$redirect = admin_url( "options-general.php?page={$this->page_name}" );
@@ -68,8 +57,22 @@ class WPStrava_Settings {
 						  array( $this, 'print_strava_options' ) );
 	}
 
+	public function init() {
+		if ( isset( $_GET['page'] ) && $_GET['page'] == $this->page_name && isset( $_GET['code'] ) ) {			
+			$token = $this->get_token( $_GET['code'] );
+			if ( $token ) {
+				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava Token Retrieved. %s', 'wp-strava' ), $this->feedback ) , 'updated' );
+				update_option( 'strava_token', $token );
+			} else {
+				add_settings_error( 'strava_token', 'strava_token', $this->feedback );
+			}
+		}
+		
+		$this->token = get_option( 'strava_token' );		
+	}
+	
 	public function register_strava_settings() {
-		$this->token = get_option( 'strava_token' );
+		$this->init();
 	   
 		add_settings_section( 'strava_api', __( 'Strava API', 'wp-strava' ), array( $this, 'print_api_instructions' ), 'wp-strava' ); //NULL / NULL no section label needed
 

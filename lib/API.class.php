@@ -20,7 +20,7 @@ class WPStrava_API {
 			'body' => http_build_query( $data ),
 			'sslverify' => false,
 			'headers' => array(
-				'Authorization' => 'Bearer: ' . $this->access_token,
+				'Authorization' => 'Bearer ' . $this->access_token,
 			)
 		);
 
@@ -53,7 +53,7 @@ class WPStrava_API {
 
 		$get_args = array(
 			'headers' => array(
-				'Authorization' => 'Bearer: ' . $this->access_token,
+				'Authorization' => 'Bearer ' . $this->access_token,
 			)
 		);
 		
