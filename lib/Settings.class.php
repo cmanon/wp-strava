@@ -20,13 +20,13 @@ class WPStrava_Settings {
 	public function hook() {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
-		add_action( 'option_home', array( $this, 'option_home' ) );
+		add_action( 'option_home', array( $this, 'maybe_oauth' ) );
 	}
 
 	/**
 	 * This runs after options are saved
 	 */
-	public function option_home() {
+	public function maybe_oauth() {
 		if ( isset( $_POST['option_page'] ) && $_POST['option_page'] == $this->option_page ) {
 			//redirect only if all the right options are in place
 			global $wp_settings_errors;
