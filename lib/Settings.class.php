@@ -29,8 +29,8 @@ class WPStrava_Settings {
 	public function option_home() {
 		if ( isset( $_POST['option_page'] ) && $_POST['option_page'] == $this->option_page ) {
 			//redirect only if all the right options are in place
-			$errors = get_settings_errors();
-			if ( ! empty( $errors ) )
+			global $wp_settings_errors;
+			if ( ! empty( $wp_settings_errors ) )
 				return;
 
 			//clearing to start-over

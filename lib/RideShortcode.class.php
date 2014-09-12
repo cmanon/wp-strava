@@ -100,7 +100,7 @@ class WPStrava_RideShortcode {
 				";
 			}
 		} else {
-			return _e('Please first get your strava token using the settings wp strava page.', 'wp-strava');
+			return __('Please first get your strava token using the settings wp strava page.', 'wp-strava');
 		}
 	} // handler
 
