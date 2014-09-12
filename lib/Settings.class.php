@@ -5,7 +5,7 @@
  * 
  * Set up an "API Application" at Strava
  * Save the Client ID and Client Secret in WordPress - redirect to strava oauth/authorize URL for permission
- * Get redirected back to this settings page with ?code=
+ * Get redirected back to this settings page with ?code= or ?error=
  * Use code to retrieve auth token
  */
 
@@ -20,33 +20,39 @@ class WPStrava_Settings {
 	public function hook() {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
-		add_action( 'option_home', array( $this, 'maybe_oauth' ) );
+		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ), 10 );
+		//for process debugging
+		//add_action( 'all', array( $this, 'hook_debug' ) );
+		//add_filter( 'all', array( $this, 'hook_debug' ) );
+	}
+
+	public function hook_debug( $name ) {
+		echo "<!-- {$name} -->\n";
 	}
 
 	/**
 	 * This runs after options are saved
 	 */
-	public function maybe_oauth() {
-		if ( isset( $_POST['option_page'] ) && $_POST['option_page'] == $this->option_page ) {
-			//redirect only if all the right options are in place
-			global $wp_settings_errors;
-			if ( ! empty( $wp_settings_errors ) )
-				return;
-
-			//clearing to start-over
-			if ( isset( $_POST['strava_token'] ) && empty( $_POST['strava_token'] ) )
-				return;
+	public function maybe_oauth( $value ) {
+		//redirect only if all the right options are in place
+		if ( isset( $value[0]['type'] ) && $value[0]['type'] == 'updated' ) { //make sure there were no settings errors
+			if ( isset( $_POST['option_page'] ) && $_POST['option_page'] == $this->option_page ) { //make sure we're on our settings page
+				//user is clearing to start-over, don't oauth
+				if ( isset( $_POST['strava_token'] ) && empty( $_POST['strava_token'] ) )
+					return;
 			
-			$client_id = get_option( 'strava_client_id' );
-			$client_secret = get_option( 'strava_client_secret' );			
+				$client_id = get_option( 'strava_client_id' );
+				$client_secret = get_option( 'strava_client_secret' );
 
-			if ( $client_id && $client_secret ) {
-				$redirect = admin_url( "options-general.php?page={$this->page_name}" );
-				$url = "https://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect}&approval_prompt=force";
-				wp_redirect( $url );
-				exit();
-			}			
+				if ( $client_id && $client_secret ) {
+					$redirect = admin_url( "options-general.php?page={$this->page_name}" );
+					$url = "https://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect}&approval_prompt=force";
+					wp_redirect( $url );
+					exit();
+				}
+			}
 		}
+		return $value;
 	}
 	
 	public function add_strava_menu() {
@@ -58,13 +64,18 @@ class WPStrava_Settings {
 	}
 
 	public function init() {
-		if ( isset( $_GET['page'] ) && $_GET['page'] == $this->page_name && isset( $_GET['code'] ) ) {			
-			$token = $this->get_token( $_GET['code'] );
-			if ( $token ) {
-				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava Token Retrieved. %s', 'wp-strava' ), $this->feedback ) , 'updated' );
-				update_option( 'strava_token', $token );
-			} else {
-				add_settings_error( 'strava_token', 'strava_token', $this->feedback );
+		//only update when redirected back from strava
+		if ( ! isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] == $this->page_name ) {
+			if ( isset( $_GET['code'] ) ) {
+				$token = $this->get_token( $_GET['code'] );
+				if ( $token ) {
+					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ) , 'updated' );
+					update_option( 'strava_token', $token );
+				} else {
+					add_settings_error( 'strava_token', 'strava_token', $this->feedback );
+				}
+			} else if ( isset( $_GET['error'] ) ) {
+				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'Error authenticating at Strava: %s', 'wp-strava' ), str_replace( '_', ' ', $_GET['error'] ) ) );
 			}
 		}
 		
@@ -158,23 +169,10 @@ class WPStrava_Settings {
 		if ( trim( $client_secret ) == '' ) {
 			add_settings_error( 'strava_client_secret', 'strava_client_secret', __( 'Client Secret is required.', 'wp-strava' ) );
 		}
-		echo "WHEREAMI";
 		return $client_secret;
 	}
 
 	public function sanitize_token( $token ) {
-		/*
-		if ( isset( $_GET['code'] ) ) {
-			$token = $this->get_token( $_GET['code'] );
-			if ( $token ) {
-				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava Token Retrieved: %s', 'wp-strava' ), $this->feedback ) , 'updated' );
-				return $token;
-			} else {
-				add_settings_error( 'strava_token', 'strava_token', $this->feedback );
-				return NULL;
-			}
-		}
-		*/
 		return $token;
 	}
 
@@ -195,7 +193,7 @@ class WPStrava_Settings {
 					return false;
 				}
 			} else {
-				$this->feedback .= __( 'There was an error pulling data of strava.com.', 'wp-strava' );
+				$this->feedback .= __( sprintf( 'There was an error receiving data from Strava: %s', print_r( $strava_info, true ) ), 'wp-strava' );
 				return false;
 			}
 		} else {
