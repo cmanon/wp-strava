@@ -61,9 +61,13 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 			if ( is_wp_error( $rides ) ) {
 				echo $before_widget;
-				echo '<pre>';
-				print_r($rides);
-				echo '</pre>';
+				if ( WPSTRAVA_DEBUG ) {
+					echo '<pre>';
+					print_r($rides);
+					echo '</pre>';
+				} else {
+					echo $rides->get_error_message();
+				}
 				echo $after_widget;
 				return;
 			}

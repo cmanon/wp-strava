@@ -68,6 +68,8 @@ class WPStrava_API {
 			$error = '';
 			if ( ! empty( $body->error ) )
 				$error = $body->error;
+			else if ( $response['response']['code'] == 503 )
+				$error = __( 'Strava Temporarily Unavailable', 'wp-strava' );
 			else
 				$error = print_r( $response, true );
 

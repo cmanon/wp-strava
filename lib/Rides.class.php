@@ -45,7 +45,7 @@ class WPStrava_Rides {
     			//return $map_details;
     			return $json;
     		} else {
-    			$this->feedback .= _e("There was an error pulling data of strava.com.", "wp-strava");
+    			$this->feedback .= _e("There was an error pulling data from strava.com.", "wp-strava");
 				return false;
     		}
     	} else {

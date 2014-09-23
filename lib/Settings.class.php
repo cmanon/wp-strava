@@ -21,6 +21,7 @@ class WPStrava_Settings {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
 		add_action( 'option_home', array( $this, 'option_home' ) );
+		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
 	}
 
 	/**
@@ -224,6 +225,12 @@ class WPStrava_Settings {
 
 	public function __get( $name ) {
 		return get_option( "strava_{$name}" );
+	}
+	
+	public function settings_link( $links ) { 
+		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings' ) . '</a>'; 
+		$links[] =  $settings_link; 
+		return $links;
 	}
 
 }

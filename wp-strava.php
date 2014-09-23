@@ -27,6 +27,8 @@ License: GPL2
 
 define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__) ) );
 define( 'WPSTRAVA_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
+define( 'WPSTRAVA_PLUGIN_NAME', plugin_basename(__FILE__) );
+define( 'WPSTRAVA_DEBUG', false );
 
 // Load the multilingual support.
 if( file_exists( WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' ) ) {
@@ -37,16 +39,13 @@ require_once WPSTRAVA_PLUGIN_DIR . 'lib/Strava.class.php';
 $wpstrava = WPStrava::get_instance();
 
 //@TODO only load these when needed using is_active_widget()
-function load_styles() {
+function wpstrava_load_scripts_and_styles() {
 	// Register a personalized stylesheet
 	wp_register_style('wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css' );
 	wp_enqueue_style('wp-strava');
-}
-add_action('wp_enqueue_script', 'load_styles');
 
-function load_scripts() {
 	// Load required javascript libraries
 	wp_enqueue_script('jquery');
 	//wp_enqueue_script('google-maps', 'http://maps.google.com/maps/api/js?sensor=false');
 }
-add_action('wp-enqueue_script', 'load_scripts');
+add_action('wp_enqueue_script', 'wpstrava_load_scripts_and_styles');
