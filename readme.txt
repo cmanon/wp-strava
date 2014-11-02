@@ -15,10 +15,27 @@ This plugin uses the Strava V3 API to embed maps and activity for
 athletes and clubs on your WordPress site. Included are several
 widgets and shortcodes for showing maps and activity summaries.
 
+= Shortcodes =
+
+[ride id=NUMBER] - add to any page or post. Also takes the following
+optional parameters:
+
+* som - english/metric (system of measure - override from default setting)
+* map_width - width (width of image in pixels)
+* map_height - height (height of image in pixels)
+
+= Widgets =
+
+Strava Latest Rides - shows a list of the last few activities
+
+Strava Latest Map - shows map of latest activity with option to limit
+latest map to activities of a certain minimum distance
+
 == Changelog ==
 
 = 1.0 =
 Change to Strava API V3
+Switch ride shortcode to use static map
 
 = 0.70 =
 Use WordPress HTTP API for all remote calls
