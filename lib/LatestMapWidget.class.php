@@ -100,25 +100,13 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		endif;
 	}
 
-	private function buildImage( $ride ) {
-		$url = 'http://maps.google.com/maps/api/staticmap?maptype=terrain&size=390x260&sensor=false&path=color:0xFF0000BF|weight:2|enc:';
-		$url_len = strlen( $url );
-		$max_chars = 1865;
-
-		if ( $url_len + strlen( $ride->map->polyline ) < $max_chars )
-			$url .= $ride->map->polyline;
-		else
-			$url .= $ride->map->summary_polyline;
-		
-		return "<img src='{$url}' />";
-	}
 
 	private function getStaticImage( $ride_id, $build_new ) {
 		$img = get_option( 'strava_latest_map' );
 		
 		if ( $build_new || ! $img ) {
 			$ride = WPStrava::get_instance()->rides->getRide( $ride_id );
-			$img = $this->buildImage( $ride );
+			$img = WPStrava_StaticMap::get_image_tag( $ride );
 			update_option( 'strava_latest_map', $img );
 		}
 

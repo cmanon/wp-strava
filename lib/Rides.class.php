@@ -34,25 +34,6 @@ class WPStrava_Rides {
 		return array();	
 		
 	} // getRides
-	    
-    public function getRideMap($rideId, $token, $efforts, $threshold) {
-    	if($rideId != 0 AND $token != "") {
-    		$url = preg_replace('/:id/', $rideId, $this->rideMapDetailsUrlV2);
-    		$json = file_get_contents($url . '?token=' . $token . '&threshold=' . $threshold);
-    		
-    		if($json) {
-    			//$map_details = json_decode($json);
-    			//return $map_details;
-    			return $json;
-    		} else {
-    			$this->feedback .= _e("There was an error pulling data from strava.com.", "wp-strava");
-				return false;
-    		}
-    	} else {
-    		$this->feedback .= _e("You need to provide both parameters to complete the call.", "wp-strava");
-			return false;
-    	}
-    } // getRideDetails
 
 	public function getRidesLongerThan( $rides, $dist ) {
 		$som = WPStrava_SOM::get_som();		
