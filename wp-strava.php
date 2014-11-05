@@ -37,15 +37,3 @@ if( file_exists( WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' ) ) {
 
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/Strava.class.php';
 $wpstrava = WPStrava::get_instance();
-
-//@TODO only load these when needed using is_active_widget()
-function wpstrava_load_scripts_and_styles() {
-	// Register a personalized stylesheet
-	wp_register_style('wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css' );
-	wp_enqueue_style('wp-strava');
-
-	// Load required javascript libraries
-	wp_enqueue_script('jquery');
-	//wp_enqueue_script('google-maps', 'http://maps.google.com/maps/api/js?sensor=false');
-}
-add_action('wp_enqueue_script', 'wpstrava_load_scripts_and_styles');

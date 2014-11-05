@@ -19,6 +19,8 @@ class WPStrava {
 
 		if ( is_admin() ) {
 			$this->settings->hook();
+		} else {
+			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 		}
 
 		// Register StravaLatestRidesWidget widget
@@ -65,5 +67,10 @@ class WPStrava {
 		}
 
 		return $this->rides;
+	}
+
+	public function register_scripts() {
+		// Register a personalized stylesheet
+		wp_register_style( 'wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css' );
 	}
 }

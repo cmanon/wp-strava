@@ -203,10 +203,6 @@ class WPStrava_Settings {
 		}		
 	}
 	
-	public function print_options_label() {
-		?><p>Options</p><?php
-	}
-
 	public function print_som_input() {
 		$strava_som = get_option( 'strava_som' );
 		?>

@@ -8,7 +8,13 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array( 'classname' => 'LatestRidesWidget', 'description' => __( 'Will publish your latest rides activity from strava.com.' ) );
 		parent::__construct( 'wp-strava', $name = 'Strava Latest Rides', $widget_ops );
-		wp_enqueue_style( 'wp-strava' ); //TODO only load this when wigit is loaded
+		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
+	}
+
+	public function maybe_enqueue() {
+		if ( is_active_widget( false, false, $this->id_base ) ) {
+			wp_enqueue_style( 'wp-strava-style' ); //only load this when wigit is loaded
+		}
 	}
 	
 	/** @see WP_Widget::widget */

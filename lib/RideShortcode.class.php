@@ -5,13 +5,11 @@ class WPStrava_RideShortcode {
 
 	static function init() {
 		add_shortcode('ride', array(__CLASS__, 'handler'));
-
-		add_action('init', array(__CLASS__, 'registerScripts'));
 		add_action('wp_footer', array(__CLASS__, 'printScripts'));
 	}
 
 	// Shortcode handler function
-	// [ride id=id som=metric efforts=false threshold=5 map-width="100%" map-height="400px"] tag
+	// [ride id=id som=metric map_width="100%" map_height="400px"]
 	function handler($atts) {
 		self::$add_script = true;
 
@@ -71,13 +69,6 @@ class WPStrava_RideShortcode {
 				'</div>';				
 		}
 	} // handler
-
-	static function registerScripts() {
-		wp_register_style('wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css' );
-
-		//wp_register_script('wp-strava-script', WPSTRAVA_PLUGIN_URL . 'js/wp-strava.js', array( 'jquery' ), '1.0', true);
-		//wp_register_script('google-maps', 'http://maps.google.com/maps/api/js?sensor=false');
-	}
 
 	static function printScripts() {
 		if (self::$add_script) {
