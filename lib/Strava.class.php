@@ -24,9 +24,8 @@ class WPStrava {
 		}
 
 		// Register StravaLatestRidesWidget widget
-		add_action( 'widgets_init', function() { return register_widget( 'WPStrava_LatestRidesWidget' ); } );
-		add_action( 'widgets_init', function() { return register_widget( 'WPStrava_LatestMapWidget' ); } );
-		
+		add_action( 'widgets_init', create_function('', 'return register_widget( "WPStrava_LatestRidesWidget" );') );
+		add_action( 'widgets_init', create_function('', 'return register_widget( "WPStrava_LatestMapWidget" );' ) );
 	}
 
 	public static function get_instance() {
