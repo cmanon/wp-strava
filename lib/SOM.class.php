@@ -4,12 +4,12 @@ abstract class WPStrava_SOM {
 
 	public static function get_som( $som = NULL ) {
 		$som = $som ? $som : WPStrava::get_instance()->settings->som;
-		if ( $som == 'metric' ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMMetric.class.php';
-			return new WPStrava_SOMMetric();
-		} else {
+		if ( $som == 'english' ) {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMEnglish.class.php';
 			return new WPStrava_SOMEnglish();
+		} else { //default to metric
+			require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMMetric.class.php';
+			return new WPStrava_SOMMetric();
 		}
 			
 	}

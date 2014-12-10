@@ -7,101 +7,47 @@ class WPStrava_Rides {
 	const RIDES_URL = "http://app.strava.com/rides/";
 	const ATHLETES_URL = "http://app.strava.com/athletes/";
 	
-	public function getRideDetails( $rideId ) {
-		return WPStrava::get_instance()->api->get( "rides/{$rideId}" );
+	public function getRide( $rideId ) {
+		return WPStrava::get_instance()->api->get( "activities/{$rideId}" );
 	} // getRideDetails
-		
-	public function getRidesDetails( $rides ) {
-		$rides_details = array();
-		foreach ( $rides as $stravaRide ) {
-			$detail = $this->getRideDetails( $stravaRide->id );
-
-			if ( is_wp_error( $detail ) )
-				return $detail;
-				
-			$rides_details[] = $detail;
-		}
-		return $rides_details;
-	} // getRidesDetails
 	
-	public function getRidesSimple( $searchOption, $searchId ) {
+	public function getRides( $club_id = NULL, $quantity = NULL ) {
 		$api = WPStrava::get_instance()->api;
 
 		$data = NULL;
+
+		$args = $quantity ? array( 'per_page' => $quantity ) : NULL;
+		
 		//Get the json results using the constructor specified values.
-		if ( $searchOption == 'athlete' ) {
-			if ( is_numeric( $searchId ) ) {
-				$data = $api->get( 'rides', array( 'athleteId' => $searchId ), 1 );
-			} else {
-				$data = $api->get( 'rides', array( 'athleteName' => $searchId ), 1 );
-			}
-		} elseif ($searchOption == 'club' && is_numeric($searchId)) {
-			$data = $api->get( 'rides', array( 'clubId' => $searchId ), 1 );
+		if ( is_numeric( $club_id ) ) {
+			$data = $api->get( "clubs/{$club_id}/activities", $args );
 		} else {
-			return new WP_Error( 'wp-strava_options', __("There's an error in your simple options.", 'wp-strava') );
+			$data = $api->get( 'athlete/activities', $args );
 		}
 
 		if ( is_wp_error( $data ) )
 			return $data;
 		
-		if ( isset( $data->rides ) )
-			return $data->rides;
-		
-		return array();	
-		
-	} // getRidesSimple
-
-	public function getRidesAdvanced( $params ) {	
-		$data = WPStrava::get_instance()->api->get( 'rides', $params, 1 ); //version 1
-
-		if ( is_wp_error( $data ) )
+		if ( is_array( $data ) )
 			return $data;
 		
-		if ( isset( $data->rides ) )
-			return $data->rides;
-		
 		return array();	
-	}
-	    
-    public function getRideMap($rideId, $token, $efforts, $threshold) {
-    	if($rideId != 0 AND $token != "") {
-    		$url = preg_replace('/:id/', $rideId, $this->rideMapDetailsUrlV2);
-    		$json = file_get_contents($url . '?token=' . $token . '&threshold=' . $threshold);
-    		
-    		if($json) {
-    			//$map_details = json_decode($json);
-    			//return $map_details;
-    			return $json;
-    		} else {
-    			$this->feedback .= _e("There was an error pulling data of strava.com.", "wp-strava");
-				return false;
-    		}
-    	} else {
-    		$this->feedback .= _e("You need to provide both parameters to complete the call.", "wp-strava");
-			return false;
-    	}
-    } // getRideDetails
+		
+	} // getRides
 
 	public function getRidesLongerThan( $rides, $dist ) {
 		$som = WPStrava_SOM::get_som();		
 		$meters = $som->distance_inverse( $dist );
 
 		$long_rides = array();
-		foreach ( $rides as $ride ) {
-			$ride_info = $this->getRideDetails( $ride->id );
-			if ( $ride_info->ride->distance > $meters ) {
+		foreach ( $rides as $ride_info ) {
+			if ( $ride_info->distance > $meters ) {
 				$long_rides[] = $ride_info;
 			}
 		}
 		
 		return $long_rides;
 	}
-		
-	public function getMapDetails( $ride_id ) {
-		$token = WPStrava::get_instance()->settings->token;
-		return WPStrava::get_instance()->api->get( "rides/{$ride_id}/map_details", array( 'token' => $token ) );
-	}
-	
 	
 } // class Rides
 ?>

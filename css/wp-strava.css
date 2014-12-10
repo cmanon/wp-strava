@@ -8,7 +8,7 @@
 	background-position: -224px -160px;
 	margin: 0 6px 2px 0;
 }
-.table {
+.wp-strava-ride-container {
 	display: table;
 	margin: 0 auto;
 }
@@ -32,6 +32,6 @@
 .ride-details-table-units {
 	font-size: 0.8em;
 }
-.map img {
+.wp-strava-ride-container img {
 	max-width: none;
 }

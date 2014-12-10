@@ -1,19 +1,41 @@
 === Plugin Name ===
 Contributors: cmanon, jrfoell
 Donate link: http://cmanon.com/
-Tags: bicycle, cycling, strava
-Requires at least: 2.0
-Tested up to: 3.5.1
-Stable tag: 0.62
+Tags: strava, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
+Requires at least: 3.0
+Tested up to: 4.0
+Stable tag: 1.0
 License: GPLv2 or later
 
-This plugin is intended to show your strava.com information in your WordPress site.
+Show your Strava activity on your WordPress site.
 
 == Description ==
 
-This plugin uses the REST strava.com API to pull the data out and show the information in your WordPress site.
+This plugin uses the Strava V3 API to embed maps and activity for
+athletes and clubs on your WordPress site. Included are several
+widgets and shortcodes for showing maps and activity summaries.
+
+= Shortcodes =
+
+[ride id=NUMBER] - add to any page or post. Also takes the following
+optional parameters:
+
+* som - english/metric (system of measure - override from default setting)
+* map_width - width (width of image in pixels)
+* map_height - height (height of image in pixels)
+
+= Widgets =
+
+Strava Latest Rides - shows a list of the last few activities
+
+Strava Latest Map - shows map of latest activity with option to limit
+latest map to activities of a certain minimum distance
 
 == Changelog ==
+
+= 1.0 =
+Change to Strava API V3
+Switch ride shortcode to use static map
 
 = 0.70 =
 Use WordPress HTTP API for all remote calls
