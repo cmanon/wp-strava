@@ -26,6 +26,9 @@ class WPStrava_API {
 
 		$response = wp_remote_post( $url . $uri, $args );
 
+		if ( is_wp_error( $response ) )
+			return $response;
+
 		if ( $response['response']['code'] != 200 ) {
 			//see if there's useful info in the body
 			$body = json_decode( $response['body'] );

@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name: WP Strava
-Plugin URI: http://cmanon.com
-Description: Plugin to show your strava.com information in your wordpress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.  
-Version: 1.0
-Author: Carlos Santa Cruz (cmanon), Justin Foell <justin@foell.org>
-Author URI: http://cmanon.com
-License: GPL2
-*/
+ * Plugin Name: WP Strava
+ * Plugin URI: http://cmanon.com
+ * Description: Plugin to show your strava.com information in your wordpress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.  
+ * Version: 1.1
+ * Author: Carlos Santa Cruz, Justin Foell, Lance Willet 
+ * License: GPL2
+ */
+
 /*  Copyright 2011  Carlos Santa Cruz  (email : cmanon at gmail dot com)
 
     This program is free software; you can redistribute it and/or modify
