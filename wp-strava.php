@@ -28,7 +28,7 @@
 define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__) ) );
 define( 'WPSTRAVA_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
 define( 'WPSTRAVA_PLUGIN_NAME', plugin_basename(__FILE__) );
-define( 'WPSTRAVA_DEBUG', false );
+if ( ! defined( 'WPSTRAVA_DEBUG' ) ) define( 'WPSTRAVA_DEBUG', false );
 
 // Load the multilingual support.
 if( file_exists( WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' ) ) {

@@ -56,7 +56,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		$strava_club_id = empty( $instance['strava_club_id'] ) ? NULL : $instance['strava_club_id'];
 		$build_new = false;
 
-		//try our transient first
+		// Try our transient first.
 		$ride_transient = get_transient( 'strava_latest_map_ride' );
 		$ride_option = get_option( 'strava_latest_map_ride' );
 
@@ -87,12 +87,12 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 				$ride = current( $rides );
 
 				//update transients & options
-				if ( $ride->id != $ride_option->id ) {
+				if ( empty( $ride_option->id ) || $ride->id != $ride_option->id ) {
 					$build_new = true;
 					update_option( 'strava_latest_map_ride', $ride );
 				}
 
-				if ( $ride->id != $ride_transient->id ) {
+				if ( empty( $ride_transient->id ) || $ride->id != $ride_transient->id ) {
 					set_transient( 'strava_latest_map_ride', $ride, HOUR_IN_SECONDS );
 				}
 			}
