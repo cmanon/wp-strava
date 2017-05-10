@@ -80,7 +80,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 		$response = "<ul id='rides'>";
 		foreach( $rides as $ride ) {
 			$response .= "<li class='ride'>";
-			$response .= "<a href='" . WPStrava_Rides::RIDES_URL . $ride->id . "' >" . $ride->name . "</a>";
+			$response .= "<a href='" . WPStrava_Rides::RIDES_URL . $ride->id . "' target='_blank'>" . $ride->name . "</a>";
 			$response .= "<div class='ride-item'>";
 			$unixtime = strtotime( $ride->start_date_local );
 			$response .= sprintf( __("On %s %s", "wp-strava"), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );
