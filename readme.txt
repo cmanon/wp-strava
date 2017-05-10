@@ -1,9 +1,8 @@
 === Plugin Name ===
 Contributors: cmanon, jrfoell, lancewillett
-Donate link: http://cmanon.com/
 Tags: strava, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.0
-Tested up to: 4.2
+Tested up to: 4.7
 Stable tag: 1.1
 License: GPLv2 or later
 
@@ -38,6 +37,9 @@ Added [activity] shortcode to deprecate [ride] in the future
 Fixed static method call error in shortcode
 Added title to Strava Latest Map Widget
 Added Lance Willett to contributors
+Added target="_blank" to widget hrefs
+Added Google Maps Key to settings (required for map images)
+Cleaned up formatting
 
 = 1.0 =
 Change to Strava API V3
