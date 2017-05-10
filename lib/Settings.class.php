@@ -2,7 +2,7 @@
 
 /**
  * v3 - http://strava.github.io/api/v3/oauth/
- * 
+ *
  * Set up an "API Application" at Strava
  * Save the Client ID and Client Secret in WordPress - redirect to strava oauth/authorize URL for permission
  * Get redirected back to this settings page with ?code= or ?error=
@@ -15,7 +15,7 @@ class WPStrava_Settings {
 	private $token;
 	private $page_name = 'wp-strava-options';
 	private $option_page = 'wp-strava-settings-group';
-	
+
 	//register admin menus
 	public function hook() {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
@@ -41,7 +41,7 @@ class WPStrava_Settings {
 				//user is clearing to start-over, don't oauth
 				if ( isset( $_POST['strava_token'] ) && empty( $_POST['strava_token'] ) )
 					return;
-			
+
 				$client_id = get_option( 'strava_client_id' );
 				$client_secret = get_option( 'strava_client_secret' );
 
@@ -55,7 +55,7 @@ class WPStrava_Settings {
 		}
 		return $value;
 	}
-	
+
 	public function add_strava_menu() {
 		add_options_page( __( 'Strava Settings', 'wp-strava' ),
 						  __( 'Strava', 'wp-strava' ),
@@ -79,13 +79,13 @@ class WPStrava_Settings {
 				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'Error authenticating at Strava: %s', 'wp-strava' ), str_replace( '_', ' ', $_GET['error'] ) ) );
 			}
 		}
-		
-		$this->token = get_option( 'strava_token' );		
+
+		$this->token = get_option( 'strava_token' );
 	}
-	
+
 	public function register_strava_settings() {
 		$this->init();
-	   
+
 		add_settings_section( 'strava_api', __( 'Strava API', 'wp-strava' ), array( $this, 'print_api_instructions' ), 'wp-strava' ); //NULL / NULL no section label needed
 
 		if ( ! $this->token ) {
@@ -98,7 +98,7 @@ class WPStrava_Settings {
 			register_setting( $this->option_page, 'strava_token',    array( $this, 'sanitize_token' ) );
 			add_settings_field( 'strava_token', __( 'Strava Token', 'wp-strava' ), array( $this, 'print_token_input' ), 'wp-strava', 'strava_api' );
 		}
-		
+
 		register_setting( $this->option_page, 'strava_som',    array( $this, 'sanitize_som' ) );
 
 		add_settings_section( 'strava_options', __( 'Options', 'wp-strava' ), NULL, 'wp-strava' );
@@ -110,29 +110,28 @@ class WPStrava_Settings {
 		$signup_url = 'http://www.strava.com/developers';
 		$settings_url = 'https://www.strava.com/settings/api';
 		$blog_name = get_bloginfo( 'name' ); 
-		$app_name =  $blog_name . ' Strava';
-		$url_parts = parse_url( site_url() );
-		$site_url = $url_parts['host']; //strip http/https for copying/pasting into strava
+		$app_name =  sprintf( esc_html( '%s Strava', 'wp-strava' ), $blog_name );
+		$site_url = site_url();
 		$description = 'WP-Strava for ' . $blog_name;
 	   	printf( __( "<p>Steps:</p>
 			<ol>
-				<li>Create your API Application here: <a href='%s' target='_blank'>%s</a> using the following information:</li>
+				<li>Create your API Application/Connection here: <a href='%s' target='_blank'>%s</a> using the following information:</li>
 				<ul>
 					<li>Application Name: <strong>%s</strong></li>
 					<li>Website: <strong>%s</strong></li>
 					<li>Application Description: <strong>%s</strong></li>
 					<li>Authorization Callback Domain: <strong>%s</strong></li>
 				</ul>
-				<li>Once you've created your API Application at strava.com, enter the Client ID and Client Secret below, which can be found at <a href='%s' target='_blank'>%s</a></li>
+				<li>Once you've created your API Application at strava.com, enter the <strong>Client ID</strong> and <strong>Client Secret</strong> below, which can now be found on that same strava API Settings page.
 				<li>After saving your Client ID and Secret, you'll be redirected to strava to authorize your API Application. If successful, your Strava Token will display instead of Client ID and Client Secret.</li>
 				<li>If you need to re-authorize your API Application, erase your Strava Token here and click 'Save Changes' to start over.</li>
-			</ol>", 'wp-strava' ), $signup_url, $signup_url, $app_name, $site_url, $description, $site_url, $settings_url, $settings_url );
+			</ol>", 'wp-strava' ), $settings_url, $settings_url, $app_name, $site_url, $description, $site_url );
 	}
-	
+
 	public function print_strava_options() {
 		?>
 		<div class="wrap">
-   			<div id="icon-options-general" class="icon32"><br/></div>
+			<div id="icon-options-general" class="icon32"><br/></div>
 			<h2><?php _e( 'Strava Settings', 'wp-strava' ); ?></h2>
 					
 			<form method="post" action="<?php echo admin_url( 'options.php' ); ?>">
@@ -200,9 +199,9 @@ class WPStrava_Settings {
 		} else {
 			$this->feedback .= __( 'Missing Client ID or Client Secret.', 'wp-strava' );
 			return false;
-		}		
+		}
 	}
-	
+
 	public function print_som_input() {
 		$strava_som = get_option( 'strava_som' );
 		?>
@@ -220,10 +219,10 @@ class WPStrava_Settings {
 	public function __get( $name ) {
 		return get_option( "strava_{$name}" );
 	}
-	
-	public function settings_link( $links ) { 
-		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings' ) . '</a>'; 
-		$links[] =  $settings_link; 
+
+	public function settings_link( $links ) {
+		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings' ) . '</a>';
+		$links[] =  $settings_link;
 		return $links;
 	}
 
