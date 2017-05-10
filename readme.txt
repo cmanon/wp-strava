@@ -39,6 +39,7 @@ Added title to Strava Latest Map Widget
 Added Lance Willett to contributors
 Added target="_blank" to widget hrefs
 Added Google Maps Key to settings (required for map images)
+Added cache clear option to remove transient & image data
 Cleaned up formatting
 
 = 1.0 =

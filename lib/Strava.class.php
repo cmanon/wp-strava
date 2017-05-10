@@ -37,7 +37,7 @@ class WPStrava {
 	}
 
 	public function __get( $name ) {
-		//on-demand classes
+		// On-demand classes.
 		if ( $name == 'api' ) {
 			return $this->get_api();
 		}
@@ -56,7 +56,7 @@ class WPStrava {
 	public function get_api() {
 		if ( ! $this->api ) {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
-			$this->api = new WPStrava_API( get_option('strava_token') );
+			$this->api = new WPStrava_API( get_option( 'strava_token' ) );
 		}
 
 		return $this->api;

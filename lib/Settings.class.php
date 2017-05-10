@@ -20,7 +20,7 @@ class WPStrava_Settings {
 	public function hook() {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
-		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ), 10 );
+		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ) );
 		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
 		//for process debugging
 		//add_action( 'all', array( $this, 'hook_debug' ) );
@@ -112,6 +112,11 @@ class WPStrava_Settings {
 		register_setting( $this->option_page, 'strava_som', array( $this, 'sanitize_som' ) );
 		add_settings_section( 'strava_options', __( 'Options', 'wp-strava' ), null, 'wp-strava' );
 		add_settings_field( 'strava_som', __( 'System of Measurement', 'wp-strava' ), array( $this, 'print_som_input' ), 'wp-strava', 'strava_options' );
+
+		// Clear cache.
+		register_setting( $this->option_page, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
+		add_settings_section( 'strava_cache', __( 'Cache', 'wp-strava' ), null, 'wp-strava' );
+		add_settings_field( 'strava_cache_clear', __( 'Clear cache (images & transient data)', 'wp-strava' ), array( $this, 'print_clear_input' ), 'wp-strava', 'strava_cache' );
 	}
 
 	public function print_api_instructions() {
@@ -240,6 +245,20 @@ class WPStrava_Settings {
 
 	public function sanitize_som( $som ) {
 		return $som;
+	}
+
+	public function print_clear_input() {
+		?><input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" /><?php
+	}
+
+	public function sanitize_cache_clear( $checked ) {
+		if ( 'on' === $checked ) {
+			// Clear these values:
+			delete_transient( 'strava_latest_map_ride' );
+			delete_option( 'strava_latest_map_ride' );
+			delete_option( 'strava_latest_map' );
+		}
+		return null;
 	}
 
 	public function __get( $name ) {
