@@ -34,10 +34,10 @@ latest map to activities of a certain minimum distance
 == Changelog ==
 
 = 1.1 =
-Added [activity] short code to deprecate [ride] in the future
+Added [activity] shortcode to deprecate [ride] in the future
 Fixed static method call error in shortcode
 Added title to Strava Latest Map Widget
-Added Lance Willet to contributors
+Added Lance Willett to contributors
 
 = 1.0 =
 Change to Strava API V3
