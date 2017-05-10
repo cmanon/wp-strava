@@ -1,16 +1,17 @@
 <?php
 
 class WPStrava_RideShortcode {
-	static $add_script;
+	private static $add_script;
 
-	static function init() {
-		add_shortcode('ride', array(__CLASS__, 'handler'));
-		add_action('wp_footer', array(__CLASS__, 'printScripts'));
+	public static function init() {
+		add_shortcode( 'ride', array( __CLASS__, 'handler' ) );
+		add_shortcode( 'activity', array( __CLASS__, 'handler' ) );
+		add_action( 'wp_footer', array( __CLASS__, 'printScripts' ) );
 	}
 
 	// Shortcode handler function
 	// [ride id=id som=metric map_width="100%" map_height="400px"]
-	function handler($atts) {
+	public static function handler($atts) {
 		self::$add_script = true;
 
 		$defaults = array(
@@ -31,7 +32,7 @@ class WPStrava_RideShortcode {
 		$map_height = str_replace( '%', '', $map_height );
 		$map_width = str_replace( 'px', '', $map_width );
 		$map_height = str_replace( 'px', '', $map_height );
-		
+
 		if( $rideDetails ) {
 			return '
 				<div id="ride-header-' . $id . '" class="wp-strava-ride-container">
@@ -70,7 +71,7 @@ class WPStrava_RideShortcode {
 		}
 	} // handler
 
-	static function printScripts() {
+	public static function printScripts() {
 		if (self::$add_script) {
 			wp_enqueue_style('wp-strava-style');
 

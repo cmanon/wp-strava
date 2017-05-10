@@ -9,11 +9,11 @@ require_once WPSTRAVA_PLUGIN_DIR . 'lib/StaticMap.class.php';
 
 class WPStrava {
 
-	private static $instance = NULL;
-	private $settings = NULL;
-	private $api = NULL;
-	private $rides = NULL;
-	
+	private static $instance = null;
+	private $settings = null;
+	private $api = null;
+	private $rides = null;
+
 	private function __construct() {
 		$this->settings = new WPStrava_Settings();
 
@@ -24,8 +24,8 @@ class WPStrava {
 		}
 
 		// Register StravaLatestRidesWidget widget
-		add_action( 'widgets_init', create_function('', 'return register_widget( "WPStrava_LatestRidesWidget" );') );
-		add_action( 'widgets_init', create_function('', 'return register_widget( "WPStrava_LatestMapWidget" );' ) );
+		add_action( 'widgets_init', create_function( '', 'return register_widget( "WPStrava_LatestRidesWidget" );' ) );
+		add_action( 'widgets_init', create_function( '', 'return register_widget( "WPStrava_LatestMapWidget" );' ) );
 	}
 
 	public static function get_instance() {
@@ -37,28 +37,31 @@ class WPStrava {
 	}
 
 	public function __get( $name ) {
-		//on-demand classes
-		if ( $name == 'api' )
+		// On-demand classes.
+		if ( $name == 'api' ) {
 			return $this->get_api();
+		}
 
-		if ( $name == 'rides' )
+		if ( $name == 'rides' ) {
 			return $this->get_rides();
+		}
 
-		if ( isset( $this->{$name} ) )
+		if ( isset( $this->{$name} ) ) {
 			return $this->{$name};
+		}
 
-		return NULL;
+		return null;
 	}
 
 	public function get_api() {
 		if ( ! $this->api ) {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
-			$this->api = new WPStrava_API( get_option('strava_token') );
+			$this->api = new WPStrava_API( get_option( 'strava_token' ) );
 		}
 
 		return $this->api;
 	}
-	
+
 	public function get_rides() {
 		if ( ! $this->rides ) {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Rides.class.php';

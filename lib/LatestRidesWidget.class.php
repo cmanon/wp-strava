@@ -30,7 +30,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 		?>
 		<?php echo $before_widget; ?>
 			<?php if ( $title ) echo $before_title . $title . $after_title; ?>
-				<?php echo $this->strava_request_handler( $strava_club_id, $strava_som_option, $quantity ); ?>
+				<?php echo $this->strava_request_handler( $strava_club_id, $quantity ); ?>
 			<?php echo $after_widget; ?>
         <?php
 	}
@@ -39,11 +39,6 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
-		if( in_array( $new_instance['strava_som_option'], array( 'metric', 'english' ) ) ) {
-			$instance['strava_som_option'] = $new_instance['strava_som_option'];
-		} else {
-			$instance['strava_som_option'] = 'metric';
-		}
 		$instance['strava_club_id'] = strip_tags( $new_instance['strava_club_id'] );
 		$instance['quantity'] = $new_instance['quantity'];
 		
@@ -74,7 +69,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 
 	// The handler to the ajax call, we will avoid this if Strava support jsonp request and we can do it
 	// the parsing directly on the jQuery ajax call, the returned text will be enclosed in the $response variable.
-	private function strava_request_handler( $strava_club_id, $strava_som_option, $quantity ) {
+	private function strava_request_handler( $strava_club_id, $quantity ) {
 	
 		$strava_rides = WPStrava::get_instance()->rides;
 		
@@ -85,7 +80,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 		$response = "<ul id='rides'>";
 		foreach( $rides as $ride ) {
 			$response .= "<li class='ride'>";
-			$response .= "<a href='" . WPStrava_Rides::RIDES_URL . $ride->id . "' >" . $ride->name . "</a>";
+			$response .= "<a href='" . WPStrava_Rides::RIDES_URL . $ride->id . "' target='_blank'>" . $ride->name . "</a>";
 			$response .= "<div class='ride-item'>";
 			$unixtime = strtotime( $ride->start_date_local );
 			$response .= sprintf( __("On %s %s", "wp-strava"), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );

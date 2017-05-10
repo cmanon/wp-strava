@@ -1,10 +1,9 @@
 === Plugin Name ===
-Contributors: cmanon, jrfoell
-Donate link: http://cmanon.com/
+Contributors: cmanon, jrfoell, lancewillett
 Tags: strava, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
-Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 1.0
+Requires at least: 4.0
+Tested up to: 4.7
+Stable tag: 1.1
 License: GPLv2 or later
 
 Show your Strava activity on your WordPress site.
@@ -17,7 +16,7 @@ widgets and shortcodes for showing maps and activity summaries.
 
 = Shortcodes =
 
-[ride id=NUMBER] - add to any page or post. Also takes the following
+[activity id=NUMBER] - add to any page or post. Also takes the following
 optional parameters:
 
 * som - english/metric (system of measure - override from default setting)
@@ -32,6 +31,16 @@ Strava Latest Map - shows map of latest activity with option to limit
 latest map to activities of a certain minimum distance
 
 == Changelog ==
+
+= 1.1 =
+Added [activity] shortcode to deprecate [ride] in the future
+Fixed static method call error in shortcode
+Added title to Strava Latest Map Widget
+Added Lance Willett to contributors
+Added target="_blank" to widget hrefs
+Added Google Maps Key to settings (required for map images)
+Added cache clear option to remove transient & image data
+Cleaned up formatting
 
 = 1.0 =
 Change to Strava API V3

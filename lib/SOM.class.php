@@ -11,9 +11,9 @@ abstract class WPStrava_SOM {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMMetric.class.php';
 			return new WPStrava_SOMMetric();
 		}
-			
+
 	}
-	
+
 	abstract public function distance( $m );
 	abstract public function distance_inverse( $dist );
 	abstract public function get_distance_label();
