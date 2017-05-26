@@ -162,7 +162,7 @@ class WPStrava_Settings {
 				<?php do_settings_sections( 'wp-strava' ); ?>
 
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ); ?>" />
+					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'wp-strava' ); ?>" />
 				</p>
 			</form>
 		</div>
