@@ -2,7 +2,7 @@
 
 abstract class WPStrava_SOM {
 
-	public static function get_som( $som = NULL ) {
+	public static function get_som( $som = null ) {
 		$som = $som ? $som : WPStrava::get_instance()->settings->som;
 		if ( $som == 'english' ) {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMEnglish.class.php';

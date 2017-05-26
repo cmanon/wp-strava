@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: cmanon, jrfoell, lancewillett
 Tags: strava, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
-Requires at least: 4.0
+Requires at least: 4.6
 Tested up to: 4.7
 Stable tag: 1.1
 License: GPLv2 or later
@@ -31,6 +31,10 @@ Strava Latest Map - shows map of latest activity with option to limit
 latest map to activities of a certain minimum distance
 
 == Changelog ==
+
+= 1.2 =
+Changes to better support translations through https://translate.wordpress.org
+Cleaned up formatting
 
 = 1.1 =
 Added [activity] shortcode to deprecate [ride] in the future

@@ -12,8 +12,8 @@ class WPStrava_API {
 	public function __construct( $access_token ) {
 		$this->access_token = $access_token;
 	}
-	
-	public function post( $uri, $data = NULL ) {
+
+	public function post( $uri, $data = null ) {
 		$url = self::STRAVA_V3_API;
 
 		$args = array(
@@ -46,7 +46,7 @@ class WPStrava_API {
 		return json_decode( $response['body'] );
 	}
 
-	public function get( $uri, $args = NULL ) {
+	public function get( $uri, $args = null ) {
 		$url = self::STRAVA_V3_API;
 
 		$url .= $uri;
@@ -59,12 +59,12 @@ class WPStrava_API {
 				'Authorization' => 'Bearer ' . $this->access_token,
 			)
 		);
-		
+
 		$response = wp_remote_get( $url, $get_args );
 
 		if ( is_wp_error( $response ) )
 			return $response;
-		
+
 		if ( $response['response']['code'] != 200 ) {
 			//see if there's useful info in the body
 			$body = json_decode( $response['body'] );
@@ -77,11 +77,11 @@ class WPStrava_API {
 				$error = print_r( $response, true );
 
 			return new WP_Error( 'wp-strava_get',
-								 sprintf( __( 'ERROR %s %s - %s', 'wp-strava'), $response['response']['code'], $response['response']['message'], $error ),
+								 sprintf( __( 'ERROR %s %s - %s', 'wp-strava' ), $response['response']['code'], $response['response']['message'], $error ),
 								 $response );
 		}
 
 		return json_decode( $response['body'] );
 	}
-	
-} // class API
+
+} // Class API.

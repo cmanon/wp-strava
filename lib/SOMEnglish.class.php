@@ -23,7 +23,7 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	}
 
 	/**
-	 * @param string $mps 
+	 * @param string $mps
 	 * @return string mph
 	 */
 	public function speed( $mps ) {
@@ -45,4 +45,4 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	public function get_elevation_label() {
 		return __( 'ft.', 'wp-strava' );
 	}
-}	
+}

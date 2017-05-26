@@ -9,34 +9,34 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		parent::__construct(
 	 		false,
-			'Strava Latest Map', // Name
-			array( 'description' => __( 'Strava latest ride using static google map image', 'wp-strava' ), ) // Args
+			__( 'Strava Latest Map', 'wp-strava' ), // Name
+			array( 'description' => __( 'Strava latest ride using static google map image', 'wp-strava' ) ) // Args.
 		);
 	}
 
 	public function form( $instance ) {
 		// outputs the options form on admin
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activity', 'wp-strava' );
-        $distance_min = isset( $instance['distance_min'] ) ? esc_attr( $instance['distance_min'] ) : '';
+		$distance_min = isset( $instance['distance_min'] ) ? esc_attr( $instance['distance_min'] ) : '';
 		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';
 
 		//provide some defaults
-        //$ride_index_params = $ride_index_params ?: 'athleteId=21';
+		//$ride_index_params = $ride_index_params ?: 'athleteId=21';
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wp-strava' ); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
 		</p>
-        <p>
+		<p>
 			<label for="<?php echo $this->get_field_id( 'distance_min' ); ?>"><?php echo sprintf( __( 'Min. Distance (%s):', 'wp-strava' ), $this->som->get_distance_label() ); ?></label> 
-        	<input class="widefat" id="<?php echo $this->get_field_id( 'distance_min' ); ?>" name="<?php echo $this->get_field_name( 'distance_min' ); ?>" type="text" value="<?php echo $distance_min; ?>" />
-        </p>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'distance_min' ); ?>" name="<?php echo $this->get_field_name( 'distance_min' ); ?>" type="text" value="<?php echo $distance_min; ?>" />
+		</p>
 			<p>
-				<label for="<?php echo $this->get_field_id('strava_club_id'); ?>"><?php _e('Club ID (leave blank to show Athlete):'); ?></label> 
-				<input class="widefat" id="<?php echo $this->get_field_id('strava_club_id'); ?>" name="<?php echo $this->get_field_name('strava_club_id'); ?>" type="text" value="<?php echo $strava_club_id; ?>" />
+				<label for="<?php echo $this->get_field_id( 'strava_club_id' ); ?>"><?php _e( 'Club ID (leave blank to show Athlete):', 'wp-strava' ); ?></label> 
+				<input class="widefat" id="<?php echo $this->get_field_id( 'strava_club_id' ); ?>" name="<?php echo $this->get_field_name( 'strava_club_id' ); ?>" type="text" value="<?php echo $strava_club_id; ?>" />
 			</p>
-        <?php
+		<?php
 	}
 
 	public function update( $new_instance, $old_instance ) {
@@ -45,7 +45,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['strava_club_id'] = strip_tags( $new_instance['strava_club_id'] );
 		$instance['distance_min'] = strip_tags( $new_instance['distance_min'] );
-        return $instance;
+		return $instance;
 	}
 
 	public function widget( $args, $instance ) {
@@ -53,7 +53,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activity', 'wp-strava' ) : $instance['title'] );
 		$distance_min = $instance['distance_min'];
-		$strava_club_id = empty( $instance['strava_club_id'] ) ? NULL : $instance['strava_club_id'];
+		$strava_club_id = empty( $instance['strava_club_id'] ) ? null : $instance['strava_club_id'];
 		$build_new = false;
 
 		// Try our transient first.

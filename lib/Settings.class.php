@@ -170,15 +170,15 @@ class WPStrava_Settings {
 	}
 
 	public function print_client_input() {
-		?><input type="text" id="strava_client_id" name="strava_client_id" value="<?php echo get_option('strava_client_id'); ?>" /><?php
+		?><input type="text" id="strava_client_id" name="strava_client_id" value="<?php echo get_option( 'strava_client_id' ); ?>" /><?php
 	}
 
 	public function print_secret_input() {
-		?><input type="text" id="strava_client_secret" name="strava_client_secret" value="<?php echo get_option('strava_client_secret'); ?>" /><?php
+		?><input type="text" id="strava_client_secret" name="strava_client_secret" value="<?php echo get_option( 'strava_client_secret' ); ?>" /><?php
 	}
 
 	public function print_token_input() {
-		?><input type="text" id="strava_token" name="strava_token" value="<?php echo get_option('strava_token'); ?>" /><?php
+		?><input type="text" id="strava_token" name="strava_token" value="<?php echo get_option( 'strava_token' ); ?>" /><?php
 	}
 
 	public function sanitize_client_id( $client_id ) {
@@ -207,8 +207,8 @@ class WPStrava_Settings {
 			$data = array( 'client_id' => $client_id, 'client_secret' => $client_secret, 'code' => $code );
 			$strava_info = WPStrava::get_instance()->api->post( 'oauth/token', $data );
 
-			if( $strava_info ) {
-				if( isset( $strava_info->access_token ) ) {
+			if ( $strava_info ) {
+				if ( isset( $strava_info->access_token ) ) {
 					$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
 					return $strava_info->access_token;
 				} else {
@@ -266,8 +266,8 @@ class WPStrava_Settings {
 	}
 
 	public function settings_link( $links ) {
-		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings' ) . '</a>';
-		$links[] =  $settings_link;
+		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings', 'wp-strava' ) . '</a>';
+		$links[] = $settings_link;
 		return $links;
 	}
 

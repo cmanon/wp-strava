@@ -3,4 +3,4 @@
 	../wp-strava.php \
 	../readme.txt
 
-msgfmt -o es_ES.mo messages.es_ES.po
+msgfmt -o wp-strava-es_ES.mo wp-strava-es_ES.po

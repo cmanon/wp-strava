@@ -2,16 +2,18 @@
 /*
  * Plugin Name: WP Strava
  * Plugin URI: http://cmanon.com
- * Description: Plugin to show your strava.com information in your wordpress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.  
- * Version: 1.1
- * Author: Carlos Santa Cruz, Justin Foell, Lance Willet 
+ * Description: Plugin to show your strava.com information in your wordpress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.
+ * Version: 1.2
+ * Author: Carlos Santa Cruz, Justin Foell, Lance Willet
  * License: GPL2
+ * Text Domain: wp-strava
+ * Domain Path: /lang
  */
 
-/*  Copyright 2011  Carlos Santa Cruz  (email : cmanon at gmail dot com)
+/*  Copyright 2017  Carlos Santa Cruz  (email : cmanon at gmail dot com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
+    it under the terms of the GNU General Public License, version 2, as
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
@@ -25,15 +27,16 @@
 */
 
 
-define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__) ) );
+define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 define( 'WPSTRAVA_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
-define( 'WPSTRAVA_PLUGIN_NAME', plugin_basename(__FILE__) );
+define( 'WPSTRAVA_PLUGIN_NAME', plugin_basename( __FILE__ ) );
 if ( ! defined( 'WPSTRAVA_DEBUG' ) ) define( 'WPSTRAVA_DEBUG', false );
 
 // Load the multilingual support.
-if( file_exists( WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' ) ) {
-	load_textdomain( 'wp-strava', WPSTRAVA_PLUGIN_DIR . 'lang/' . get_locale() . '.mo' );
+function wp_strava_load_plugin_textdomain() {
+	load_plugin_textdomain( 'wp-strava', false, WPSTRAVA_PLUGIN_DIR . 'lang/' );
 }
+add_action( 'plugins_loaded', 'wp_strava_load_plugin_textdomain' );
 
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/Strava.class.php';
 $wpstrava = WPStrava::get_instance();
