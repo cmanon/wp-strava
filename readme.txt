@@ -3,7 +3,7 @@ Contributors: cmanon, jrfoell, lancewillett
 Tags: strava, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 4.7
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 
 Show your Strava activity on your WordPress site.
@@ -32,7 +32,7 @@ latest map to activities of a certain minimum distance
 
 == Changelog ==
 
-= 1.2 =
+= 1.1.1 =
 Changes to better support translations through https://translate.wordpress.org
 Cleaned up formatting
 
