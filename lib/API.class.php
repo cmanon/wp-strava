@@ -9,7 +9,7 @@ class WPStrava_API {
 	//const STRAVA_V2_API = 'http://www.strava.com/api/v2/'; //rides/:ride_id/map_details
 	const STRAVA_V3_API = 'https://www.strava.com/api/v3/';
 
-	public function __construct( $access_token ) {
+	public function __construct( $access_token = null ) {
 		$this->access_token = $access_token;
 	}
 
@@ -19,10 +19,12 @@ class WPStrava_API {
 		$args = array(
 			'body' => http_build_query( $data ),
 			'sslverify' => false,
-			'headers' => array(
-				'Authorization' => 'Bearer ' . $this->access_token,
-			)
+			'headers' => array(),
 		);
+
+		if ( $this->access_token ) {
+			$args['headers']['Authorization'] = 'Bearer ' . $this->access_token;
+		}
 
 		$response = wp_remote_post( $url . $uri, $args );
 
@@ -55,10 +57,11 @@ class WPStrava_API {
 			$url = add_query_arg( $args, $url );
 
 		$get_args = array(
-			'headers' => array(
-				'Authorization' => 'Bearer ' . $this->access_token,
-			)
+			'headers' => array(),
 		);
+		if ( $this->access_token ) {
+			$get_args['headers']['Authorization'] = 'Bearer ' . $this->access_token;
+		}
 
 		$response = wp_remote_get( $url, $get_args );
 
