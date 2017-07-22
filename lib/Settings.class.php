@@ -15,6 +15,7 @@ class WPStrava_Settings {
 	private $tokens = array();
 	private $page_name = 'wp-strava-options';
 	private $option_page = 'wp-strava-settings-group';
+	private $adding_athlete = true;
 
 	//register admin menus
 	public function hook() {
@@ -69,6 +70,9 @@ class WPStrava_Settings {
 
 	public function init() {
 		$this->tokens = $this->get_tokens();
+
+		// Only validate additional athlete information if all fields are present.
+		$this->adding_athlete = ! ( empty( $_POST['strava_client_id'] ) && empty( $_POST['strava_client_secret'] ) );
 
 		//only update when redirected back from strava
 		if ( ! isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] == $this->page_name ) {
@@ -199,7 +203,7 @@ class WPStrava_Settings {
 		foreach ( $this->get_tokens() as $index => $token ) {
 			?>
 			<input type="text" name="strava_token[]" value="<?php echo $token; ?>" />
-			<?php if ( ! empty( $nicknames[ $index ] ) ) : ?>
+			<?php if ( isset( $nicknames[ $index ] ) ) : ?>
 				<input type="text" name="strava_nickname[]" value="<?php echo $nicknames[ $index ]; ?>" />
 			<?php endif; ?>
 			<br/>
@@ -208,6 +212,11 @@ class WPStrava_Settings {
 	}
 
 	public function sanitize_client_id( $client_id ) {
+		// Return early if not trying to add an additional athlete.
+		if ( ! $this->adding_athlete ) {
+			return $client_id;
+		}
+
 		if ( ! is_numeric( $client_id ) ) {
 			add_settings_error( 'strava_client_id', 'strava_client_id', __( 'Client ID must be a number.', 'wp-strava' ) );
 		}
@@ -215,6 +224,11 @@ class WPStrava_Settings {
 	}
 
 	public function sanitize_client_secret( $client_secret ) {
+		// Return early if not trying to add an additional athlete.
+		if ( ! $this->adding_athlete ) {
+			return $client_secret;
+		}
+
 		if ( '' == trim( $client_secret ) ) {
 			add_settings_error( 'strava_client_secret', 'strava_client_secret', __( 'Client Secret is required.', 'wp-strava' ) );
 		}
@@ -222,7 +236,21 @@ class WPStrava_Settings {
 	}
 
 	public function sanitize_nickname( $nicknames ) {
-		foreach ( $nicknames as $nickname ) {
+		$second2last = $last = false;
+		if ( ! $this->adding_athlete ) {
+			// Reemove last (blank) entry if not trying to add an additional athlete.
+			$last = array_pop( $nicknames );
+			$second2last = end( $nicknames );
+
+			$token_index = count( $nicknames ) - 1;
+			if ( $last === '' && $second2last === '' &&
+			     empty( $_POST['strava_token'][ $token_index ] ) ) {
+				// Remove one more
+				array_pop( $nicknames );
+			}
+		}
+
+		foreach ( $nicknames as $index => $nickname ) {
 			if ( '' == trim( $nickname ) ) {
 				add_settings_error( 'strava_nickname', 'strava_nickname', __( 'Nickname is required.', 'wp-strava' ) );
 				return $nicknames;
