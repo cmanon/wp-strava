@@ -3,7 +3,7 @@
  * Plugin Name: WP Strava
  * Plugin URI: https://wordpress.org/plugins/wp-strava/
  * Description: Plugin to show your strava.com information in your wordpress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.
- * Version: 1.1.1
+ * Version: 1.2.0-beta1
  * Author: Carlos Santa Cruz, Justin Foell, Lance Willet
  * License: GPL2
  * Text Domain: wp-strava

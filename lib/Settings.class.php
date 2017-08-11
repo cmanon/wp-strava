@@ -77,7 +77,7 @@ class WPStrava_Settings {
 		//only update when redirected back from strava
 		if ( ! isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] == $this->page_name ) {
 			if ( isset( $_GET['code'] ) ) {
-				$token = $this->get_token( $_GET['code'] );
+				$token = $this->fetch_token( $_GET['code'] );
 				if ( $token ) {
 					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ) , 'updated' );
 					$this->add_token( $token );
@@ -194,18 +194,15 @@ class WPStrava_Settings {
 	}
 
 	public function print_nickname_input() {
-		$nickname = $this->tokens_empty( $this->tokens ) ? __( 'default', 'wp-strava' ) : '';
+		$nickname = $this->tokens_empty( $this->tokens ) ? __( 'Default', 'wp-strava' ) : '';
 		?><input type="text" name="strava_nickname[]" value="<?php echo $nickname; ?>" /><?php
 	}
 
 	public function print_token_input() {
-		$nicknames = $this->nickname;
-		foreach ( $this->get_tokens() as $index => $token ) {
+		foreach ( $this->get_all_tokens() as $token => $nickname ) {
 			?>
 			<input type="text" name="strava_token[]" value="<?php echo $token; ?>" />
-			<?php if ( isset( $nicknames[ $index ] ) ) : ?>
-				<input type="text" name="strava_nickname[]" value="<?php echo $nicknames[ $index ]; ?>" />
-			<?php endif; ?>
+			<input type="text" name="strava_nickname[]" value="<?php echo $nickname; ?>" />
 			<br/>
 			<?php
 		}
@@ -238,14 +235,14 @@ class WPStrava_Settings {
 	public function sanitize_nickname( $nicknames ) {
 		$second2last = $last = false;
 		if ( ! $this->adding_athlete ) {
-			// Reemove last (blank) entry if not trying to add an additional athlete.
-			$last = array_pop( $nicknames );
-			$second2last = end( $nicknames );
+
+			$last = end( $nicknames );
+			$second2last = prev( $nicknames );
 
 			$token_index = count( $nicknames ) - 1;
-			if ( $last === '' && $second2last === '' &&
+			if ( $last === '' && $second2last !== '' &&
 			     empty( $_POST['strava_token'][ $token_index ] ) ) {
-				// Remove one more
+				// Remove last (blank) entry if not trying to add an additional athlete.
 				array_pop( $nicknames );
 			}
 		}
@@ -263,7 +260,7 @@ class WPStrava_Settings {
 		return $token;
 	}
 
-	private function get_token( $code ) {
+	private function fetch_token( $code ) {
 		$client_id = $this->client_id;
 		$client_secret = $this->client_secret;
 
@@ -322,10 +319,17 @@ class WPStrava_Settings {
 
 	public function sanitize_cache_clear( $checked ) {
 		if ( 'on' === $checked ) {
-			// Clear these values:
+			// Clear these (pre 1.2.0) values:
 			delete_transient( 'strava_latest_map_ride' );
 			delete_option( 'strava_latest_map_ride' );
 			delete_option( 'strava_latest_map' );
+
+			// Remove activity transients and options.
+			foreach ( $this->get_tokens() as $token ) {
+				delete_transient( 'strava_latest_map_activity_' . $token );
+				delete_option( 'strava_latest_map_activity_' . $token );
+				delete_option( 'strava_latest_map_' . $token );
+			}
 		}
 		return null;
 	}
@@ -335,7 +339,7 @@ class WPStrava_Settings {
 	 *
 	 * @return array
 	 * @author Justin Foell
-	 * @since  NEXT
+	 * @since  1.2.0
 	 */
 	public function get_tokens() {
 		$tokens = get_option( 'strava_token' );
@@ -353,10 +357,59 @@ class WPStrava_Settings {
 	}
 
 	/**
+	 * Returns first (default) token saved.
+	 *
+	 * @return string|null
+	 * @author Justin Foell
+	 * @since  1.2.0
+	 */
+	public function get_default_token() {
+		$tokens = $this->get_tokens();
+		return isset( $tokens[0] ) ? $tokens[0] : null;
+	}
+
+	/**
+	 * Get all tokens and their nicknames in one array.
+	 *
+	 * @return void
+	 * @author Justin Foell
+	 * @since  1.2.0
+	 */
+	public function get_all_tokens() {
+		$tokens = $this->get_tokens();
+		$nicknames = $this->nickname;
+		$all = array();
+		$number = 1;
+		foreach ( $tokens as $index => $token ) {
+			if ( ! empty( $nicknames[ $index ] ) ) {
+				$all[ $token ] = $nicknames[ $index ];
+			} else {
+				$all[ $token ] = $this->get_default_nickname( $number );
+			}
+			$number++;
+		}
+		return $all;
+	}
+
+	/**
+	 * Returns default nickname 'Default' / 'Athlete n'.
+	 *
+	 * @author Justin Foell
+	 * @since  1.2.0
+	 *
+	 * @param integer $number
+	 * @return string
+	 */
+	private function get_default_nickname( $number = 1 ) {
+		// Translators: Athelete number if no nickname present.
+		return ( 1 == $number ) ? __( 'Default', 'wp-strava' ) : sprintf( __( 'Athlete %s', 'wp-strava' ), $number );
+	}
+
+	/**
 	 * Checks for valid tokens.
 	 *
 	 * @author Justin Foell
-	 * @since  NEXT
+	 * @since  1.2.0
 	 *
 	 * @param  string|array Single token or array of tokens.
 	 * @return boolean True if empty.
@@ -383,7 +436,7 @@ class WPStrava_Settings {
 	 * @param string $token
 	 *
 	 * @author Justin Foell
-	 * @since  NEXT
+	 * @since  1.2.0
 	 */
 	public function add_token( $token ) {
 		if ( false === array_search( $token, $this->tokens ) ) {

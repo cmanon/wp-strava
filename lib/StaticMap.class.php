@@ -27,7 +27,7 @@ class WPStrava_StaticMap {
 
 		if ( ! empty( $ride->map->polyline ) && ( $url_len + strlen( $ride->map->polyline ) < $max_chars ) ) {
 			$url .= $ride->map->polyline;
-		} else {
+		} elseif ( ! empty( $ride->map->summary_polyline ) ) {
 			$url .= $ride->map->summary_polyline;
 		}
 

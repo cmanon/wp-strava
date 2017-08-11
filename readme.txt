@@ -32,6 +32,9 @@ latest map to activities of a certain minimum distance
 
 == Changelog ==
 
+= 1.2.0 =
+Added multi-athlete configuration
+
 = 1.1.1 =
 Changes to better support translations through https://translate.wordpress.org
 Cleaned up formatting

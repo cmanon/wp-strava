@@ -49,13 +49,17 @@ class WPStrava {
 		return null;
 	}
 
-	public function get_api( $id = '0' ) {
-		if ( ! $this->api[$id] ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
-			$this->api[$id] = new WPStrava_API( $this->settings->get_setting( 'strava_token', $id ) );
+	public function get_api( $token = null ) {
+		if ( ! $token ) {
+			$token = $this->settings->get_default_token();
 		}
 
-		return $this->api[$id];
+		if ( empty( $this->api[ $token ] ) ) {
+			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
+			$this->api[$token] = new WPStrava_API( $token );
+		}
+
+		return $this->api[$token];
 	}
 
 	public function get_rides() {
