@@ -1,6 +1,6 @@
 <?php
 
-class WPStrava_RideShortcode {
+class WPStrava_ActivityShortcode {
 	private static $add_script;
 
 	public static function init() {
@@ -15,22 +15,23 @@ class WPStrava_RideShortcode {
 		self::$add_script = true;
 
 		$defaults = array(
-			'id' => 0,
-			'som' => WPStrava::get_instance()->settings->som,
-			'map_width' => '480',
-			'map_height' => '320',
+			'id'            => 0,
+			'som'           => WPStrava::get_instance()->settings->som,
+			'map_width'     => '480',
+			'map_height'    => '320',
+			'athlete_token' => WPStrava::get_instance()->settings->get_default_token(),
 		);
 
 		extract( shortcode_atts( $defaults, $atts ) );
 
 		$strava_som = WPStrava_SOM::get_som( $som );
-		$strava_ride = WPStrava::get_instance()->rides;
-		$ride_details = $strava_ride->getRide( $id );
+		$activity = WPStrava::get_instance()->rides;
+		$ride_details = $activity->getRide( $athlete_token, $id );
 
 		//sanitize width & height
-		$map_width = str_replace( '%', '', $map_width );
+		$map_width  = str_replace( '%', '', $map_width );
 		$map_height = str_replace( '%', '', $map_height );
-		$map_width = str_replace( 'px', '', $map_width );
+		$map_width  = str_replace( 'px', '', $map_width );
 		$map_height = str_replace( 'px', '', $map_height );
 
 		if ( $ride_details ) {
@@ -82,4 +83,4 @@ class WPStrava_RideShortcode {
 }
 
 // Initialize short code
-WPStrava_RideShortcode::init();
+WPStrava_ActivityShortcode::init();

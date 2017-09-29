@@ -4,7 +4,7 @@ require_once WPSTRAVA_PLUGIN_DIR . 'lib/Settings.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOM.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestRidesWidget.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestMapWidget.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/RideShortcode.class.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'lib/ActivityShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/StaticMap.class.php';
 
 class WPStrava {
