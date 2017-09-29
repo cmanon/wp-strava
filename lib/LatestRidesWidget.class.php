@@ -7,7 +7,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 
 	public function __construct() {
 		$widget_ops = array( 'classname' => 'LatestRidesWidget', 'description' => __( 'Will publish your latest rides activity from strava.com.', 'wp-strava' ) );
-		parent::__construct( 'wp-strava', $name = __( 'Strava Latest Rides', 'wp-strava' ), $widget_ops );
+		parent::__construct( 'wp-strava', $name = __( 'Strava Latest Activity List', 'wp-strava' ), $widget_ops );
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
 	}
 
@@ -22,7 +22,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 		extract( $args );
 
 		//$widget_id = $args['widget_id'];
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Rides', 'wp-strava' ) : $instance['title'] );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Activity', 'wp-strava' ) : $instance['title'] );
 		$athlete_token = isset( $instance['athlete_token'] ) ? $instance['athlete_token'] : WPStrava::get_instance()->settings->get_default_token();
 		$strava_club_id = empty( $instance['strava_club_id'] ) ? '' : $instance['strava_club_id'];
 		$quantity = empty( $instance['quantity'] ) ? '5' : $instance['quantity'];
@@ -48,7 +48,7 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 
 	/** @see WP_Widget::form */
 	public function form( $instance ) {
-		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Rides', 'wp-strava' );
+		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Activity', 'wp-strava' );
 		$all_tokens = WPStrava::get_instance()->settings->get_all_tokens();
 		$athlete_token = isset( $instance['athlete_token'] ) ? esc_attr( $instance['athlete_token'] ) : WPStrava::get_instance()->settings->get_default_token();
 		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';

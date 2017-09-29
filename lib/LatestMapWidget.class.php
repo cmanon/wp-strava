@@ -10,13 +10,13 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		parent::__construct(
 	 		false,
 			__( 'Strava Latest Map', 'wp-strava' ), // Name
-			array( 'description' => __( 'Strava latest ride using static google map image', 'wp-strava' ) ) // Args.
+			array( 'description' => __( 'Strava latest activity using static google map image', 'wp-strava' ) ) // Args.
 		);
 	}
 
 	public function form( $instance ) {
 		// outputs the options form on admin
-		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activity', 'wp-strava' );
+		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activity Map', 'wp-strava' );
 		$all_tokens = WPStrava::get_instance()->settings->get_all_tokens();
 		$athlete_token = isset( $instance['athlete_token'] ) ? esc_attr( $instance['athlete_token'] ) : WPStrava::get_instance()->settings->get_default_token();
 		$distance_min = isset( $instance['distance_min'] ) ? esc_attr( $instance['distance_min'] ) : '';
@@ -62,7 +62,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		extract( $args );
 
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activity', 'wp-strava' ) : $instance['title'] );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activity Map', 'wp-strava' ) : $instance['title'] );
 		$athlete_token = isset( $instance['athlete_token'] ) ? $instance['athlete_token'] : WPStrava::get_instance()->settings->get_default_token();
 		$distance_min = $instance['distance_min'];
 		$strava_club_id = empty( $instance['strava_club_id'] ) ? null : $instance['strava_club_id'];

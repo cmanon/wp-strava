@@ -138,6 +138,7 @@ class WPStrava_Settings {
 	public function print_api_instructions() {
 		$signup_url = 'http://www.strava.com/developers';
 		$settings_url = 'https://www.strava.com/settings/api';
+		$icon_url = 'https://plugins.svn.wordpress.org/wp-strava/assets/icon-128x128.png';
 		$blog_name = get_bloginfo( 'name' );
 		$app_name = sprintf( esc_html( '%s Strava', 'wp-strava' ), $blog_name );
 		$site_url = site_url();
@@ -146,15 +147,26 @@ class WPStrava_Settings {
 			<ol>
 				<li>Create your free API Application/Connection here: <a href='%1\$s' target='_blank'>%2\$s</a> using the following information:</li>
 				<ul>
-					<li>Application Name: <strong>%3\$s</strong></li>
-					<li>Website: <strong>%4\$s</strong></li>
-					<li>Application Description: <strong>%5\$s</strong></li>
-					<li>Authorization Callback Domain: <strong>%6\$s</strong></li>
+					<li>App Icon: <strong>upload <a href='%3\$s' target='_blank'>this image</a></strong></li>
+					<li>Application Name: <strong>%4\$s</strong></li>
+					<li>Category: OK to leave at default 'other'</li>
+					<li>Club: OK to leave blank</li>
+					<li>Website: <strong>%5\$s</strong></li>
+					<li>Application Description: <strong>%6\$s</strong></li>
+					<li>Authorization Callback Domain: <strong>%7\$s</strong></li>
 				</ul>
 				<li>Once you've created your API Application at strava.com, enter the <strong>Client ID</strong> and <strong>Client Secret</strong> below, which can now be found on that same strava API Settings page.
 				<li>After saving your Client ID and Secret, you'll be redirected to strava to authorize your API Application. If successful, your Strava Token will display instead of Client ID and Client Secret.</li>
 				<li>If you need to re-authorize your API Application, erase your Strava Token here and click 'Save Changes' to start over.</li>
-			</ol>", 'wp-strava' ), $settings_url, $settings_url, $app_name, $site_url, $description, $site_url );
+			</ol>", 'wp-strava' ),
+			$settings_url,
+			$settings_url,
+			$icon_url,
+			$app_name,
+			$site_url,
+			$description,
+			wp_parse_url( $site_url, PHP_URL_HOST )
+		);
 	}
 
 	public function print_gmaps_instructions() {
