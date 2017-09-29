@@ -72,7 +72,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		$ride_transient = get_transient( 'strava_latest_map_activity_' . $athlete_token );
 		$ride_option = get_option( 'strava_latest_map_activity_' . $athlete_token );
 
-		$ride = $ride_transient ?: null;
+		$ride = $ride_transient ? $ride_transient : null;
 
 		if ( ! $ride ) {
 			$strava_rides = WPStrava::get_instance()->rides;
