@@ -43,7 +43,7 @@ class WPStrava_API {
 			return new WP_Error(
 				'wp-strava_post',
 				// translators: message shown when there's a problem with ab HTTP POST to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\' true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\', true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
 				$error
 			);
 		}
@@ -86,7 +86,7 @@ class WPStrava_API {
 			return new WP_Error(
 				'wp-strava_get',
 				// translators: message shown when there's a problem with an HTTP GET to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\' true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\', true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
 				$error
 			);
 		}
