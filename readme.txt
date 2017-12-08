@@ -2,8 +2,8 @@
 Contributors: cmanon, jrfoell, lancewillett
 Tags: strava, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
-Tested up to: 4.7
-Stable tag: 1.1.1
+Tested up to: 4.9
+Stable tag: 1.2.0
 License: GPLv2 or later
 
 Show your Strava activity on your WordPress site.
@@ -37,6 +37,8 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 Added multi-athlete configuration.
 Additional transitions from Ride -> Activity.
 Updated setup instructions to reflect latest Strava API set up process.
+Backwards Compatibility - removed PHP 5.3+ specific operator (should work with PHP 5.2 now - versions 1.1 and 1.1.1 don't).
+Reworked error reporting and formatting.
 
 = 1.1.1 =
 Changes to better support translations through https://translate.wordpress.org.

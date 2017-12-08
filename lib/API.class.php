@@ -40,9 +40,12 @@ class WPStrava_API {
 			else
 				$error = print_r( $response, true );
 
-			return new WP_Error( 'wp-strava_post',
-								 sprintf( __( 'ERROR %s %s - %s', 'wp-strava'), $response['response']['code'], $response['response']['message'], $error ),
-								 $response );
+			return new WP_Error(
+				'wp-strava_post',
+				// translators: message shown when there's a problem with ab HTTP POST to the Strava API.
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\' true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				$error
+			);
 		}
 
 		return json_decode( $response['body'] );
@@ -53,8 +56,9 @@ class WPStrava_API {
 
 		$url .= $uri;
 
-		if ( ! empty( $args ) )
+		if ( ! empty( $args ) ) {
 			$url = add_query_arg( $args, $url );
+		}
 
 		$get_args = array(
 			'headers' => array(),
@@ -79,9 +83,12 @@ class WPStrava_API {
 			else
 				$error = print_r( $response, true );
 
-			return new WP_Error( 'wp-strava_get',
-								 sprintf( __( 'ERROR %s %s - %s', 'wp-strava' ), $response['response']['code'], $response['response']['message'], $error ),
-								 $response );
+			return new WP_Error(
+				'wp-strava_get',
+				// translators: message shown when there's a problem with an HTTP GET to the Strava API.
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\' true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				$error
+			);
 		}
 
 		return json_decode( $response['body'] );

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * v3 - http://strava.github.io/api/v3/oauth/
+ * V3 - http://strava.github.io/api/v3/oauth/
  *
  * Set up an "API Application" at Strava
  * Save the Client ID and Client Secret in WordPress - redirect to strava oauth/authorize URL for permission
@@ -61,11 +61,13 @@ class WPStrava_Settings {
 	}
 
 	public function add_strava_menu() {
-		add_options_page( __( 'Strava Settings', 'wp-strava' ),
-						  __( 'Strava', 'wp-strava' ),
-						  'manage_options',
-						  $this->page_name,
-						  array( $this, 'print_strava_options' ) );
+		add_options_page(
+			__( 'Strava Settings', 'wp-strava' ),
+			__( 'Strava', 'wp-strava' ),
+			'manage_options',
+			$this->page_name,
+			array( $this, 'print_strava_options' )
+		);
 	}
 
 	public function init() {
@@ -143,7 +145,7 @@ class WPStrava_Settings {
 		$app_name = sprintf( esc_html( '%s Strava', 'wp-strava' ), $blog_name );
 		$site_url = site_url();
 		$description = 'WP-Strava for ' . $blog_name;
-	   	printf( __( "<p>Steps:</p>
+		printf( __( "<p>Steps:</p>
 			<ol>
 				<li>Create your free API Application/Connection here: <a href='%1\$s' target='_blank'>%2\$s</a> using the following information:</li>
 				<ul>
@@ -171,7 +173,7 @@ class WPStrava_Settings {
 
 	public function print_gmaps_instructions() {
 		$maps_url = 'https://developers.google.com/maps/documentation/static-maps/';
-	   	printf( __( "<p>Steps:</p>
+		printf( __( "<p>Steps:</p>
 			<ol>
 				<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s' target='_blank'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
 				<li>Once you've created your Google Static Maps API Key, enter the key below.
@@ -184,7 +186,7 @@ class WPStrava_Settings {
 		<div class="wrap">
 			<div id="icon-options-general" class="icon32"><br/></div>
 			<h2><?php esc_html_e( 'Strava Settings', 'wp-strava' ); ?></h2>
-					
+
 			<form method="post" action="<?php echo admin_url( 'options.php' ); ?>">
 				<?php settings_fields( $this->option_page ); ?>
 				<?php do_settings_sections( 'wp-strava' ); ?>
@@ -245,18 +247,21 @@ class WPStrava_Settings {
 	}
 
 	public function sanitize_nickname( $nicknames ) {
-		$second2last = $last = false;
 		if ( ! $this->adding_athlete ) {
 
-			$last = end( $nicknames );
-			$second2last = prev( $nicknames );
+			// Chop $nicknames to same size as tokens.
+			$nicknames = array_slice( $nicknames, 0, count( $_POST['strava_token'] ) );
 
-			$token_index = count( $nicknames ) - 1;
-			if ( $last === '' && $second2last !== '' &&
-			     empty( $_POST['strava_token'][ $token_index ] ) ) {
-				// Remove last (blank) entry if not trying to add an additional athlete.
-				array_pop( $nicknames );
+			// Remove indexes from $nicknames that have empty tokens.
+			foreach( $_POST['strava_token'] as $index => $token ) {
+				$token = trim( $token );
+				if ( empty( $token ) ) {
+					unset( $nicknames[ $index ] );
+				}
 			}
+
+			// Process $nicknames so indexes start with zero.
+			$nicknames = array_merge( $nicknames, array() );
 		}
 
 		foreach ( $nicknames as $index => $nickname ) {
@@ -409,7 +414,7 @@ class WPStrava_Settings {
 	 * @author Justin Foell
 	 * @since  1.2.0
 	 *
-	 * @param integer $number
+	 * @param integer $number Athlete number (default 1).
 	 * @return string
 	 */
 	private function get_default_nickname( $number = 1 ) {

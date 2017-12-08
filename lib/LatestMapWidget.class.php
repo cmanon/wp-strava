@@ -64,7 +64,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activity Map', 'wp-strava' ) : $instance['title'] );
 		$athlete_token = isset( $instance['athlete_token'] ) ? $instance['athlete_token'] : WPStrava::get_instance()->settings->get_default_token();
-		$distance_min = $instance['distance_min'];
+		$distance_min = empty( $instance['distance_min'] ) ? 0 : absint( $instance['distance_min'] );
 		$strava_club_id = empty( $instance['strava_club_id'] ) ? null : $instance['strava_club_id'];
 		$build_new = false;
 
@@ -80,6 +80,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 			if ( is_wp_error( $rides ) ) {
 				echo $before_widget;
+				if ( $title ) echo $before_title . $title . $after_title;
 				if ( WPSTRAVA_DEBUG ) {
 					echo '<pre>';
 					print_r($rides);
