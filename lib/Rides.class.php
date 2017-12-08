@@ -7,12 +7,30 @@ class WPStrava_Rides {
 	const RIDES_URL = 'http://app.strava.com/rides/';
 	const ATHLETES_URL = 'http://app.strava.com/athletes/';
 
-	public function getRide( $rideId ) {
-		return WPStrava::get_instance()->api->get( "activities/{$rideId}" );
+	/**
+	 * Get single activity by ID.
+	 *
+	 * @param string $athlete_token Token of athlete to retrieve for
+	 * @param int    $activity_id ID of activity to retrieve.
+	 * @return object  stdClass representing this activty.
+	 * @author Justin Foell
+	 */
+	public function getRide( $athlete_token, $activity_id ) {
+		return WPStrava::get_instance()->get_api( $athlete_token )->get( "activities/{$activity_id}" );
 	} // getRideDetails
 
-	public function getRides( $club_id = null, $quantity = null ) {
-		$api = WPStrava::get_instance()->api;
+	/**
+	 * Get activity list from Strava API.
+	 *
+	 * @author Justin Foell
+	 *
+	 * @param string   $athlete_token Token of athlete to retrieve for
+	 * @param int      $club_id       Club ID of all club riders (optional).
+	 * @param int|null $quantity      Number of records to retrieve (optional).
+	 * @return array|WP_Error Array of rides or WP_Error.
+	 */
+	public function getRides( $athlete_token, $club_id = null, $quantity = null ) {
+		$api = WPStrava::get_instance()->get_api( $athlete_token );
 
 		$data = null;
 
@@ -25,11 +43,13 @@ class WPStrava_Rides {
 			$data = $api->get( 'athlete/activities', $args );
 		}
 
-		if ( is_wp_error( $data ) )
+		if ( is_wp_error( $data ) ) {
 			return $data;
+		}
 
-		if ( is_array( $data ) )
+		if ( is_array( $data ) ) {
 			return $data;
+		}
 
 		return array();
 

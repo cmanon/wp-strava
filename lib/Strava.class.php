@@ -4,14 +4,14 @@ require_once WPSTRAVA_PLUGIN_DIR . 'lib/Settings.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOM.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestRidesWidget.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestMapWidget.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/RideShortcode.class.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'lib/ActivityShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/StaticMap.class.php';
 
 class WPStrava {
 
 	private static $instance = null;
 	private $settings = null;
-	private $api = null;
+	private $api = array(); // Holds an array of APIs.
 	private $rides = null;
 
 	private function __construct() {
@@ -38,10 +38,6 @@ class WPStrava {
 
 	public function __get( $name ) {
 		// On-demand classes.
-		if ( $name == 'api' ) {
-			return $this->get_api();
-		}
-
 		if ( $name == 'rides' ) {
 			return $this->get_rides();
 		}
@@ -53,13 +49,17 @@ class WPStrava {
 		return null;
 	}
 
-	public function get_api() {
-		if ( ! $this->api ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
-			$this->api = new WPStrava_API( get_option( 'strava_token' ) );
+	public function get_api( $token = null ) {
+		if ( ! $token ) {
+			$token = $this->settings->get_default_token();
 		}
 
-		return $this->api;
+		if ( empty( $this->api[ $token ] ) ) {
+			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
+			$this->api[$token] = new WPStrava_API( $token );
+		}
+
+		return $this->api[$token];
 	}
 
 	public function get_rides() {
