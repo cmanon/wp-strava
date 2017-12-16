@@ -25,6 +25,10 @@ Also takes the following optional parameters:
 
 [ride] is an alias for [activity] and will accept the same parameters (kept for backwards compatibility).
 
+[route id=NUMBER] - add to any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
+
+This also takes the same optional parameters as the activity shortcode above.
+
 = Widgets =
 
 Strava Latest Activity List - shows a list of the last few activities.

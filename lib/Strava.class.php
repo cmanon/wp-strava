@@ -5,6 +5,7 @@ require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOM.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestRidesWidget.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestMapWidget.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/ActivityShortcode.class.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'lib/RouteShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/StaticMap.class.php';
 
 class WPStrava {
@@ -13,6 +14,7 @@ class WPStrava {
 	private $settings = null;
 	private $api = array(); // Holds an array of APIs.
 	private $rides = null;
+	private $routes = null;
 
 	private function __construct() {
 		$this->settings = new WPStrava_Settings();
@@ -40,7 +42,9 @@ class WPStrava {
 		// On-demand classes.
 		if ( $name == 'rides' ) {
 			return $this->get_rides();
-		}
+		} elseif ( $name == 'routes' ) {
+		    return $this->get_routes();
+        }
 
 		if ( isset( $this->{$name} ) ) {
 			return $this->{$name};
@@ -70,6 +74,14 @@ class WPStrava {
 
 		return $this->rides;
 	}
+
+    public function get_routes() {
+        if ( ! $this->routes ) {
+            require_once WPSTRAVA_PLUGIN_DIR . 'lib/Routes.class.php';
+            $this->routes = new WPStrava_Routes();
+        }
+        return $this->routes;
+    }
 
 	public function register_scripts() {
 		// Register a personalized stylesheet
