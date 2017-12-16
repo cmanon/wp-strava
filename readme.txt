@@ -22,6 +22,7 @@ Also takes the following optional parameters:
 * map_width - width (width of image in pixels).
 * map_height - height (height of image in pixels).
 * athlete_token - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
+* markers - Display markers at the start/finish point (true/false, defaults to false).
 
 [ride] is an alias for [activity] and will accept the same parameters (kept for backwards compatibility).
 

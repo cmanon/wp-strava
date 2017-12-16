@@ -9,7 +9,7 @@ class WPStrava_RouteShortcode {
 	}
 
 	// Shortcode handler function
-	// [route id=id som=metric map_width="100%" map_height="400px"]
+	// [route id=id som=metric map_width="100%" map_height="400px" markers=false]
 	public static function handler( $atts ) {
 		self::$add_script = true;
 
@@ -19,6 +19,7 @@ class WPStrava_RouteShortcode {
 			'map_width'     => '480',
 			'map_height'    => '320',
 			'athlete_token' => WPStrava::get_instance()->settings->get_default_token(),
+            'markers'       => false,
 		);
 
 		extract( shortcode_atts( $defaults, $atts ) );
@@ -57,7 +58,7 @@ class WPStrava_RouteShortcode {
 							</tr>
 						</tbody>
 					</table>' .
-				WPStrava_StaticMap::get_image_tag( $route_details, $map_height, $map_width ) .
+				WPStrava_StaticMap::get_image_tag( $route_details, $map_height, $map_width, $markers ) .
 				'</div>';
 		} // End if( $route_details ).
 	} // handler
