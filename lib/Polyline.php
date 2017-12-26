@@ -132,7 +132,7 @@ class Polyline {
 	 */
 	final public static function flatten( $array ) {
 		self::$flatten = array();
-		array_walk_recursive( $array, array( 'Polyline', 'flatten_callback' ) );
+		array_walk_recursive( $array, array( __CLASS__, 'flatten_callback' ) );
 		return self::$flatten;
 	}
 
