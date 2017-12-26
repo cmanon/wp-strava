@@ -19,14 +19,14 @@ class WPStrava_RouteShortcode {
 			'map_width'     => '480',
 			'map_height'    => '320',
 			'athlete_token' => WPStrava::get_instance()->settings->get_default_token(),
-            'markers'       => false,
+			'markers'       => false,
 		);
 
 		extract( shortcode_atts( $defaults, $atts ) );
 
-		$strava_som = WPStrava_SOM::get_som( $som );
-		$route = WPStrava::get_instance()->routes;
-		$route_details = $route->getRoute( $id );
+		$strava_som    = WPStrava_SOM::get_som( $som );
+		$route         = WPStrava::get_instance()->routes;
+		$route_details = $route->get_route( $id );
 
 		//sanitize width & height
 		$map_width  = str_replace( '%', '', $map_width );
@@ -66,9 +66,6 @@ class WPStrava_RouteShortcode {
 	public static function print_scripts() {
 		if ( self::$add_script ) {
 			wp_enqueue_style( 'wp-strava-style' );
-
-			//wp_print_scripts('google-maps');
-			//wp_print_scripts('wp-strava-script');
 		}
 	}
 }
