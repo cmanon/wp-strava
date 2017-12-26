@@ -98,18 +98,18 @@ class WPStrava_LatestRidesWidget extends WP_Widget {
 			$response .= "<a href='" . WPStrava_Rides::ACTIVITIES_URL . $ride->id . "' target='_blank'>" . $ride->name . '</a>';
 			$response .= "<div class='ride-item'>";
 			$unixtime  = strtotime( $ride->start_date_local );
-			// translators: Shows something like "On <date> <name [went 10 miles] [during 1 hour] [climbing 100 feet]>."
+			// Translators: Shows something like "On <date> <[went 10 miles] [during 2 hours] [climbing 100 feet]>."
 			$response .= sprintf( __( 'On %1$s %2$s', 'wp-strava' ), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );
 
 			if ( is_numeric( $strava_club_id ) ) {
 				$response .= " <a href='" . WPStrava_Rides::ATHLETES_URL . $ride->athlete_id . "'>" . $ride->athlete_name . '</a>';
 			}
 
-			// translators: "went 10 miles"
+			// Translators: "went 10 miles"
 			$response .= sprintf( __( ' went %1$s %2$s', 'wp-strava' ), $som->distance( $ride->distance ), $som->get_distance_label() );
-			// translators: "during 1 hour"
+			// Translators: "during 2 hours"
 			$response .= sprintf( __( ' during %1$s %2$s', 'wp-strava' ), $som->time( $ride->elapsed_time ), $som->get_time_label() );
-			// translators: "climbing 100 feet"
+			// Translators: "climbing 100 ft."
 			$response .= sprintf( __( ' climbing %1$s %2$s', 'wp-strava' ), $som->elevation( $ride->total_elevation_gain ), $som->get_elevation_label() );
 			$response .= '</div></li>';
 		}
