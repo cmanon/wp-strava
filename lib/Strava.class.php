@@ -2,6 +2,7 @@
 
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/Settings.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOM.class.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestActivitiesShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/ActivityShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/RouteShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/StaticMap.class.php';
@@ -88,9 +89,9 @@ class WPStrava {
 	}
 
 	public function register_widgets() {
-		require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestRidesWidget.class.php';
+		require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestActivitiesWidget.class.php';
 		require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestMapWidget.class.php';
-		register_widget( 'WPStrava_LatestRidesWidget' );
+		register_widget( 'WPStrava_LatestActivitiesWidget' );
 		register_widget( 'WPStrava_LatestMapWidget' );
 	}
 }
