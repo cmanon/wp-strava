@@ -10,7 +10,7 @@ class WPStrava_ActivityShortcode {
 	}
 
 	// Shortcode handler function
-	// [ride id=id som=metric map_width="100%" map_height="400px" markers=false]
+	// [activity id=id som=metric map_width="100%" map_height="400px" markers=false]
 	public static function handler( $atts ) {
 		self::$add_script = true;
 
@@ -20,13 +20,13 @@ class WPStrava_ActivityShortcode {
 			'map_width'     => '480',
 			'map_height'    => '320',
 			'athlete_token' => WPStrava::get_instance()->settings->get_default_token(),
-            'markers'       => false,
+			'markers'       => false,
 		);
 
 		extract( shortcode_atts( $defaults, $atts ) );
 
-		$strava_som = WPStrava_SOM::get_som( $som );
-		$activity = WPStrava::get_instance()->rides;
+		$strava_som   = WPStrava_SOM::get_som( $som );
+		$activity     = WPStrava::get_instance()->rides;
 		$ride_details = $activity->getRide( $athlete_token, $id );
 
 		//sanitize width & height
@@ -76,9 +76,6 @@ class WPStrava_ActivityShortcode {
 	public static function print_scripts() {
 		if ( self::$add_script ) {
 			wp_enqueue_style( 'wp-strava-style' );
-
-			//wp_print_scripts('google-maps');
-			//wp_print_scripts('wp-strava-script');
 		}
 	}
 }

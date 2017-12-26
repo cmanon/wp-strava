@@ -4,8 +4,8 @@
  */
 class WPStrava_Rides {
 
-	const RIDES_URL = 'http://app.strava.com/rides/';
-	const ATHLETES_URL = 'http://app.strava.com/athletes/';
+	const ACTIVITIES_URL = 'http://app.strava.com/activities/';
+	const ATHLETES_URL   = 'http://app.strava.com/athletes/';
 
 	/**
 	 * Get single activity by ID.
@@ -56,7 +56,7 @@ class WPStrava_Rides {
 	} // getRides
 
 	public function getRidesLongerThan( $rides, $dist ) {
-		$som = WPStrava_SOM::get_som();
+		$som    = WPStrava_SOM::get_som();
 		$meters = $som->distance_inverse( $dist );
 
 		$long_rides = array();

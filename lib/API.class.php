@@ -17,9 +17,9 @@ class WPStrava_API {
 		$url = self::STRAVA_V3_API;
 
 		$args = array(
-			'body' => http_build_query( $data ),
+			'body'      => http_build_query( $data ),
 			'sslverify' => false,
-			'headers' => array(),
+			'headers'   => array(),
 		);
 
 		if ( $this->access_token ) {
@@ -28,17 +28,19 @@ class WPStrava_API {
 
 		$response = wp_remote_post( $url . $uri, $args );
 
-		if ( is_wp_error( $response ) )
+		if ( is_wp_error( $response ) ) {
 			return $response;
+		}
 
-		if ( $response['response']['code'] != 200 ) {
+		if ( 200 != $response['response']['code'] ) {
 			//see if there's useful info in the body
-			$body = json_decode( $response['body'] );
+			$body  = json_decode( $response['body'] );
 			$error = '';
-			if ( ! empty( $body->error ) )
+			if ( ! empty( $body->error ) ) {
 				$error = $body->error;
-			else
-				$error = print_r( $response, true );
+			} else {
+				$error = print_r( $response, true ); // @codingStandardsIgnoreLine
+			}
 
 			return new WP_Error(
 				'wp-strava_post',
@@ -69,19 +71,21 @@ class WPStrava_API {
 
 		$response = wp_remote_get( $url, $get_args );
 
-		if ( is_wp_error( $response ) )
+		if ( is_wp_error( $response ) ) {
 			return $response;
+		}
 
-		if ( $response['response']['code'] != 200 ) {
+		if ( 200 != $response['response']['code'] ) {
 			//see if there's useful info in the body
-			$body = json_decode( $response['body'] );
+			$body  = json_decode( $response['body'] );
 			$error = '';
-			if ( ! empty( $body->error ) )
+			if ( ! empty( $body->error ) ) {
 				$error = $body->error;
-			else if ( $response['response']['code'] == 503 )
+			} elseif ( 503 == $response['response']['code'] ) {
 				$error = __( 'Strava Temporarily Unavailable', 'wp-strava' );
-			else
-				$error = print_r( $response, true );
+			} else {
+				$error = print_r( $response, true ); // @codingStandardsIgnoreLine
+			}
 
 			return new WP_Error(
 				'wp-strava_get',

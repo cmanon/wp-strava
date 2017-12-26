@@ -12,9 +12,9 @@
 class WPStrava_Settings {
 
 	private $feedback;
-	private $tokens = array();
-	private $page_name = 'wp-strava-options';
-	private $option_page = 'wp-strava-settings-group';
+	private $tokens         = array();
+	private $page_name      = 'wp-strava-options';
+	private $option_page    = 'wp-strava-settings-group';
 	private $adding_athlete = true;
 
 	//register admin menus
@@ -24,34 +24,28 @@ class WPStrava_Settings {
 		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ) );
 		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'settings_scripts' ) );
-		//for process debugging
-		//add_action( 'all', array( $this, 'hook_debug' ) );
-		//add_filter( 'all', array( $this, 'hook_debug' ) );
-	}
-
-	public function hook_debug( $name ) {
-		echo "<!-- {$name} -->\n";
 	}
 
 	/**
 	 * This runs after options are saved
 	 */
-	public function maybe_oauth( $value ) {	
+	public function maybe_oauth( $value ) {
 		// User is clearing to start-over, don't oauth, ignore other errors.
-		if ( isset( $_POST['strava_token'] ) && $this->tokens_empty( $_POST['strava_token'] ) )
-				return array();
+		if ( isset( $_POST['strava_token'] ) && $this->tokens_empty( $_POST['strava_token'] ) ) {
+			return array();
+		}
 
 		// Redirect only if all the right options are in place.
-		if ( isset( $value[0]['type'] ) && 'updated' == $value[0]['type'] ) { // Make sure there were no settings errors.
-			if ( isset( $_POST['option_page'] ) && $_POST['option_page'] == $this->option_page ) { // Make sure we're on our settings page.
+		if ( isset( $value[0]['type'] ) && 'updated' === $value[0]['type'] ) { // Make sure there were no settings errors.
+			if ( isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->option_page ) { // Make sure we're on our settings page.
 
 				// Only re-auth if client ID and secret were saved.
 				if ( ! empty( $_POST['strava_client_id'] ) && ! empty( $_POST['strava_client_secret'] ) ) {
-					$client_id = $_POST['strava_client_id'];
+					$client_id     = $_POST['strava_client_id'];
 					$client_secret = $_POST['strava_client_secret'];
 
 					$redirect = admin_url( "options-general.php?page={$this->page_name}" );
-					$url = "https://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect}&approval_prompt=force";
+					$url      = "https://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect}&approval_prompt=force";
 					wp_redirect( $url );
 					exit();
 				}
@@ -77,11 +71,12 @@ class WPStrava_Settings {
 		$this->adding_athlete = ! ( empty( $_POST['strava_client_id'] ) && empty( $_POST['strava_client_secret'] ) );
 
 		//only update when redirected back from strava
-		if ( ! isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] == $this->page_name ) {
+		if ( ! isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] === $this->page_name ) {
 			if ( isset( $_GET['code'] ) ) {
 				$token = $this->fetch_token( $_GET['code'] );
 				if ( $token ) {
-					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ) , 'updated' );
+					// Translators: strava token
+					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ), 'updated' );
 					$this->add_token( $token );
 					update_option( 'strava_token', $this->tokens );
 				} else {
@@ -108,7 +103,7 @@ class WPStrava_Settings {
 			add_settings_field( 'strava_client_secret', __( 'Strava Client Secret', 'wp-strava' ), array( $this, 'print_secret_input' ), 'wp-strava', 'strava_api' );
 			add_settings_field( 'strava_nickname', __( 'Strava Nickname', 'wp-strava' ), array( $this, 'print_nickname_input' ), 'wp-strava', 'strava_api' );
 		} else {
-			register_setting( $this->option_page, 'strava_token',    array( $this, 'sanitize_token' ) );
+			register_setting( $this->option_page, 'strava_token', array( $this, 'sanitize_token' ) );
 			add_settings_field( 'strava_token', __( 'Strava Token', 'wp-strava' ), array( $this, 'print_token_input' ), 'wp-strava', 'strava_api' );
 
 			// Add additional fields
@@ -138,13 +133,17 @@ class WPStrava_Settings {
 	}
 
 	public function print_api_instructions() {
-		$signup_url = 'http://www.strava.com/developers';
+		$signup_url   = 'http://www.strava.com/developers';
 		$settings_url = 'https://www.strava.com/settings/api';
-		$icon_url = 'https://plugins.svn.wordpress.org/wp-strava/assets/icon-128x128.png';
-		$blog_name = get_bloginfo( 'name' );
-		$app_name = sprintf( esc_html( '%s Strava', 'wp-strava' ), $blog_name );
+		$icon_url     = 'https://plugins.svn.wordpress.org/wp-strava/assets/icon-128x128.png';
+		$blog_name    = get_bloginfo( 'name' );
+
+		// Translators: Strava "app" name
+		$app_name = sprintf( __( '%s Strava', 'wp-strava' ), $blog_name );
 		$site_url = site_url();
-		$description = 'WP-Strava for ' . $blog_name;
+
+		// Translators: Strava "app" description
+		$description = sprintf( __( 'WP-Strava for %s', 'wp-strava' ), $blog_name );
 		printf( __( "<p>Steps:</p>
 			<ol>
 				<li>Create your free API Application/Connection here: <a href='%1\$s' target='_blank'>%2\$s</a> using the following information:</li>
@@ -200,16 +199,22 @@ class WPStrava_Settings {
 	}
 
 	public function print_client_input() {
-		?><input type="text" id="strava_client_id" name="strava_client_id" value="" /><?php
+		?>
+		<input type="text" id="strava_client_id" name="strava_client_id" value="" />
+		<?php
 	}
 
 	public function print_secret_input() {
-		?><input type="text" id="strava_client_secret" name="strava_client_secret" value="" /><?php
+		?>
+		<input type="text" id="strava_client_secret" name="strava_client_secret" value="" />
+		<?php
 	}
 
 	public function print_nickname_input() {
 		$nickname = $this->tokens_empty( $this->tokens ) ? __( 'Default', 'wp-strava' ) : '';
-		?><input type="text" name="strava_nickname[]" value="<?php echo $nickname; ?>" /><?php
+		?>
+		<input type="text" name="strava_nickname[]" value="<?php echo $nickname; ?>" />
+		<?php
 	}
 
 	public function print_token_input() {
@@ -240,7 +245,7 @@ class WPStrava_Settings {
 			return $client_secret;
 		}
 
-		if ( '' == trim( $client_secret ) ) {
+		if ( '' === trim( $client_secret ) ) {
 			add_settings_error( 'strava_client_secret', 'strava_client_secret', __( 'Client Secret is required.', 'wp-strava' ) );
 		}
 		return $client_secret;
@@ -253,7 +258,7 @@ class WPStrava_Settings {
 			$nicknames = array_slice( $nicknames, 0, count( $_POST['strava_token'] ) );
 
 			// Remove indexes from $nicknames that have empty tokens.
-			foreach( $_POST['strava_token'] as $index => $token ) {
+			foreach ( $_POST['strava_token'] as $index => $token ) {
 				$token = trim( $token );
 				if ( empty( $token ) ) {
 					unset( $nicknames[ $index ] );
@@ -265,7 +270,7 @@ class WPStrava_Settings {
 		}
 
 		foreach ( $nicknames as $index => $nickname ) {
-			if ( '' == trim( $nickname ) ) {
+			if ( '' === trim( $nickname ) ) {
 				add_settings_error( 'strava_nickname', 'strava_nickname', __( 'Nickname is required.', 'wp-strava' ) );
 				return $nicknames;
 			}
@@ -278,7 +283,7 @@ class WPStrava_Settings {
 	}
 
 	private function fetch_token( $code ) {
-		$client_id = $this->client_id;
+		$client_id     = $this->client_id;
 		$client_secret = $this->client_secret;
 
 		delete_option( 'strava_client_id' );
@@ -286,8 +291,12 @@ class WPStrava_Settings {
 
 		if ( $client_id && $client_secret ) {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
-			$api = new WPStrava_API();
-			$data = array( 'client_id' => $client_id, 'client_secret' => $client_secret, 'code' => $code );
+			$api  = new WPStrava_API();
+			$data = array(
+				'client_id'     => $client_id,
+				'client_secret' => $client_secret,
+				'code'          => $code,
+			);
 
 			$strava_info = $api->post( 'oauth/token', $data );
 
@@ -300,7 +309,8 @@ class WPStrava_Settings {
 					return false;
 				}
 			} else {
-				$this->feedback .= __( sprintf( 'There was an error receiving data from Strava: %s', print_r( $strava_info, true ) ), 'wp-strava' );
+				// Translators: error message from Strava
+				$this->feedback .= sprintf( __( 'There was an error receiving data from Strava: %s', 'wp-strava' ), print_r( $strava_info, true ) ); // @codingStandardsIgnoreLine
 				return false;
 			}
 		} else {
@@ -310,7 +320,9 @@ class WPStrava_Settings {
 	}
 
 	public function print_gmaps_key_input() {
-		?><input type="text" id="strava_gmaps_key" name="strava_gmaps_key" value="<?php echo $this->gmaps_key; ?>" /><?php
+		?>
+		<input type="text" id="strava_gmaps_key" name="strava_gmaps_key" value="<?php echo $this->gmaps_key; ?>" />
+		<?php
 	}
 
 	public function sanitize_gmaps_key( $key ) {
@@ -320,8 +332,8 @@ class WPStrava_Settings {
 	public function print_som_input() {
 		?>
 		<select id="strava_som" name="strava_som">
-			<option value="metric" <?php selected( $this->som, 'metric' ); ?>><?php esc_html_e( 'Metric', 'wp-strava' )?></option>
-			<option value="english" <?php selected( $this->som, 'english' ); ?>><?php esc_html_e( 'English', 'wp-strava' )?></option>
+			<option value="metric" <?php selected( $this->som, 'metric' ); ?>><?php esc_html_e( 'Metric', 'wp-strava' ); ?></option>
+			<option value="english" <?php selected( $this->som, 'english' ); ?>><?php esc_html_e( 'English', 'wp-strava' ); ?></option>
 		</select>
 		<?php
 	}
@@ -331,7 +343,9 @@ class WPStrava_Settings {
 	}
 
 	public function print_clear_input() {
-		?><input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" /><?php
+		?>
+		<input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" />
+		<?php
 	}
 
 	public function sanitize_cache_clear( $checked ) {
@@ -393,10 +407,10 @@ class WPStrava_Settings {
 	 * @since  1.2.0
 	 */
 	public function get_all_tokens() {
-		$tokens = $this->get_tokens();
+		$tokens    = $this->get_tokens();
 		$nicknames = $this->nickname;
-		$all = array();
-		$number = 1;
+		$all       = array();
+		$number    = 1;
 		foreach ( $tokens as $index => $token ) {
 			if ( ! empty( $nicknames[ $index ] ) ) {
 				$all[ $token ] = $nicknames[ $index ];
@@ -419,7 +433,7 @@ class WPStrava_Settings {
 	 */
 	private function get_default_nickname( $number = 1 ) {
 		// Translators: Athelete number if no nickname present.
-		return ( 1 == $number ) ? __( 'Default', 'wp-strava' ) : sprintf( __( 'Athlete %s', 'wp-strava' ), $number );
+		return ( 1 === $number ) ? __( 'Default', 'wp-strava' ) : sprintf( __( 'Athlete %s', 'wp-strava' ), $number );
 	}
 
 	/**
@@ -437,7 +451,7 @@ class WPStrava_Settings {
 		}
 
 		if ( is_array( $tokens ) ) {
-			foreach( $tokens as $token ) {
+			foreach ( $tokens as $token ) {
 				if ( ! empty( $token ) ) {
 					return false;
 				}
@@ -471,7 +485,7 @@ class WPStrava_Settings {
 
 	public function settings_link( $links ) {
 		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings', 'wp-strava' ) . '</a>';
-		$links[] = $settings_link;
+		$links[]       = $settings_link;
 		return $links;
 	}
 
