@@ -1,12 +1,10 @@
 <?php
+
 /*
- * Util is a class with all the utility methods.
+ * API class for all remote calls.
  */
 class WPStrava_API {
 
-	//deactivated
-	//const STRAVA_V1_API = 'http://www.strava.com/api/v1/'; //rides?athleteId=134698
-	//const STRAVA_V2_API = 'http://www.strava.com/api/v2/'; //rides/:ride_id/map_details
 	const STRAVA_V3_API = 'https://www.strava.com/api/v3/';
 
 	public function __construct( $access_token = null ) {
@@ -33,7 +31,8 @@ class WPStrava_API {
 		}
 
 		if ( 200 != $response['response']['code'] ) {
-			//see if there's useful info in the body
+
+			// See if there's useful info in the body.
 			$body  = json_decode( $response['body'] );
 			$error = '';
 			if ( ! empty( $body->error ) ) {
@@ -45,7 +44,7 @@ class WPStrava_API {
 			return new WP_Error(
 				'wp-strava_post',
 				// Translators: message shown when there's a problem with ab HTTP POST to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\', true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WP_STRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
 				$error
 			);
 		}
@@ -76,7 +75,8 @@ class WPStrava_API {
 		}
 
 		if ( 200 != $response['response']['code'] ) {
-			//see if there's useful info in the body
+
+			// See if there's useful info in the body.
 			$body  = json_decode( $response['body'] );
 			$error = '';
 			if ( ! empty( $body->error ) ) {
@@ -90,7 +90,7 @@ class WPStrava_API {
 			return new WP_Error(
 				'wp-strava_get',
 				// Translators: message shown when there's a problem with an HTTP GET to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding <code>define( \'WP_STRAVA_DEBUG\', true );</code> to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WP_STRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
 				$error
 			);
 		}

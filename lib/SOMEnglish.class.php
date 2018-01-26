@@ -1,47 +1,75 @@
 <?php
 
+/**
+ * SOM English class.
+ *
+ * All conversions are limited to 2 decimal places.
+ */
 class WPStrava_SOMEnglish extends WPStrava_SOM {
 
 	/**
-	 * @param string $m meters
-	 * @return string mi
+	 * Change meters to miles.
+	 *
+	 * @param float $m Distance in meters.
+	 * @return float Distance in miles.
 	 */
 	public function distance( $m ) {
 		return number_format( $m / 1609.344, 2 );
 	}
 
 	/**
-	 * @param string $dist miles
-	 * @return float meters
+	 * Change miles to meters.
+	 *
+	 * @param float $dist Distance in miles.
+	 * @return float Distance in meters.
 	 */
 	public function distance_inverse( $dist ) {
 		return $dist * 1609.344;
 	}
 
+	/**
+	 * Abbreviated label for this system of measure's distance - Miles: mi.
+	 *
+	 * @return string 'mi.'
+	 */
 	public function get_distance_label() {
 		return __( 'mi.', 'wp-strava' );
 	}
 
 	/**
-	 * @param string $mps
-	 * @return string mph
+	 * Change meters per second to miles per hour.
+	 *
+	 * @param float $mps Meters per second.
+	 * @return float Miles per hour.
 	 */
 	public function speed( $mps ) {
 		return number_format( $mps * 2.2369, 2 );
 	}
 
+	/**
+	 * Abbreviated label for this system of measure's speed - Miles Per Hour: mph
+	 *
+	 * @return string 'mph'
+	 */
 	public function get_speed_label() {
 		return __( 'mph', 'wp-strava' );
 	}
 
 	/**
-	 * @param string $m meters
-	 * @return string feet
+	 * Change meters to feet.
+	 *
+	 * @param float $m Elevation in meters.
+	 * @return float Elevation in feet.
 	 */
 	public function elevation( $m ) {
 		return number_format( $m / 0.3048, 2 );
 	}
 
+	/**
+	 * Abbreviated label for this system of measure's elevation - Feet: ft.
+	 *
+	 * @return string 'ft.'
+	 */
 	public function get_elevation_label() {
 		return __( 'ft.', 'wp-strava' );
 	}

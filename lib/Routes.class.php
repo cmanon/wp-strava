@@ -1,10 +1,13 @@
 <?php
-/*
- * Routes is a class wrapper for the Strava REST API functions.
- */
 
+/**
+ * Routes is a class wrapper for the Strava REST API functions.
+ *
+ * @author Daniel Lintott
+ * @since 1.3.0
+ */
 class WPStrava_Routes {
-	const ROUTES_URL = 'http://app.strava.com/routes/';
+	const ROUTES_URL = 'http://strava.com/routes/';
 
 	/**
 	 * Get single route by ID.

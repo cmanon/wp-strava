@@ -4,7 +4,7 @@ class WPStrava_ActivityShortcode {
 	private static $add_script;
 
 	public static function init() {
-		add_shortcode( 'ride', array( __CLASS__, 'handler' ) );
+		add_shortcode( 'ride', array( __CLASS__, 'handler' ) ); // @deprecated 1.1
 		add_shortcode( 'activity', array( __CLASS__, 'handler' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'print_scripts' ) );
 	}
@@ -23,22 +23,30 @@ class WPStrava_ActivityShortcode {
 			'markers'       => false,
 		);
 
-		extract( shortcode_atts( $defaults, $atts ) );
+		$atts = shortcode_atts( $defaults, $atts );
 
-		$strava_som   = WPStrava_SOM::get_som( $som );
-		$activity     = WPStrava::get_instance()->rides;
-		$ride_details = $activity->getRide( $athlete_token, $id );
+		$strava_som       = WPStrava_SOM::get_som( $atts['som'] );
+		$activity         = WPStrava::get_instance()->activity;
+		$activity_details = $activity->get_activity( $atts['athlete_token'], $atts['id'] );
+
+		if ( is_wp_error( $activity_details ) ) {
+			if ( WPSTRAVA_DEBUG ) {
+				return '<pre>' . print_r( $activity_details, true ) . '</pre>'; // @codingStandardsIgnoreLine
+			} else {
+				return $activity_details->get_error_message();
+			}
+		}
 
 		//sanitize width & height
-		$map_width  = str_replace( '%', '', $map_width );
-		$map_height = str_replace( '%', '', $map_height );
+		$map_width  = str_replace( '%', '', $atts['map_width'] );
+		$map_height = str_replace( '%', '', $atts['map_height'] );
 		$map_width  = str_replace( 'px', '', $map_width );
 		$map_height = str_replace( 'px', '', $map_height );
 
-		if ( $ride_details ) {
+		if ( $activity_details ) {
 			return '
-				<div id="ride-header-' . $id . '" class="wp-strava-ride-container">
-					<table id="ride-details-table">
+				<div id="activity-header-' . $atts['id'] . '" class="wp-strava-activity-container">
+					<table id="activity-details-table">
 						<thead>
 							<tr>
 								<th>' . __( 'Elapsed Time', 'wp-strava' ) . '</th>
@@ -50,15 +58,15 @@ class WPStrava_ActivityShortcode {
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="ride-details-table-info">
-								<td>' . $strava_som->time( $ride_details->elapsed_time ) . '</td>
-								<td>' . $strava_som->time( $ride_details->moving_time ) . '</td>
-								<td>' . $strava_som->distance( $ride_details->distance ) . '</td>
-								<td>' . $strava_som->speed( $ride_details->average_speed ) . '</td>
-								<td>' . $strava_som->speed( $ride_details->max_speed ) . '</td>
-								<td>' . $strava_som->elevation( $ride_details->total_elevation_gain ) . '</td>
+							<tr class="activity-details-table-info">
+								<td>' . $strava_som->time( $activity_details->elapsed_time ) . '</td>
+								<td>' . $strava_som->time( $activity_details->moving_time ) . '</td>
+								<td>' . $strava_som->distance( $activity_details->distance ) . '</td>
+								<td>' . $strava_som->speed( $activity_details->average_speed ) . '</td>
+								<td>' . $strava_som->speed( $activity_details->max_speed ) . '</td>
+								<td>' . $strava_som->elevation( $activity_details->total_elevation_gain ) . '</td>
 							</tr>
-							<tr class="ride-details-table-units">
+							<tr class="activity-details-table-units">
 								<td>' . $strava_som->get_time_label() . '</td>
 								<td>' . $strava_som->get_time_label() . '</td>
 								<td>' . $strava_som->get_distance_label() . '</td>
@@ -67,11 +75,12 @@ class WPStrava_ActivityShortcode {
 								<td>' . $strava_som->get_elevation_label() . '</td>
 							</tr>
 						</tbody>
-					</table>' .
-				WPStrava_StaticMap::get_image_tag( $ride_details, $map_height, $map_width, $markers ) .
+					</table>
+					<a title="' . $activity_details->name . '" href="' . WPStrava_Activity::ACTIVITIES_URL . $activity_details->id . '">' .
+					WPStrava_StaticMap::get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'] ) .
 				'</div>';
-		} // End if( $ride_details ).
-	} // handler
+		} // End if( $activity_details ).
+	}
 
 	public static function print_scripts() {
 		if ( self::$add_script ) {

@@ -23,7 +23,6 @@ class WPStrava_Settings {
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
 		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ) );
 		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'settings_scripts' ) );
 	}
 
 	/**
@@ -146,9 +145,9 @@ class WPStrava_Settings {
 		$description = sprintf( __( 'WP-Strava for %s', 'wp-strava' ), $blog_name );
 		printf( __( "<p>Steps:</p>
 			<ol>
-				<li>Create your free API Application/Connection here: <a href='%1\$s' target='_blank'>%2\$s</a> using the following information:</li>
+				<li>Create your free API Application/Connection here: <a href='%1\$s'>%2\$s</a> using the following information:</li>
 				<ul>
-					<li>App Icon: <strong>upload <a href='%3\$s' target='_blank'>this image</a></strong></li>
+					<li>App Icon: <strong>upload <a href='%3\$s'>this image</a></strong></li>
 					<li>Application Name: <strong>%4\$s</strong></li>
 					<li>Category: OK to leave at default 'other'</li>
 					<li>Club: OK to leave blank</li>
@@ -174,7 +173,7 @@ class WPStrava_Settings {
 		$maps_url = 'https://developers.google.com/maps/documentation/static-maps/';
 		printf( __( "<p>Steps:</p>
 			<ol>
-				<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s' target='_blank'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
+				<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
 				<li>Once you've created your Google Static Maps API Key, enter the key below.
 			</ol>", 'wp-strava' ), $maps_url, $maps_url );
 
@@ -432,7 +431,7 @@ class WPStrava_Settings {
 	 * @return string
 	 */
 	private function get_default_nickname( $number = 1 ) {
-		// Translators: Athelete number if no nickname present.
+		// Translators: Athlete number if no nickname present.
 		return ( 1 === $number ) ? __( 'Default', 'wp-strava' ) : sprintf( __( 'Athlete %s', 'wp-strava' ), $number );
 	}
 
@@ -487,12 +486,5 @@ class WPStrava_Settings {
 		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings', 'wp-strava' ) . '</a>';
 		$links[]       = $settings_link;
 		return $links;
-	}
-
-	public function settings_scripts() {
-		$screen = get_current_screen();
-		if ( "settings_page_{$this->page_name}" === $screen->id ) {
-			wp_enqueue_script( 'wp-strava-settings', WPSTRAVA_PLUGIN_URL . 'js/wp-strava-settings.js', array( 'jquery' ) );
-		}
 	}
 }

@@ -12,7 +12,7 @@ class WPStrava {
 	private static $instance = null;
 	private $settings        = null;
 	private $api             = array(); // Holds an array of APIs.
-	private $rides           = null;
+	private $activity        = null;
 	private $routes          = null;
 
 	private function __construct() {
@@ -38,8 +38,8 @@ class WPStrava {
 
 	public function __get( $name ) {
 		// On-demand classes.
-		if ( 'rides' === $name ) {
-			return $this->get_rides();
+		if ( 'activity' === $name ) {
+			return $this->get_activity();
 		}
 
 		if ( 'routes' === $name ) {
@@ -66,13 +66,13 @@ class WPStrava {
 		return $this->api[ $token ];
 	}
 
-	public function get_rides() {
-		if ( ! $this->rides ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Rides.class.php';
-			$this->rides = new WPStrava_Rides();
+	public function get_activity() {
+		if ( ! $this->activity ) {
+			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Activity.class.php';
+			$this->activity = new WPStrava_Activity();
 		}
 
-		return $this->rides;
+		return $this->activity;
 	}
 
 	public function get_routes() {

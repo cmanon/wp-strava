@@ -56,8 +56,13 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Method to render the widget on the front end.
+	 *
+	 * @param array $args     Arguments from the widget settings.
+	 * @param array $instance Settings for this particular widget.
+	 */
 	public function widget( $args, $instance ) {
-		extract( $args );
 
 		$title          = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activity Map', 'wp-strava' ) : $instance['title'] );
 		$athlete_token  = isset( $instance['athlete_token'] ) ? $instance['athlete_token'] : WPStrava::get_instance()->settings->get_default_token();
@@ -66,82 +71,82 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		$build_new      = false;
 
 		// Try our transient first.
-		$ride_transient = get_transient( 'strava_latest_map_activity_' . $athlete_token );
-		$ride_option    = get_option( 'strava_latest_map_activity_' . $athlete_token );
+		$activity_transient = get_transient( 'strava_latest_map_activity_' . $athlete_token );
+		$activity_option    = get_option( 'strava_latest_map_activity_' . $athlete_token );
 
-		$ride = $ride_transient ? $ride_transient : null;
+		$activity = $activity_transient ? $activity_transient : null;
 
-		if ( ! $ride ) {
-			$strava_rides = WPStrava::get_instance()->rides;
-			$rides        = $strava_rides->getRides( $athlete_token, $strava_club_id );
+		if ( ! $activity ) {
+			$strava_activity = WPStrava::get_instance()->activity;
+			$activities      = $strava_activity->get_activities( $athlete_token, $strava_club_id );
 
-			if ( is_wp_error( $rides ) ) {
-				echo $before_widget;
+			if ( is_wp_error( $activities ) ) {
+				echo $args['before_widget'];
 				if ( $title ) {
-					echo $before_title . $title . $after_title;
+					echo $args['$before_title'] . $title . $args['$after_title'];
 				}
 
 				if ( WPSTRAVA_DEBUG ) {
 					echo '<pre>';
-					print_r( $rides ); // @codingStandardsIgnoreLine
+					print_r( $activities ); // @codingStandardsIgnoreLine
 					echo '</pre>';
 				} else {
-					echo $rides->get_error_message();
+					echo $activities->get_error_message();
 				}
-				echo $after_widget;
+				echo $args['$after_widget'];
 				return;
 			}
 
-			if ( ! empty( $rides ) ) {
+			if ( ! empty( $activities ) ) {
 
 				if ( ! empty( $distance_min ) ) {
-					$rides = $strava_rides->getRidesLongerThan( $rides, $distance_min );
+					$activities = $strava_activity->get_activities_longer_than( $activities, $distance_min );
 				}
 
-				$ride = current( $rides );
+				$activity = current( $activities );
 
 				// Compare transient (temporary storage) to option (more permenant).
 				// If the option isn't set or the transient is different, update the option.
-				if ( empty( $ride_option->id ) || $ride->id != $ride_option->id ) {
+				if ( empty( $activity_option->id ) || $activity->id != $activity_option->id ) {
 					$build_new = true;
-					$this->update_activity( $athlete_token, $ride );
+					$this->update_activity( $athlete_token, $activity );
 				}
 
 				// Update the transient if it needs updating.
-				if ( empty( $ride_transient->id ) || $ride->id != $ride_transient->id ) {
-					$this->update_activity_transient( $athlete_token, $ride );
+				if ( empty( $activity_transient->id ) || $activity->id != $activity_transient->id ) {
+					$this->update_activity_transient( $athlete_token, $activity );
 				}
 			}
 		}
 
-		if ( $ride ) {
-			echo $before_widget;
+		if ( $activity ) {
+			echo $args['$before_widget'];
 			if ( $title ) {
-				echo $before_title . $title . $after_title;
+				echo $args['$before_title'] . $title . $args['$after_title'];
 			}
 
-			echo "<a title='{$ride->name}' target='_blank' href='http://app.strava.com/activities/{$ride->id}'>";
-			echo $this->getStaticImage( $athlete_token, $ride, $build_new );
+			echo "<a title='{$activity->name}' href='http://app.strava.com/activities/{$activity->id}'>";
+			echo $this->get_static_image( $athlete_token, $activity, $build_new );
 			echo '</a>';
-			echo $after_widget;
+			echo $args['$after_widget'];
 		}
 	}
 
 	/**
-	 * Get image for specific ride using Static Maps class.
+	 * Get image for specific activity using Static Maps class.
 	 *
 	 * @author Justin Foell
 	 *
 	 * @param string  $athlete_token Token for athelete.
-	 * @param int     $ride_id Club ID (optional).
-	 * @param boolean $build_new Whether to refresh the image from cache.
-	 * @return string Image tag.
+	 * @param object  $activity      Activity to get image for.
+	 * @param boolean $build_new     Whether to refresh the image from cache.
+	 * @return string                Image tag.
 	 */
-	private function getStaticImage( $athlete_token, $ride, $build_new ) {
+	private function get_static_image( $athlete_token, $activity, $build_new ) {
 		$img = get_option( 'strava_latest_map_' . $athlete_token );
 
 		if ( $build_new || ! $img ) {
-			$img = WPStrava_StaticMap::get_image_tag( $ride );
+			$img = WPStrava_StaticMap::get_image_tag( $activity );
 			$this->update_map( $athlete_token, $img );
 		}
 

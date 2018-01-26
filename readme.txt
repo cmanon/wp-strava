@@ -1,6 +1,6 @@
 === WP-Strava ===
 
-Contributors: cmanon, jrfoell, lancewillett
+Contributors: cmanon, jrfoell, lancewillett, dlintott 
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 4.9
@@ -48,8 +48,43 @@ Strava Latest Activity List - shows a list of the last few activities.
 
 Strava Latest Map - shows map of latest activity with option to limit latest map to activities of a certain minimum distance.
 
+== Frequently Asked Questions ==
+
+= Why am I getting "ERROR 401 Unauthorized"? =
+
+When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token to the shortcode, such as 
+
+= Why is my Google Map not showing up? =
+
+If your key works with other Google Maps plugins but not WP Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
+
+== Screenshots ==
+
+1. WP Strava settings - this walks you through connecting the WP Strava plugin to your strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
+2. Latest Activities List Widget - shows a list of the most recent activities for the selected athlete.
+3. Latest Activities List Widget Settings - settings for the Latest Activities List Widget.
+4. Latest Map Widget - shows a map of your most recent activity.
+5. Latest Map Widget Settings - settings for the Latest Map Widget. You can limit your activity by minimum distance to show only longer efforts.
+6. Activity Shortcode - Shows a map of activity with some statistics.
+7. Activity Shortcode Settings - An example activity shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
+8. Route Shortcode - Shows a map of a route.
+9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start stop points.
+10. Activities Shortcode - Shows latest athlete activity in a page or post.
+11. Activities Shortcode Settings - An example activities shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
 
 == Changelog ==
+
+= 1.4.0 =
+
+Added dlintott to contributors.
+Fixed non-existent settings js from being enqueued.
+Changed all 'ride' styles and functions to 'activity'.
+Added inline documentation.
+Updated coding standards to WordPress where possible.
+Added Screenshots.
+Removed target="_blank" from hrefs for accessibility best practices.
+Added links from activity and route shortcodes to respective strava page.
+Removed all instances of extract().
 
 = 1.3.0 =
 

@@ -2,16 +2,23 @@
 
 abstract class WPStrava_SOM {
 
+	/**
+	 * Factory method to get the correct SOM class based on specified units
+	 * or by the options setting.
+	 *
+	 * @param string $som 'english' or 'metric'
+	 * @return WPStrava_SOM Instance of SOM
+	 * @author Justin Foell
+	 */
 	public static function get_som( $som = null ) {
 		$som = $som ? $som : WPStrava::get_instance()->settings->som;
 		if ( 'english' === $som ) {
 			require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMEnglish.class.php';
 			return new WPStrava_SOMEnglish();
-		} else { // Default to metric.
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMMetric.class.php';
-			return new WPStrava_SOMMetric();
 		}
-
+		// Default to metric.
+		require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOMMetric.class.php';
+		return new WPStrava_SOMMetric();
 	}
 
 	abstract public function distance( $m );

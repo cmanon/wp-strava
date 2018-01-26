@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
-.ride-item:before {
+.activity-item:before {
 	content: "";
 	width: 16px;
 	height: 16px;
@@ -8,30 +8,30 @@
 	background-position: -224px -160px;
 	margin: 0 6px 2px 0;
 }
-.wp-strava-ride-container {
+.wp-strava-activity-container {
 	display: table;
 	margin: 0 auto;
 }
-#ride-details-table tr td {
+#activity-details-table tr td {
 	padding: 5px;
 }
-#ride-details-table th {
+#activity-details-table th {
 	padding: 5px;
 	text-align: center;
 	font-size: 0.8em;
 }
-#ride-details-table td {
+#activity-details-table td {
 	text-align: center;
 	border: 1px solid #e7e7e7;
 }
-.ride-details-table-info {
+.activity-details-table-info {
 	font-size: 1.2em;
 	font-weight: bold;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4);
 }
-.ride-details-table-units {
+.activity-details-table-units {
 	font-size: 0.8em;
 }
-.wp-strava-ride-container img {
+.wp-strava-activity-container img {
 	max-width: none;
 }

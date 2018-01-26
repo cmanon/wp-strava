@@ -1,23 +1,23 @@
 <?php
 /*
- * Rides is a class wrapper for the Strava REST API functions.
+ * Activity is a class wrapper for the Strava REST API functions.
  */
-class WPStrava_Rides {
+class WPStrava_Activity {
 
-	const ACTIVITIES_URL = 'http://app.strava.com/activities/';
-	const ATHLETES_URL   = 'http://app.strava.com/athletes/';
+	const ACTIVITIES_URL = 'http://strava.com/activities/';
+	const ATHLETES_URL   = 'http://strava.com/athletes/';
 
 	/**
 	 * Get single activity by ID.
 	 *
-	 * @param string $athlete_token Token of athlete to retrieve for
-	 * @param int    $activity_id ID of activity to retrieve.
-	 * @return object  stdClass representing this activty.
+	 * @param string  $athlete_token Token of athlete to retrieve for
+	 * @param int     $activity_id ID of activity to retrieve.
+	 * @return object stdClass representing this activity.
 	 * @author Justin Foell
 	 */
-	public function getRide( $athlete_token, $activity_id ) {
+	public function get_activity( $athlete_token, $activity_id ) {
 		return WPStrava::get_instance()->get_api( $athlete_token )->get( "activities/{$activity_id}" );
-	} // getRideDetails
+	}
 
 	/**
 	 * Get activity list from Strava API.
@@ -27,9 +27,9 @@ class WPStrava_Rides {
 	 * @param string   $athlete_token Token of athlete to retrieve for
 	 * @param int      $club_id       Club ID of all club riders (optional).
 	 * @param int|null $quantity      Number of records to retrieve (optional).
-	 * @return array|WP_Error Array of rides or WP_Error.
+	 * @return array|WP_Error Array of activities or WP_Error.
 	 */
-	public function getRides( $athlete_token, $club_id = null, $quantity = null ) {
+	public function get_activities( $athlete_token, $club_id = null, $quantity = null ) {
 		$api = WPStrava::get_instance()->get_api( $athlete_token );
 
 		$data = null;
@@ -53,20 +53,28 @@ class WPStrava_Rides {
 
 		return array();
 
-	} // getRides
+	}
 
-	public function getRidesLongerThan( $rides, $dist ) {
+	/**
+	 * Undocumented function
+	 *
+	 * @param array $activities
+	 * @param float $dist Distance in default system of measure (km/mi).
+	 * @return void
+	 * @author Justin Foell
+	 */
+	public function get_activities_longer_than( $activities, $dist ) {
 		$som    = WPStrava_SOM::get_som();
 		$meters = $som->distance_inverse( $dist );
 
-		$long_rides = array();
-		foreach ( $rides as $ride_info ) {
-			if ( $ride_info->distance > $meters ) {
-				$long_rides[] = $ride_info;
+		$long_activities = array();
+		foreach ( $activities as $activity_info ) {
+			if ( $activity_info->distance > $meters ) {
+				$long_activities[] = $activity_info;
 			}
 		}
 
-		return $long_rides;
+		return $long_activities;
 	}
 
-} // class Rides
+}

@@ -9,17 +9,17 @@ class WPStrava_StaticMap {
 	 *
 	 * @static
 	 * @access public
-	 * @param object  $ride    Ride object from strava.
-	 * @param int     $height  Height of map in pixels.
-	 * @param int     $width   Width of map in pixels.
-	 * @param bool    $markers Display start and finish markers.
-	 * @return string          HTML img tag with static map image.
+	 * @param object  $activity Activity object to get image tag for.
+	 * @param int     $height   Height of map in pixels.
+	 * @param int     $width    Width of map in pixels.
+	 * @param bool    $markers  Display start and finish markers.
+	 * @return string           HTML img tag with static map image.
 	 */
-	public static function get_image_tag( $ride, $height = 320, $width = 480, $markers = false ) {
+	public static function get_image_tag( $activity, $height = 320, $width = 480, $markers = false, $link = true ) {
 		$key = WPStrava::get_instance()->settings->gmaps_key;
 
-		// Short circuit if missing key or ride object doesn't have the data we need.
-		if ( empty( $key ) || empty( $ride->map ) ) {
+		// Short circuit if missing key or activity object doesn't have the data we need.
+		if ( empty( $key ) || empty( $activity->map ) ) {
 			return '';
 		}
 
@@ -28,10 +28,10 @@ class WPStrava_StaticMap {
 		$max_chars = 1865;
 
 		$polyline = '';
-		if ( ! empty( $ride->map->polyline ) && ( $url_len + strlen( $ride->map->polyline ) < $max_chars ) ) {
-			$polyline = $ride->map->polyline;
-		} elseif ( ! empty( $ride->map->summary_polyline ) ) {
-			$polyline = $ride->map->summary_polyline;
+		if ( ! empty( $activity->map->polyline ) && ( $url_len + strlen( $activity->map->polyline ) < $max_chars ) ) {
+			$polyline = $activity->map->polyline;
+		} elseif ( ! empty( $activity->map->summary_polyline ) ) {
+			$polyline = $activity->map->summary_polyline;
 		}
 		$url .= $polyline;
 
@@ -53,7 +53,17 @@ class WPStrava_StaticMap {
 	 * @see https://developers.google.com/maps/documentation/utilities/polylinealgorithm
 	 * @access private
 	 * @param string $enc Encoded polyline.
-	 * @return array with indexes of start & finish containing lat/lon for each.
+	 * @return array {
+	 *     Indexes of start & finish containing lat/lon for each.
+	 *     @type array $start {
+	 *         @type float $0 Latitude
+	 *         @type float $1 Longitude
+	 *     }
+	 *     @type array $finish {
+	 *         @type float $0 Latitude
+	 *         @type float $1 Longitude
+	 *     }
+	 * }
 	 */
 	private static function decode_start_finish( $enc ) {
 		require_once WPSTRAVA_PLUGIN_DIR . 'lib/Polyline.php';

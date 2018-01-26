@@ -10,7 +10,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
 			'classname'   => 'LatestActivitiesWidget',
-			'description' => __( 'Will publish your latest activities from strava.com.', 'wp-strava' ),
+			'description' => __( 'Will show your latest activities from strava.com.', 'wp-strava' ),
 		);
 		parent::__construct( 'wp-strava', __( 'Strava Latest Activities List', 'wp-strava' ), $widget_ops );
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
