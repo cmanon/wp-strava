@@ -349,17 +349,11 @@ class WPStrava_Settings {
 
 	public function sanitize_cache_clear( $checked ) {
 		if ( 'on' === $checked ) {
-			// Clear these (pre 1.2.0) values:
-			delete_transient( 'strava_latest_map_ride' );
-			delete_option( 'strava_latest_map_ride' );
-			delete_option( 'strava_latest_map' );
+			global $wpdb;
 
-			// Remove activity transients and options.
-			foreach ( $this->get_tokens() as $token ) {
-				delete_transient( 'strava_latest_map_activity_' . $token );
-				delete_option( 'strava_latest_map_activity_' . $token );
-				delete_option( 'strava_latest_map_' . $token );
-			}
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_timeout_strava_latest_map_%'" );
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_strava_latest_map_%'" );
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'strava_latest_map%'" );
 		}
 		return null;
 	}

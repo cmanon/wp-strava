@@ -74,6 +74,11 @@ If your key works with other Google Maps plugins but not WP Strava, you may need
 
 == Changelog ==
 
+= 1.4.2 =
+
+Better Club ID support.
+Refined cache clearing to include club IDs.
+
 = 1.4.1 =
 Fix array indices on map widget
 

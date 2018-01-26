@@ -70,9 +70,11 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		$strava_club_id = empty( $instance['strava_club_id'] ) ? null : $instance['strava_club_id'];
 		$build_new      = false;
 
+		$id = empty( $strava_club_id ) ? $athlete_token : $strava_club_id;
+
 		// Try our transient first.
-		$activity_transient = get_transient( 'strava_latest_map_activity_' . $athlete_token );
-		$activity_option    = get_option( 'strava_latest_map_activity_' . $athlete_token );
+		$activity_transient = get_transient( 'strava_latest_map_activity_' . $id );
+		$activity_option    = get_option( 'strava_latest_map_activity_' . $id );
 
 		$activity = $activity_transient ? $activity_transient : null;
 
@@ -109,12 +111,12 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 				// If the option isn't set or the transient is different, update the option.
 				if ( empty( $activity_option->id ) || $activity->id != $activity_option->id ) {
 					$build_new = true;
-					$this->update_activity( $athlete_token, $activity );
+					$this->update_activity( $id, $activity );
 				}
 
 				// Update the transient if it needs updating.
 				if ( empty( $activity_transient->id ) || $activity->id != $activity_transient->id ) {
-					$this->update_activity_transient( $athlete_token, $activity );
+					$this->update_activity_transient( $id, $activity );
 				}
 			}
 		}
@@ -126,7 +128,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			}
 
 			echo "<a title='{$activity->name}' href='http://app.strava.com/activities/{$activity->id}'>";
-			echo $this->get_static_image( $athlete_token, $activity, $build_new );
+			echo $this->get_static_image( $id, $activity, $build_new );
 			echo '</a>';
 			echo $args['after_widget'];
 		}
@@ -137,17 +139,17 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 *
 	 * @author Justin Foell
 	 *
-	 * @param string  $athlete_token Token for athelete.
-	 * @param object  $activity      Activity to get image for.
-	 * @param boolean $build_new     Whether to refresh the image from cache.
-	 * @return string                Image tag.
+	 * @param string  $id        Athlete Token or Club ID.
+	 * @param object  $activity  Activity to get image for.
+	 * @param boolean $build_new Whether to refresh the image from cache.
+	 * @return string            Image tag.
 	 */
-	private function get_static_image( $athlete_token, $activity, $build_new ) {
-		$img = get_option( 'strava_latest_map_' . $athlete_token );
+	private function get_static_image( $id, $activity, $build_new ) {
+		$img = get_option( 'strava_latest_map_' . $id );
 
 		if ( $build_new || ! $img ) {
 			$img = WPStrava_StaticMap::get_image_tag( $activity );
-			$this->update_map( $athlete_token, $img );
+			$this->update_map( $id, $img );
 		}
 
 		return $img;
@@ -159,15 +161,11 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 * @author Justin Foell
 	 * @since  1.2.0
 	 *
-	 * @param string $athlete_token Token for athelete.
-	 * @param string $img           Image tag.
+	 * @param string $id  Athlete Token or Club ID.
+	 * @param string $img Image tag.
 	 */
-	private function update_map( $athlete_token, $img ) {
-		// Remove old (pre 1.2.0) cached maps.
-		if ( get_option( 'strava_latest_map' ) ) {
-			delete_option( 'strava_latest_map' );
-		}
-		update_option( 'strava_latest_map_' . $athlete_token, $img );
+	private function update_map( $id, $img ) {
+		update_option( 'strava_latest_map_' . $id, $img );
 	}
 
 	/**
@@ -176,15 +174,11 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 * @author Justin Foell
 	 * @since  1.2.0
 	 *
-	 * @param string $athlete_token Token for athelete.
-	 * @param object $activity      stdClass Strava activity object.
+	 * @param string $id       Athlete Token or Club ID.
+	 * @param object $activity stdClass Strava activity object.
 	 */
-	private function update_activity( $athlete_token, $activity ) {
-		// Remove old (pre 1.2.0) option.
-		if ( get_option( 'strava_latest_map_ride' ) ) {
-			delete_option( 'strava_latest_map_ride' );
-		}
-		update_option( 'strava_latest_map_activity_' . $athlete_token, $activity );
+	private function update_activity( $id, $activity ) {
+		update_option( 'strava_latest_map_activity_' . $id, $activity );
 	}
 
 	/**
@@ -193,14 +187,10 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 * @author Justin Foell
 	 * @since  1.2.0
 	 *
-	 * @param string $athlete_token Token for athelete.
-	 * @param object $activity      stdClass Strava activity object.
+	 * @param string $id       Athlete Token or Club ID.
+	 * @param object $activity stdClass Strava activity object.
 	 */
-	private function update_activity_transient( $athlete_token, $activity ) {
-		// Remove old (pre 1.2.0) transient.
-		if ( get_transient( 'strava_latest_map_ride' ) ) {
-			delete_transient( 'strava_latest_map_ride' );
-		}
-		set_transient( 'strava_latest_map_activity_' . $athlete_token, $activity, HOUR_IN_SECONDS );
+	private function update_activity_transient( $id, $activity ) {
+		set_transient( 'strava_latest_map_activity_' . $id, $activity, HOUR_IN_SECONDS );
 	}
 }

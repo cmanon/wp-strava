@@ -30,7 +30,7 @@ class WPStava_LatestActivities {
 			$response .= sprintf( __( 'On %1$s %2$s', 'wp-strava' ), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );
 
 			if ( is_numeric( $args['strava_club_id'] ) ) {
-				$response .= " <a href='" . WPStrava_Activity::ATHLETES_URL . $activity->athlete_id . "'>" . $activity->athlete_name . '</a>';
+				$response .= " <a href='" . WPStrava_Activity::ATHLETES_URL . $activity->athlete->id . "'>" . $activity->athlete->firstname . ' ' . $activity->athlete->lastname . '</a>';
 			}
 
 			// Translators: "went 10 miles"
