@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -73,6 +73,9 @@ If your key works with other Google Maps plugins but not WP Strava, you may need
 11. Activities Shortcode Settings - An example activities shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
 
 == Changelog ==
+
+= 1.4.1 =
+Fix array indices on map widget
 
 = 1.4.0 =
 
