@@ -127,7 +127,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 
-			echo "<a title='{$activity->name}' href='http://app.strava.com/activities/{$activity->id}'>";
+			echo "<a title='{$activity->name}' href='" . WPStrava_Activity::ACTIVITIES_URL . "{$activity->id}'>";
 			echo $this->get_static_image( $id, $activity, $build_new );
 			echo '</a>';
 			echo $args['after_widget'];
