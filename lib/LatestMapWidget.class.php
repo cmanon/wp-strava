@@ -120,15 +120,15 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		}
 
 		if ( $activity ) {
-			echo $args['$before_widget'];
+			echo $args['before_widget'];
 			if ( $title ) {
-				echo $args['$before_title'] . $title . $args['$after_title'];
+				echo $args['before_title'] . $title . $args['after_title'];
 			}
 
 			echo "<a title='{$activity->name}' href='http://app.strava.com/activities/{$activity->id}'>";
 			echo $this->get_static_image( $athlete_token, $activity, $build_new );
 			echo '</a>';
-			echo $args['$after_widget'];
+			echo $args['after_widget'];
 		}
 	}
 
