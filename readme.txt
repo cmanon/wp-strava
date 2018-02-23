@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -52,11 +52,11 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
-When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token to the shortcode, such as
+When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as athlete_token=c764a2b199cff281e39f24671760c1b9c9fe005e
 
 = Why is my Google Map not showing up? =
 
-If your key works with other Google Maps plugins but not WP Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
+If your API key works with other Google Maps plugins but not WP Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
 
 == Screenshots ==
 
@@ -73,6 +73,10 @@ If your key works with other Google Maps plugins but not WP Strava, you may need
 11. Activities Shortcode Settings - An example activities shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
 
 == Changelog ==
+
+= 1.4.3 =
+
+Fix WPStrava_Activity class not found error.
 
 = 1.4.2 =
 

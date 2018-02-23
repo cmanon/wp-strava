@@ -2,6 +2,7 @@
 
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/Settings.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOM.class.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'lib/Activity.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestActivitiesShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/ActivityShortcode.class.php';
 require_once WPSTRAVA_PLUGIN_DIR . 'lib/RouteShortcode.class.php';
@@ -68,7 +69,6 @@ class WPStrava {
 
 	public function get_activity() {
 		if ( ! $this->activity ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Activity.class.php';
 			$this->activity = new WPStrava_Activity();
 		}
 
