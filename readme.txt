@@ -74,6 +74,12 @@ If your API key works with other Google Maps plugins but not WP Strava, you may 
 
 == Changelog ==
 
+= 1.5.0 =
+
+Added composer with PSR-0 autoloader (will switch to PSR-4 once WP's PHP 5.2 requirement goes away).
+Moved files into appropriate place to support autoloader.
+Added WordPress-Extra coding standards rule definition to project
+
 = 1.4.3 =
 
 Fix WPStrava_Activity class not found error.

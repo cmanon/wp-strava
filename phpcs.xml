@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="WPStrava">
+
+	<!-- Include the whole WordPress-Extra standard -->
+	<rule ref="WordPress-Extra">
+		<!-- Exlude these class naming conventions - we're using a PSR autoload standard -->
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+	</rule>
+</ruleset>
