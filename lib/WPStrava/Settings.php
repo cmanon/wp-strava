@@ -289,7 +289,6 @@ class WPStrava_Settings {
 		delete_option( 'strava_client_secret' );
 
 		if ( $client_id && $client_secret ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
 			$api  = new WPStrava_API();
 			$data = array(
 				'client_id'     => $client_id,

@@ -1,0 +1,12 @@
+{
+	"name": "wpackagist-plugin/wp-strava",
+	"description": "Show your strava.com activity on your WordPress site.",
+	"require":{
+		"php": ">=5.2.4"
+	},
+    "autoload": {
+        "psr-0": {
+            "WPStrava_": "lib/"
+		}
+    }
+}

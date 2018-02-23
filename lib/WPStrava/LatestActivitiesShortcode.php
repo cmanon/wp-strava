@@ -1,7 +1,5 @@
 <?php
 
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestActivities.class.php';
-
 class WPStrava_LatestActivitiesShortcode {
 	private static $add_script;
 
@@ -14,7 +12,7 @@ class WPStrava_LatestActivitiesShortcode {
 	// [activities som=metric quantity=5 athlete_token=xxx|strava_club_id=yyy]
 	public static function handler( $atts ) {
 		self::$add_script = true;
-		return WPStava_LatestActivities::get_activities_html( $atts );
+		return WPStrava_LatestActivities::get_activities_html( $atts );
 	} // handler
 
 	public static function print_scripts() {

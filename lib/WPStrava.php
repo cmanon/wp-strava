@@ -1,13 +1,5 @@
 <?php
 
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/Settings.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/SOM.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/Activity.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestActivitiesShortcode.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/ActivityShortcode.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/RouteShortcode.class.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/StaticMap.class.php';
-
 class WPStrava {
 
 	private static $instance = null;
@@ -60,7 +52,6 @@ class WPStrava {
 		}
 
 		if ( empty( $this->api[ $token ] ) ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/API.class.php';
 			$this->api[ $token ] = new WPStrava_API( $token );
 		}
 
@@ -77,7 +68,6 @@ class WPStrava {
 
 	public function get_routes() {
 		if ( ! $this->routes ) {
-			require_once WPSTRAVA_PLUGIN_DIR . 'lib/Routes.class.php';
 			$this->routes = new WPStrava_Routes();
 		}
 		return $this->routes;
@@ -89,8 +79,6 @@ class WPStrava {
 	}
 
 	public function register_widgets() {
-		require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestActivitiesWidget.class.php';
-		require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestMapWidget.class.php';
 		register_widget( 'WPStrava_LatestActivitiesWidget' );
 		register_widget( 'WPStrava_LatestMapWidget' );
 	}

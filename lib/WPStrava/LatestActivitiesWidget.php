@@ -1,7 +1,5 @@
 <?php
 
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/LatestActivities.class.php';
-
 /**
  * WP Strava Latest Activities Widget Class
  */
@@ -36,7 +34,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
-		echo WPStava_LatestActivities::get_activities_html( $activities_args );
+		echo WPStrava_LatestActivities::get_activities_html( $activities_args );
 		echo $args['after_widget'];
 	}
 

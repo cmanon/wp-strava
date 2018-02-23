@@ -1,6 +1,6 @@
 <?php
 
-class WPStava_LatestActivities {
+class WPStrava_LatestActivities {
 	public static function get_activities_html( $args ) {
 
 		$defaults = array(

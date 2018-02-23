@@ -2,9 +2,9 @@
 /**
  * Plugin Name: WP Strava
  * Plugin URI: https://wordpress.org/plugins/wp-strava/
- * Description: Plugin to show your strava.com information in your WordPress blog. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.
- * Version: 1.4.3
- * Author: Carlos Santa Cruz, Justin Foell, Lance Willet, Daniel Lintott
+ * Description: Show your strava.com activity on your WordPress site. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.
+ * Version: 1.5.0-r1
+ * Author: Carlos Santa Cruz, Justin Foell, Lance Willett, Daniel Lintott
  * License: GPL2
  * Text Domain: wp-strava
  * Domain Path: /lang
@@ -40,5 +40,6 @@ function wp_strava_load_plugin_textdomain() {
 }
 add_action( 'plugins_loaded', 'wp_strava_load_plugin_textdomain' );
 
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/Strava.class.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'vendor/autoload.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'lib/WPStrava.php';
 $wpstrava = WPStrava::get_instance();
