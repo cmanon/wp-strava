@@ -78,7 +78,8 @@ class WPStrava_ActivityShortcode {
 					</table>
 					<a title="' . $activity_details->name . '" href="' . WPStrava_Activity::ACTIVITIES_URL . $activity_details->id . '">' .
 					WPStrava_StaticMap::get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'] ) .
-				'</div>';
+					'</a>
+				</div>';
 		} // End if( $activity_details ).
 	}
 

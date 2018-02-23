@@ -1,10 +1,10 @@
 === WP-Strava ===
 
-Contributors: cmanon, jrfoell, lancewillett, dlintott 
+Contributors: cmanon, jrfoell, lancewillett, dlintott
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -52,7 +52,7 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
-When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token to the shortcode, such as 
+When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token to the shortcode, such as
 
 = Why is my Google Map not showing up? =
 
@@ -79,6 +79,7 @@ If your key works with other Google Maps plugins but not WP Strava, you may need
 Better Club ID support.
 Refined cache clearing to include club IDs.
 Removed links to 'app.strava.com'
+Fixed unclosed href anchor on activity shortcode.
 
 = 1.4.1 =
 Fix array indices on map widget
