@@ -58,6 +58,11 @@ When you have multiple athletes saved, the first is considered to be the default
 
 If your API key works with other Google Maps plugins but not WP Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
 
+= I recently uploaded an activity, why is it not showing on my site? =
+
+WP-Strava caches activity for one hour so your site doesn't hit the Strava API on every page load. If you recently uploaded activity and want to see it right away, go to the Settings -> Strava in the wp-admin dashboard, check the checkbox labeled "Clear cache (images & transient data)" and then click Save Changes.
+
+
 == Screenshots ==
 
 1. WP Strava settings - this walks you through connecting the WP Strava plugin to your strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
@@ -77,6 +82,7 @@ If your API key works with other Google Maps plugins but not WP Strava, you may 
 = 1.5.1 =
 
 urlencode() redirect_uri so authentication works more consistently.
+Added FAQ about caching.
 
 
 = 1.5.0 =
