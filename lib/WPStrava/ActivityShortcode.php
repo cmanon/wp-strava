@@ -29,7 +29,7 @@ class WPStrava_ActivityShortcode {
 
 		if ( is_wp_error( $activity_details ) ) {
 			if ( WPSTRAVA_DEBUG ) {
-				return '<pre>' . print_r( $activity_details, true ) . '</pre>'; // @codingStandardsIgnoreLine
+				return '<pre>' . print_r( $activity_details, true ) . '</pre>'; // phpcs:ignore -- Debug output.
 			} else {
 				return $activity_details->get_error_message();
 			}

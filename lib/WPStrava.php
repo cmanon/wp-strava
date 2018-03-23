@@ -1,13 +1,43 @@
 <?php
-
+/*
+ * Main Strava plugin class.
+ */
 class WPStrava {
 
+	/**
+	 * Instance of this class (singleton).
+	 * @var WPStrava
+	 */
 	private static $instance = null;
-	private $settings        = null;
-	private $api             = array(); // Holds an array of APIs.
-	private $activity        = null;
-	private $routes          = null;
 
+	/**
+	 * Settings object to access settings.
+	 * @var WPStrava_Settings
+	 */
+	private $settings = null;
+
+	/**
+	 * Array of WPStrava_API objects (one for each athlete).
+	 *
+	 * @var array
+	 */
+	private $api = array();
+
+	/**
+	 * Activity object to get activities.
+	 * @var WPStrava_Activity
+	 */
+	private $activity = null;
+
+	/**
+	 * Route object to get routes.
+	 * @var WPStrava_Routes
+	 */
+	private $routes = null;
+
+	/**
+	 * Private constructor (singleton).
+	 */
 	private function __construct() {
 		$this->settings = new WPStrava_Settings();
 
@@ -23,6 +53,11 @@ class WPStrava {
 
 	}
 
+	/**
+	 * Get a singleton instance.
+	 *
+	 * @return WPStrava
+	 */
 	public static function get_instance() {
 		if ( ! self::$instance ) {
 			$class          = __CLASS__;
@@ -31,6 +66,12 @@ class WPStrava {
 		return self::$instance;
 	}
 
+	/**
+	 * Magic method to access activity, routes, settings, etc.
+	 *
+	 * @param string $name One of activity, routes, settings.
+	 * @return mixed|null
+	 */
 	public function __get( $name ) {
 		// On-demand classes.
 		if ( 'activity' === $name ) {
@@ -48,6 +89,12 @@ class WPStrava {
 		return null;
 	}
 
+	/**
+	 * Get an API object for the given athelete token.
+	 *
+	 * @param string $token Athlete token.
+	 * @return WPStrava_API
+	 */
 	public function get_api( $token = null ) {
 		if ( ! $token ) {
 			$token = $this->settings->get_default_token();
@@ -60,6 +107,11 @@ class WPStrava {
 		return $this->api[ $token ];
 	}
 
+	/**
+	 * Get the activity object.
+	 *
+	 * @return WPStrava_Activity
+	 */
 	public function get_activity() {
 		if ( ! $this->activity ) {
 			$this->activity = new WPStrava_Activity();
@@ -68,6 +120,11 @@ class WPStrava {
 		return $this->activity;
 	}
 
+	/**
+	 * Get the routes object.
+	 *
+	 * @return WPStrava_Routes
+	 */
 	public function get_routes() {
 		if ( ! $this->routes ) {
 			$this->routes = new WPStrava_Routes();
@@ -75,16 +132,25 @@ class WPStrava {
 		return $this->routes;
 	}
 
+	/**
+	 * Register the wp-strava stylesheet.
+	 */
 	public function register_scripts() {
 		// Register a personalized stylesheet.
 		wp_register_style( 'wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css' );
 	}
 
+	/**
+	 * Register the widgets.
+	 */
 	public function register_widgets() {
 		register_widget( 'WPStrava_LatestActivitiesWidget' );
 		register_widget( 'WPStrava_LatestMapWidget' );
 	}
 
+	/**
+	 * Register the shortcodes.
+	 */
 	public function register_shortcodes() {
 		add_shortcode( 'ride', array( 'WPStrava_ActivityShortcode', 'handler' ) ); // @deprecated 1.1
 		add_shortcode( 'activity', array( 'WPStrava_ActivityShortcode', 'handler' ) );

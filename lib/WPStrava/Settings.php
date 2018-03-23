@@ -308,7 +308,7 @@ class WPStrava_Settings {
 				}
 			} else {
 				// Translators: error message from Strava
-				$this->feedback .= sprintf( __( 'There was an error receiving data from Strava: %s', 'wp-strava' ), print_r( $strava_info, true ) ); // @codingStandardsIgnoreLine
+				$this->feedback .= sprintf( __( 'There was an error receiving data from Strava: %s', 'wp-strava' ), print_r( $strava_info, true ) ); // phpcs:ignore -- Debug output.
 				return false;
 			}
 		} else {

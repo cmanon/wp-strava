@@ -35,7 +35,7 @@ class WPStrava_RouteShortcode {
 
 		if ( is_wp_error( $route_details ) ) {
 			if ( WPSTRAVA_DEBUG ) {
-				return '<pre>' . print_r( $route_details, true ) . '</pre>'; // @codingStandardsIgnoreLine
+				return '<pre>' . print_r( $route_details, true ) . '</pre>'; // phpcs:ignore -- Debug output.
 			} else {
 				return $route_details->get_error_message();
 			}

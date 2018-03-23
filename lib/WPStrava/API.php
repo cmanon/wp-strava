@@ -38,7 +38,7 @@ class WPStrava_API {
 			if ( ! empty( $body->error ) ) {
 				$error = $body->error;
 			} else {
-				$error = print_r( $response, true ); // @codingStandardsIgnoreLine
+				$error = print_r( $response, true ); // phpcs:ignore -- Debug output.
 			}
 
 			return new WP_Error(
