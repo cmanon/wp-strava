@@ -84,7 +84,7 @@ class WPStrava_API {
 			} elseif ( 503 == $response['response']['code'] ) {
 				$error = __( 'Strava Temporarily Unavailable', 'wp-strava' );
 			} else {
-				$error = print_r( $response, true ); // @codingStandardsIgnoreLine
+				$error = print_r( $response, true ); // phpcs:ignore -- Debug output.
 			}
 
 			return new WP_Error(

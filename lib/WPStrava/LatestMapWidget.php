@@ -96,7 +96,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 				if ( WPSTRAVA_DEBUG ) {
 					echo '<pre>';
-					print_r( $activities ); // @codingStandardsIgnoreLine
+					print_r( $activities ); // phpcs:ignore -- Debug output.
 					echo '</pre>';
 				} else {
 					echo $activities->get_error_message();
