@@ -74,6 +74,11 @@ If your API key works with other Google Maps plugins but not WP Strava, you may 
 
 == Changelog ==
 
+= 1.5.1 =
+
+urlencode() redirect_uri so authentication works more consistently.
+
+
 = 1.5.0 =
 
 Added additional checks for abridged club data to avoid undefined index/property errors https://wordpress.org/support/topic/club-activities-bugs-strava/
@@ -81,9 +86,11 @@ Added composer with PSR-0 autoloader (will switch to PSR-4 once WP's PHP 5.2 req
 Moved files into appropriate place to support autoloader.
 Added WordPress-Extra coding standards rule definition to project
 
+
 = 1.4.3 =
 
 Fix WPStrava_Activity class not found error.
+
 
 = 1.4.2 =
 
@@ -92,8 +99,11 @@ Refined cache clearing to include club IDs.
 Removed links to 'app.strava.com'
 Fixed unclosed href anchor on activity shortcode.
 
+
 = 1.4.1 =
+
 Fix array indices on map widget
+
 
 = 1.4.0 =
 
@@ -106,6 +116,7 @@ Added Screenshots.
 Removed target="_blank" from hrefs for accessibility best practices.
 Added links from activity and route shortcodes to respective strava page.
 Removed all instances of extract().
+
 
 = 1.3.0 =
 
@@ -168,4 +179,3 @@ Added option to select unit of measurements on the widget. https://wordpress.org
 = 0.6 =
 
 Initial version.
-

@@ -43,7 +43,7 @@ class WPStrava_Settings {
 					$client_id     = $_POST['strava_client_id'];
 					$client_secret = $_POST['strava_client_secret'];
 
-					$redirect = admin_url( "options-general.php?page={$this->page_name}" );
+					$redirect = urlencode( admin_url( "options-general.php?page={$this->page_name}" ) );
 					$url      = "https://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect}&approval_prompt=force";
 					wp_redirect( $url );
 					exit();
