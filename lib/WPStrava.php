@@ -14,7 +14,7 @@ class WPStrava {
 		if ( is_admin() ) {
 			$this->settings->hook();
 		} else {
-			add_action( 'init', array( $this, 'register_shortcodes') );
+			add_action( 'init', array( $this, 'register_shortcodes' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 		}
 
