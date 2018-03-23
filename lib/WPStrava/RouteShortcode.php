@@ -10,7 +10,6 @@ class WPStrava_RouteShortcode {
 	private static $add_script;
 
 	public static function init() {
-		add_shortcode( 'route', array( __CLASS__, 'handler' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'print_scripts' ) );
 	}
 

@@ -24,7 +24,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wp-strava' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wp-strava' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
 		</p>
 		<p>
@@ -36,11 +36,11 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 				</select>
 			</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'distance_min' ); ?>"><?php echo sprintf( __( 'Min. Distance (%s):', 'wp-strava' ), $this->som->get_distance_label() ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'distance_min' ); ?>"><?php echo sprintf( __( 'Min. Distance (%s):', 'wp-strava' ), $this->som->get_distance_label() ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'distance_min' ); ?>" name="<?php echo $this->get_field_name( 'distance_min' ); ?>" type="text" value="<?php echo $distance_min; ?>" />
 		</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'strava_club_id' ); ?>"><?php esc_html_e( 'Club ID (leave blank to show Athlete):', 'wp-strava' ); ?></label> 
+				<label for="<?php echo $this->get_field_id( 'strava_club_id' ); ?>"><?php esc_html_e( 'Club ID (leave blank to show Athlete):', 'wp-strava' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'strava_club_id' ); ?>" name="<?php echo $this->get_field_name( 'strava_club_id' ); ?>" type="text" value="<?php echo $strava_club_id; ?>" />
 			</p>
 		<?php
@@ -78,7 +78,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		$activity = $activity_transient ? $activity_transient : null;
 
-		if ( ! $activity ) {
+		if ( ! $activity || empty( $activity->map ) ) {
 			$strava_activity = WPStrava::get_instance()->activity;
 			$activities      = $strava_activity->get_activities( $athlete_token, $strava_club_id );
 
@@ -127,9 +127,11 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 
-			echo "<a title='{$activity->name}' href='" . WPStrava_Activity::ACTIVITIES_URL . "{$activity->id}'>";
-			echo $this->get_static_image( $id, $activity, $build_new );
-			echo '</a>';
+			echo empty( $activity->map ) ?
+				sprintf( __( 'Map not available for activity "%s"', 'wp-strava' ), $activity->name ) :
+				"<a title='{$activity->name}' href='" . WPStrava_Activity::ACTIVITIES_URL . "{$activity->id}'>" .
+				$this->get_static_image( $id, $activity, $build_new ) .
+				'</a>';
 			echo $args['after_widget'];
 		}
 	}

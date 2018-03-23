@@ -76,6 +76,7 @@ If your API key works with other Google Maps plugins but not WP Strava, you may 
 
 = 1.5.0 =
 
+Added additional checks for abridged club data to avoid undefined index/property errors https://wordpress.org/support/topic/club-activities-bugs-strava/
 Added composer with PSR-0 autoloader (will switch to PSR-4 once WP's PHP 5.2 requirement goes away).
 Moved files into appropriate place to support autoloader.
 Added WordPress-Extra coding standards rule definition to project

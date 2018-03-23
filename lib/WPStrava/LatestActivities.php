@@ -23,14 +23,22 @@ class WPStrava_LatestActivities {
 		$response = "<ul id='activities'>";
 		foreach ( $activities as $activity ) {
 			$response .= "<li class='activity'>";
-			$response .= "<a href='" . WPStrava_Activity::ACTIVITIES_URL . $activity->id . "'>" . $activity->name . '</a>';
+			$response .= empty( $activity->id ) ?
+				$activity->name :
+				"<a href='" . WPStrava_Activity::ACTIVITIES_URL . $activity->id . "'>" . $activity->name . '</a>';
 			$response .= "<div class='activity-item'>";
-			$unixtime  = strtotime( $activity->start_date_local );
-			// Translators: Shows something like "On <date> <[went 10 miles] [during 2 hours] [climbing 100 feet]>."
-			$response .= sprintf( __( 'On %1$s %2$s', 'wp-strava' ), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );
+
+			if ( ! empty( $activity->start_date_local ) ) {
+				$unixtime  = strtotime( $activity->start_date_local );
+				// Translators: Shows something like "On <date> <[went 10 miles] [during 2 hours] [climbing 100 feet]>."
+				$response .= sprintf( __( 'On %1$s %2$s', 'wp-strava' ), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );
+			}
 
 			if ( is_numeric( $args['strava_club_id'] ) ) {
-				$response .= " <a href='" . WPStrava_Activity::ATHLETES_URL . $activity->athlete->id . "'>" . $activity->athlete->firstname . ' ' . $activity->athlete->lastname . '</a>';
+				$name = $activity->athlete->firstname . ' ' . $activity->athlete->lastname;
+				$response .= empty( $activity->athlete->id ) ?
+					" {$name}" :
+					" <a href='" . WPStrava_Activity::ATHLETES_URL . $activity->athlete->id . "'>" . $name . '</a>';
 			}
 
 			// Translators: "went 10 miles"

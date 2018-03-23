@@ -4,7 +4,6 @@ class WPStrava_LatestActivitiesShortcode {
 	private static $add_script;
 
 	public static function init() {
-		add_shortcode( 'activities', array( __CLASS__, 'handler' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'print_scripts' ) );
 	}
 

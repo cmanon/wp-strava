@@ -14,11 +14,13 @@ class WPStrava {
 		if ( is_admin() ) {
 			$this->settings->hook();
 		} else {
+			add_action( 'init', array( $this, 'register_shortcodes') );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 		}
 
 		// Register widgets.
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+
 	}
 
 	public static function get_instance() {
@@ -81,5 +83,12 @@ class WPStrava {
 	public function register_widgets() {
 		register_widget( 'WPStrava_LatestActivitiesWidget' );
 		register_widget( 'WPStrava_LatestMapWidget' );
+	}
+
+	public function register_shortcodes() {
+		add_shortcode( 'ride', array( 'WPStrava_ActivityShortcode', 'handler' ) ); // @deprecated 1.1
+		add_shortcode( 'activity', array( 'WPStrava_ActivityShortcode', 'handler' ) );
+		add_shortcode( 'activities', array( 'WPStrava_LatestActivitiesShortcode', 'handler' ) );
+		add_shortcode( 'route', array( 'WPStrava_RouteShortcode', 'handler' ) );
 	}
 }
