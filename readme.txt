@@ -81,8 +81,10 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 = 1.5.1 =
 
-urlencode() redirect_uri so authentication works more consistently.
+rawurlencode() redirect_uri so authentication works more consistently.
 Added FAQ about caching.
+Changed to new-style phpcs ignores and ignored some additional lines.
+Added debug option to Authentication Failed path for https://wordpress.org/support/topic/problem-authenticating-with-strava/
 
 
 = 1.5.0 =
