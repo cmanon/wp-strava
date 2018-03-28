@@ -43,7 +43,7 @@ class WPStrava_Settings {
 					$client_id     = $_POST['strava_client_id'];
 					$client_secret = $_POST['strava_client_secret'];
 
-					$redirect = urlencode( admin_url( "options-general.php?page={$this->page_name}" ) );
+					$redirect = rawurlencode( admin_url( "options-general.php?page={$this->page_name}" ) );
 					$url      = "https://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect}&approval_prompt=force";
 					wp_redirect( $url );
 					exit();
@@ -299,11 +299,17 @@ class WPStrava_Settings {
 			$strava_info = $api->post( 'oauth/token', $data );
 
 			if ( $strava_info ) {
-				if ( isset( $strava_info->access_token ) ) {
+				if ( ! empty( $strava_info->access_token ) ) {
 					$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
 					return $strava_info->access_token;
 				} else {
-					$this->feedback .= __( 'Authentication failed, please check your credentials.', 'wp-strava' );
+					if ( WP_STRAVA_DEBUG ) {
+						// Translators: message shown when there's an authentication problem with the Strava API (debug on).
+						$this->feedback .= sprintf( __( 'Authentication failed, OAuth response: <pre>%s</pre>', 'wp-strava' ), print_r( $strava_info, true ) ); // phpcs:ignore -- Debug output.
+					} else {
+						// Translators: message shown when there's an authentication problem with the Strava API.
+						$this->feedback .= __( 'Authentication failed, please check your credentials. See full error by adding<br/><code>define( \'WP_STRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' );
+					}
 					return false;
 				}
 			} else {
@@ -462,7 +468,7 @@ class WPStrava_Settings {
 	 * @since  1.2.0
 	 */
 	public function add_token( $token ) {
-		if ( false === array_search( $token, $this->tokens ) ) {
+		if ( false === array_search( $token, $this->tokens, true ) ) {
 			$this->tokens[] = $token;
 		}
 	}
