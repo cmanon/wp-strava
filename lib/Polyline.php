@@ -103,10 +103,10 @@ class Polyline {
 	 */
 	final public static function decode( $string ) {
 		$points   = array();
-		$index    = $i = 0;
+		$index    = $i = 0; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 		$previous = array( 0, 0 );
-		while ( $i < strlen( $string ) ) {
-			$shift = $result = 0x00;
+		while ( $i < strlen( $string ) ) { // phpcs:ignore Squiz.PHP.DisallowSizeFunctionsInLoops.Found
+			$shift = $result = 0x00; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 			do {
 				$bit     = ord( substr( $string, $i++ ) ) - 63;
 				$result |= ( $bit & 0x1f ) << $shift;

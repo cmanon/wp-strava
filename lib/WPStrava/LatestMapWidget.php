@@ -115,13 +115,13 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 				// Compare transient (temporary storage) to option (more permenant).
 				// If the option isn't set or the transient is different, update the option.
-				if ( empty( $activity_option->id ) || $activity->id != $activity_option->id ) {
+				if ( empty( $activity_option->id ) || $activity->id != $activity_option->id ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 					$build_new = true;
 					$this->update_activity( $id, $activity );
 				}
 
 				// Update the transient if it needs updating.
-				if ( empty( $activity_transient->id ) || $activity->id != $activity_transient->id ) {
+				if ( empty( $activity_transient->id ) || $activity->id != $activity_transient->id ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 					$this->update_activity_transient( $id, $activity );
 				}
 			}

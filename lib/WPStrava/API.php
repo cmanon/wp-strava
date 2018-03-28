@@ -30,7 +30,7 @@ class WPStrava_API {
 			return $response;
 		}
 
-		if ( 200 != $response['response']['code'] ) {
+		if ( 200 != $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 
 			// See if there's useful info in the body.
 			$body  = json_decode( $response['body'] );
@@ -74,14 +74,14 @@ class WPStrava_API {
 			return $response;
 		}
 
-		if ( 200 != $response['response']['code'] ) {
+		if ( 200 != $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 
 			// See if there's useful info in the body.
 			$body  = json_decode( $response['body'] );
 			$error = '';
 			if ( ! empty( $body->error ) ) {
 				$error = $body->error;
-			} elseif ( 503 == $response['response']['code'] ) {
+			} elseif ( 503 == $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 				$error = __( 'Strava Temporarily Unavailable', 'wp-strava' );
 			} else {
 				$error = print_r( $response, true ); // phpcs:ignore -- Debug output.
