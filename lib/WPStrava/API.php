@@ -18,6 +18,7 @@ class WPStrava_API {
 			'body'      => http_build_query( $data ),
 			'sslverify' => false,
 			'headers'   => array(),
+			'timeout'   => 30,
 		);
 
 		if ( $this->access_token ) {

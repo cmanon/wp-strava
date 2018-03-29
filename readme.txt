@@ -85,6 +85,7 @@ rawurlencode() redirect_uri so authentication works more consistently.
 Added FAQ about caching.
 Changed to new-style phpcs ignores and ignored some additional lines.
 Added debug option to Authentication Failed path for https://wordpress.org/support/topic/problem-authenticating-with-strava/
+Increased API Post timeout to 30 seconds.
 
 
 = 1.5.0 =

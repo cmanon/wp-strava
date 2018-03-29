@@ -298,29 +298,19 @@ class WPStrava_Settings {
 
 			$strava_info = $api->post( 'oauth/token', $data );
 
-			if ( $strava_info ) {
-				if ( ! empty( $strava_info->access_token ) ) {
-					$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
-					return $strava_info->access_token;
-				} else {
-					if ( WP_STRAVA_DEBUG ) {
-						// Translators: message shown when there's an authentication problem with the Strava API (debug on).
-						$this->feedback .= sprintf( __( 'Authentication failed, OAuth response: <pre>%s</pre>', 'wp-strava' ), print_r( $strava_info, true ) ); // phpcs:ignore -- Debug output.
-					} else {
-						// Translators: message shown when there's an authentication problem with the Strava API.
-						$this->feedback .= __( 'Authentication failed, please check your credentials. See full error by adding<br/><code>define( \'WP_STRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' );
-					}
-					return false;
-				}
-			} else {
-				// Translators: error message from Strava
-				$this->feedback .= sprintf( __( 'There was an error receiving data from Strava: %s', 'wp-strava' ), print_r( $strava_info, true ) ); // phpcs:ignore -- Debug output.
-				return false;
+			if ( isset( $strava_info->access_token ) ) {
+				$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
+				return $strava_info->access_token;
 			}
-		} else {
-			$this->feedback .= __( 'Missing Client ID or Client Secret.', 'wp-strava' );
+
+			// Translators: error message from Strava
+			$this->feedback .= sprintf( __( 'There was an error receiving data from Strava: <pre>%s</pre>', 'wp-strava' ), print_r( $strava_info, true ) ); // phpcs:ignore -- Debug output.
 			return false;
-		} // End if.
+
+		}
+
+		$this->feedback .= __( 'Missing Client ID or Client Secret.', 'wp-strava' );
+		return false;
 	}
 
 	public function print_gmaps_key_input() {
