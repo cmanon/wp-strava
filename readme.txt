@@ -52,7 +52,7 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
-When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as athlete_token=c764a2b199cff281e39f24671760c1b9c9fe005e
+When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as athlete_token=c764a2b199cff281e39f24671760c1b9c9fe005e. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
 
 = Why is my Google Map not showing up? =
 
@@ -61,7 +61,6 @@ If your API key works with other Google Maps plugins but not WP Strava, you may 
 = I recently uploaded an activity, why is it not showing on my site? =
 
 WP-Strava caches activity for one hour so your site doesn't hit the Strava API on every page load. If you recently uploaded activity and want to see it right away, go to the Settings -> Strava in the wp-admin dashboard, check the checkbox labeled "Clear cache (images & transient data)" and then click Save Changes.
-
 
 == Screenshots ==
 
@@ -84,8 +83,8 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 rawurlencode() redirect_uri so authentication works more consistently.
 Added FAQ about caching.
 Changed to new-style phpcs ignores and ignored some additional lines.
-Added debug option to Authentication Failed path for https://wordpress.org/support/topic/problem-authenticating-with-strava/
-Increased API Post timeout to 30 seconds.
+Simplified auth token logic to troubleshoot https://wordpress.org/support/topic/problem-authenticating-with-strava/
+Increased API request timeout to 30 seconds.
 
 
 = 1.5.0 =

@@ -44,8 +44,8 @@ class WPStrava_API {
 
 			return new WP_Error(
 				'wp-strava_post',
-				// Translators: message shown when there's a problem with ab HTTP POST to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WP_STRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				// Translators: message shown when there's a problem with an HTTP POST to the Strava API.
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WPSTRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
 				$error
 			);
 		}
@@ -63,8 +63,11 @@ class WPStrava_API {
 		}
 
 		$get_args = array(
-			'headers' => array(),
+			'headers'   => array(),
+			'sslverify' => false,
+			'timeout'   => 30,
 		);
+
 		if ( $this->access_token ) {
 			$get_args['headers']['Authorization'] = 'Bearer ' . $this->access_token;
 		}
@@ -91,7 +94,7 @@ class WPStrava_API {
 			return new WP_Error(
 				'wp-strava_get',
 				// Translators: message shown when there's a problem with an HTTP GET to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WP_STRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
+				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WPSTRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
 				$error
 			);
 		}

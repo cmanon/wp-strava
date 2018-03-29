@@ -91,7 +91,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			if ( is_wp_error( $activities ) ) {
 				echo $args['before_widget'];
 				if ( $title ) {
-					echo $args['$before_title'] . $title . $args['$after_title'];
+					echo $args['before_title'] . $title . $args['after_title'];
 				}
 
 				if ( WPSTRAVA_DEBUG ) {
@@ -101,7 +101,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 				} else {
 					echo $activities->get_error_message();
 				}
-				echo $args['$after_widget'];
+				echo $args['after_widget'];
 				return;
 			}
 
