@@ -78,6 +78,10 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 == Changelog ==
 
+= 1.6.0 =
+
+Added class autoloader.
+
 = 1.5.1 =
 
 rawurlencode() redirect_uri so authentication works more consistently.

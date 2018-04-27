@@ -6,10 +6,5 @@
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "~0.14"
-    },
-    "autoload": {
-        "psr-0": {
-            "WPStrava_": "lib/"
-        }
     }
 }

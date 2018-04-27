@@ -2,7 +2,4 @@
 .svn
 .vscode
 composer.lock
-vendor/bin/
-vendor/squizlabs/
-vendor/wp-coding-standards/
-vendor/composer/installed.json
+vendor

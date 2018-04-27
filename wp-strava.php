@@ -36,11 +36,32 @@ if ( ! defined( 'WPSTRAVA_DEBUG' ) ) {
 }
 
 // Load the multilingual support.
-function wp_strava_load_plugin_textdomain() {
+function wpstrava_load_plugin_textdomain() {
 	load_plugin_textdomain( 'wp-strava', false, WPSTRAVA_PLUGIN_DIR . 'lang/' );
 }
-add_action( 'plugins_loaded', 'wp_strava_load_plugin_textdomain' );
+add_action( 'plugins_loaded', 'wpstrava_load_plugin_textdomain' );
 
-require_once WPSTRAVA_PLUGIN_DIR . 'vendor/autoload.php';
-require_once WPSTRAVA_PLUGIN_DIR . 'lib/WPStrava.php';
+/**
+ * Autoloads files with classes when needed.
+ *
+ * @since  1.6.0
+ * @param  string $class_name Name of the class being requested.
+ * @return void
+ */
+function wpstrava_autoload_classes( $class_name ) {
+	$parts = explode( '_', $class_name );
+
+	// If our class doesn't have our namespace, don't load it.
+	if ( empty( $parts[0] ) || 'WPStrava' !== $parts[0] ) {
+		return;
+	}
+
+	// @TODO Add directory searching if they get created.
+	$file = dirname( __FILE__ ) . '/lib/' . implode( '/', $parts ) . '.php';
+	if ( file_exists( $file ) ) {
+		include_once $file;
+	}
+}
+spl_autoload_register( 'wpstrava_autoload_classes' );
+
 $wpstrava = WPStrava::get_instance();
