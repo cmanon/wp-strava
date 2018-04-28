@@ -84,25 +84,20 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 		$activity = $activity_transient ? $activity_transient : null;
 
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
+
 		if ( ! $activity || empty( $activity->map ) ) {
 			$strava_activity = WPStrava::get_instance()->activity;
-			$activities      = $strava_activity->get_activities( $athlete_token, $strava_club_id );
 
-			if ( is_wp_error( $activities ) ) {
-				echo $args['before_widget'];
-				if ( $title ) {
-					echo $args['before_title'] . $title . $args['after_title'];
-				}
+			$activities = array();
 
-				if ( WPSTRAVA_DEBUG ) {
-					echo '<pre>';
-					print_r( $activities ); // phpcs:ignore -- Debug output.
-					echo '</pre>';
-				} else {
-					echo $activities->get_error_message();
-				}
-				echo $args['after_widget'];
-				return;
+			try {
+				$activities = $strava_activity->get_activities( $athlete_token, $strava_club_id );
+			} catch( WPStrava_Exception $e ) {
+				echo $e->to_html();
 			}
 
 			if ( ! empty( $activities ) ) {
@@ -113,7 +108,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 				$activity = current( $activities );
 
-				// Compare transient (temporary storage) to option (more permenant).
+				// Compare transient (temporary storage) to option (more permanent).
 				// If the option isn't set or the transient is different, update the option.
 				if ( empty( $activity_option->id ) || $activity->id != $activity_option->id ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 					$build_new = true;
@@ -128,19 +123,14 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		}
 
 		if ( $activity ) {
-			echo $args['before_widget'];
-			if ( $title ) {
-				echo $args['before_title'] . $title . $args['after_title'];
-			}
-
 			echo empty( $activity->map ) ?
 				// Translators: Text with activity name shown in place of image if not available.
 				sprintf( __( 'Map not available for activity "%s"', 'wp-strava' ), $activity->name ) :
 				"<a title='{$activity->name}' href='" . WPStrava_Activity::ACTIVITIES_URL . "{$activity->id}'>" .
 				$this->get_static_image( $id, $activity, $build_new ) .
 				'</a>';
-			echo $args['after_widget'];
 		}
+		echo $args['after_widget'];
 	}
 
 	/**

@@ -28,7 +28,7 @@ class WPStrava_API {
 		$response = wp_remote_post( $url . $uri, $args );
 
 		if ( is_wp_error( $response ) ) {
-			return $response;
+			throw WPStrava_Exception::from_wp_error( $response );
 		}
 
 		if ( 200 != $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
@@ -42,11 +42,11 @@ class WPStrava_API {
 				$error = print_r( $response, true ); // phpcs:ignore -- Debug output.
 			}
 
-			return new WP_Error(
-				'wp-strava_post',
-				// Translators: message shown when there's a problem with an HTTP POST to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WPSTRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
-				$error
+			// Throw an informational exception with a detailed debug exception.
+			throw new WPStrava_Exception(
+				$response['response']['message'],
+				$response['response']['code'],
+				new WPStrava_Exception( $error )
 			);
 		}
 
@@ -75,7 +75,7 @@ class WPStrava_API {
 		$response = wp_remote_get( $url, $get_args );
 
 		if ( is_wp_error( $response ) ) {
-			return $response;
+			throw WPStrava_Exception::from_wp_error( $response );
 		}
 
 		if ( 200 != $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
@@ -91,11 +91,11 @@ class WPStrava_API {
 				$error = print_r( $response, true ); // phpcs:ignore -- Debug output.
 			}
 
-			return new WP_Error(
-				'wp-strava_get',
-				// Translators: message shown when there's a problem with an HTTP GET to the Strava API.
-				sprintf( __( 'ERROR %1$s %2$s - See full error by adding<br/><code>define( \'WPSTRAVA_DEBUG\', true );</code><br/>to wp-config.php', 'wp-strava' ), $response['response']['code'], $response['response']['message'] ),
-				$error
+			// Throw an informational exception with a detailed debug exception.
+			throw new WPStrava_Exception(
+				$response['response']['message'],
+				$response['response']['code'],
+				new WPStrava_Exception( $error )
 			);
 		}
 

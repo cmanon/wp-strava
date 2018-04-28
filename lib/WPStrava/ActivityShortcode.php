@@ -1,16 +1,50 @@
 <?php
+/**
+ * Activity Shortcode [activity].
+ * @package WPStrava
+ */
 
+/**
+ * Activity Shortcode class (converted from Ride).
+ *
+ * @author Justin Foell <justin@foell.org>
+ * @since  1.0
+ */
 class WPStrava_ActivityShortcode {
-	private static $add_script;
 
-	public static function init() {
-		add_action( 'wp_footer', array( __CLASS__, 'print_scripts' ) );
+	/**
+	 * Whether or not to enqueue styles (if shortcode is present).
+	 *
+	 * @var boolean
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
+	 */
+	private $add_script = false;
+
+	/**
+	 * Constructor (converted from static init()).
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
+	 */
+	public function __construct() {
+		add_shortcode( 'ride', array( $this, 'handler' ) ); // @deprecated 1.1
+		add_shortcode( 'activity', array( $this, 'handler' ) );
+		add_action( 'wp_footer', array( $this, 'print_scripts' ) );
 	}
 
-	// Shortcode handler function
-	// [activity id=id som=metric map_width="100%" map_height="400px" markers=false]
-	public static function handler( $atts ) {
-		self::$add_script = true;
+	/**
+	 * Shortcode handler for [activity].
+	 *
+	 * [activity id=id som=metric map_width="100%" map_height="400px" markers=false]
+	 *
+	 * @param array $atts Array of attributes (id, map_width, etc.).
+	 * @return string Shortcode output
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
+	 */
+	public function handler( $atts ) {
+		$this->add_script = true;
 
 		$defaults = array(
 			'id'            => 0,
@@ -25,14 +59,12 @@ class WPStrava_ActivityShortcode {
 
 		$strava_som       = WPStrava_SOM::get_som( $atts['som'] );
 		$activity         = WPStrava::get_instance()->activity;
-		$activity_details = $activity->get_activity( $atts['athlete_token'], $atts['id'] );
+		$activity_details = null;
 
-		if ( is_wp_error( $activity_details ) ) {
-			if ( WPSTRAVA_DEBUG ) {
-				return '<pre>' . print_r( $activity_details, true ) . '</pre>'; // phpcs:ignore -- Debug output.
-			} else {
-				return $activity_details->get_error_message();
-			}
+		try {
+			$activity_details = $activity->get_activity( $atts['athlete_token'], $atts['id'] );
+		} catch( WPStrava_Exception $e ) {
+			return $e->to_html();
 		}
 
 		//sanitize width & height
@@ -81,12 +113,15 @@ class WPStrava_ActivityShortcode {
 		} // End if( $activity_details ).
 	}
 
-	public static function print_scripts() {
-		if ( self::$add_script ) {
+	/**
+	 * Enqueue style if shortcode is being used.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
+	 */
+	public function print_scripts() {
+		if ( $this->add_script ) {
 			wp_enqueue_style( 'wp-strava-style' );
 		}
 	}
 }
-
-// Initialize short code
-WPStrava_ActivityShortcode::init();

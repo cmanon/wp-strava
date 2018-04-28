@@ -14,10 +14,12 @@ class WPStrava_LatestActivities {
 
 		$som             = WPStrava_SOM::get_som( $args['som'] );
 		$strava_activity = WPStrava::get_instance()->activity;
-		$activities      = $strava_activity->get_activities( $args['athlete_token'], $args['strava_club_id'], $args['quantity'] );
+		$activities      = array();
 
-		if ( is_wp_error( $activities ) ) {
-			return $activities->get_error_message();
+		try {
+			$activities = $strava_activity->get_activities( $args['athlete_token'], $args['strava_club_id'], $args['quantity'] );
+		} catch ( WPStrava_Exception $e ) {
+			return $e->to_html();
 		}
 
 		$response = "<ul id='activities'>";

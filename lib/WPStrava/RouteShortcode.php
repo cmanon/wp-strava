@@ -1,22 +1,50 @@
 <?php
+/**
+ * Route Shortcode [route].
+ * @package WPStrava
+ */
 
 /**
- * Route Shortcode.
+ * Route Shortcode class.
  *
  * @author Daniel Lintott
  * @since  1.3.0
  */
 class WPStrava_RouteShortcode {
-	private static $add_script;
 
-	public static function init() {
-		add_action( 'wp_footer', array( __CLASS__, 'print_scripts' ) );
+	/**
+	 * Whether or not to enqueue styles (if shortcode is present).
+	 *
+	 * @var boolean
+	 * @author Daniel Lintott
+	 * @since  1.3.0
+	 */
+	private $add_script = false;
+
+	/**
+	 * Constructor (converted from static init()).
+	 *
+	 * @author Daniel Lintott
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.6.0
+	 */
+	public function __construct() {
+		add_shortcode( 'route', array( $this, 'handler' ) );
+		add_action( 'wp_footer', array( $this, 'print_scripts' ) );
 	}
 
-	// Shortcode handler function
-	// [route id=id som=metric map_width="100%" map_height="400px" markers=false]
-	public static function handler( $atts ) {
-		self::$add_script = true;
+	/**
+	 * Shortcode handler for [route].
+	 *
+	 * [route id=id som=metric map_width="100%" map_height="400px" markers=false]
+	 *
+	 * @param array $atts Array of attributes (id, map_width, etc.).
+	 * @return string Shortcode output
+	 * @author Daniel Lintott
+	 * @since  1.3.0
+	 */
+	public function handler( $atts ) {
+		$this->add_script = true;
 
 		$defaults = array(
 			'id'            => 0,
@@ -31,17 +59,15 @@ class WPStrava_RouteShortcode {
 
 		$strava_som    = WPStrava_SOM::get_som( $atts['som'] );
 		$route         = WPStrava::get_instance()->routes;
-		$route_details = $route->get_route( $atts['id'] );
+		$route_details = null;
 
-		if ( is_wp_error( $route_details ) ) {
-			if ( WPSTRAVA_DEBUG ) {
-				return '<pre>' . print_r( $route_details, true ) . '</pre>'; // phpcs:ignore -- Debug output.
-			} else {
-				return $route_details->get_error_message();
-			}
+		try {
+			$route_details = $route->get_route( $atts['id'] );
+		} catch( WPStrava_Exception $e ) {
+			return $e->to_html();
 		}
 
-		//sanitize width & height
+		// Sanitize width & height.
 		$map_width  = str_replace( '%', '', $atts['map_width'] );
 		$map_height = str_replace( '%', '', $atts['map_height'] );
 		$map_width  = str_replace( 'px', '', $map_width );
@@ -78,12 +104,15 @@ class WPStrava_RouteShortcode {
 		} // End if( $route_details ).
 	}
 
-	public static function print_scripts() {
-		if ( self::$add_script ) {
+	/**
+	 * Enqueue style if shortcode is being used.
+	 *
+	 * @author Daniel Lintott
+	 * @since  1.3.0
+	 */
+	public function print_scripts() {
+		if ( $this->add_script ) {
 			wp_enqueue_style( 'wp-strava-style' );
 		}
 	}
 }
-
-// Initialize short code
-WPStrava_RouteShortcode::init();

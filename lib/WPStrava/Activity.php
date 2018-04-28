@@ -27,7 +27,7 @@ class WPStrava_Activity {
 	 * @param string   $athlete_token Token of athlete to retrieve for
 	 * @param int      $club_id       Club ID of all club riders (optional).
 	 * @param int|null $quantity      Number of records to retrieve (optional).
-	 * @return array|WP_Error Array of activities or WP_Error.
+	 * @return array Array of activities.
 	 */
 	public function get_activities( $athlete_token, $club_id = null, $quantity = null ) {
 		$api = WPStrava::get_instance()->get_api( $athlete_token );
@@ -41,10 +41,6 @@ class WPStrava_Activity {
 			$data = $api->get( "clubs/{$club_id}/activities", $args );
 		} else {
 			$data = $api->get( 'athlete/activities', $args );
-		}
-
-		if ( is_wp_error( $data ) ) {
-			return $data;
 		}
 
 		if ( is_array( $data ) ) {

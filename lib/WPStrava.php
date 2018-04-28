@@ -152,9 +152,9 @@ class WPStrava {
 	 * Register the shortcodes.
 	 */
 	public function register_shortcodes() {
-		add_shortcode( 'ride', array( 'WPStrava_ActivityShortcode', 'handler' ) ); // @deprecated 1.1
-		add_shortcode( 'activity', array( 'WPStrava_ActivityShortcode', 'handler' ) );
-		add_shortcode( 'activities', array( 'WPStrava_LatestActivitiesShortcode', 'handler' ) );
-		add_shortcode( 'route', array( 'WPStrava_RouteShortcode', 'handler' ) );
+		// Initialize short code classes.
+		new WPStrava_ActivityShortcode();
+		new WPStrava_LatestActivitiesShortcode();
+		new WPStrava_RouteShortcode();
 	}
 }
