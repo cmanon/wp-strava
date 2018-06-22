@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -80,7 +80,9 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 = 1.6.0 =
 
-Added class autoloader.
+Added class autoloader (removed composer autoloader).
+Added exception handling and cleaned up error reporting.
+
 
 = 1.5.1 =
 
