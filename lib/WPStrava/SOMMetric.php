@@ -55,6 +55,57 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 		return __( 'km/h', 'wp-strava' );
 	}
 
+    /**
+     * Change meters per second to kilometers per hour.
+     *
+     * @param float $mps Meters per second.
+     * @return float Kilometers per hour.
+     */
+    public function pace( $mps ) {
+        // 4 m/s => 14,4 km/h => 4:10 min/km
+
+        $kmh = $mps * 3.6;
+        $s = 3600 / $kmh;
+        $ss = $s/60;
+        $ms = floor($ss)*60;
+        $sec = round($s-$ms);
+        $min = floor(60/$ss);
+
+        return "$min:$sec";
+    }
+
+    /**
+     * Abbreviated label for this system of measure's speed - Minutes Per Kilometers: min/km
+     *
+     * @return string 'min/km'
+     */
+    public function get_pace_label() {
+        return __( 'min/km', 'wp-strava' );
+    }
+
+    /**
+     * Change meters per second to Minutes Per 100 Meters.
+     *
+     * @param float $mps Meters per second.
+     * @return float Minutes Per 100 Meters.
+     */
+    public function swimpace( $mps ) {
+
+        $kmh = $mps * 3.6;
+        $min100m = 60/$kmh/10;
+
+        return number_format( $min100m, 2 );
+    }
+
+    /**
+     * Abbreviated label for this system of measure's pace - Minutes Per 100 Meters: min/100m
+     *
+     * @return string 'min/100m'
+     */
+    public function get_swimpace_label() {
+        return __( 'min/100m', 'wp-strava' );
+    }
+
 	/**
 	 * Change meters to meters };^)
 	 *

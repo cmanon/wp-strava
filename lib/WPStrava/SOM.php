@@ -26,6 +26,10 @@ abstract class WPStrava_SOM {
 	abstract public function get_speed_label();
 	abstract public function elevation( $m );
 	abstract public function get_elevation_label();
+    abstract public function pace( $mps );
+    abstract public function get_pace_label();
+    abstract public function swimpace( $mps );
+    abstract public function get_swimpace_label();
 
 	public function time( $seconds ) {
 		return date( 'H:i:s', mktime( 0, 0, $seconds ) );
