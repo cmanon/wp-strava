@@ -68,7 +68,7 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
         $ss = $s/60;
         $ms = floor($ss)*60;
         $sec = round($s-$ms);
-        $min = floor(60/$ss);
+        $min = floor($ss);
 
         return "$min:$sec";
     }
