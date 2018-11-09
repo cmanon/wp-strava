@@ -63,7 +63,7 @@ class WPStrava_ActivityShortcode {
 
 		try {
 			$activity_details = $activity->get_activity( $atts['athlete_token'], $atts['id'] );
-		} catch( WPStrava_Exception $e ) {
+		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}
 
@@ -75,35 +75,35 @@ class WPStrava_ActivityShortcode {
 
 		if ( $activity_details ) {
 
-            $strava_activitytype = WPStrava_ActivityType::getType( $activity_details->type );
-            $avg_speed = '';
-            $max_speed = '';
-            $speed_label = '';
-            $avg_title = '<th>' . __( 'Average Speed', 'wp-strava' ) . '</th>';
-            $max_title = '<th>' . __( 'Max Speed', 'wp-strava' ) . '</th>';
+			$strava_activitytype = WPStrava_ActivityType::get_type_group( $activity_details->type );
+			$avg_speed           = '';
+			$max_speed           = '';
+			$speed_label         = '';
+			$avg_title           = '<th>' . __( 'Average Speed', 'wp-strava' ) . '</th>';
+			$max_title           = '<th>' . __( 'Max Speed', 'wp-strava' ) . '</th>';
 
-            switch ($strava_activitytype) {
-                case WPStrava_ActivityType::IS_PACE_TYPE:
-                    $avg_speed = '<td>' . $strava_som->pace( $activity_details->average_speed ) . '</td>';
-                    $max_speed = '<td>' . $strava_som->pace( $activity_details->max_speed ) . '</td>';
-                    $speed_label = '<td>' . $strava_som->get_pace_label() . '</td>';
-                    break;
-                case WPStrava_ActivityType::IS_SPEED_TYPE:
-                    $avg_speed = '<td>' . $strava_som->speed( $activity_details->average_speed ) . '</td>';
-                    $max_speed = '<td>' . $strava_som->speed( $activity_details->max_speed ) . '</td>';
-                    $speed_label = '<td>' . $strava_som->get_speed_label() . '</td>';
-                    break;
-                case WPStrava_ActivityType::IS_PACE_TYPE:
-                    $avg_speed = '<td>' . $strava_som->swimpace( $activity_details->average_speed ) . '</td>';
-                    $max_speed = '<td>' . $strava_som->swimpace( $activity_details->max_speed ) . '</td>';
-                    $speed_label = '<td>' . $strava_som->get_swimpace_label() . '</td>';
-                    break;
-                default:
-                    $avg_title = '';
-                    $max_title = '';
-                    break;
+			switch ( $strava_activitytype ) {
+				case WPStrava_ActivityType::TYPE_GROUP_PACE:
+					$avg_speed   = '<td>' . $strava_som->pace( $activity_details->average_speed ) . '</td>';
+					$max_speed   = '<td>' . $strava_som->pace( $activity_details->max_speed ) . '</td>';
+					$speed_label = '<td>' . $strava_som->get_pace_label() . '</td>';
+					break;
+				case WPStrava_ActivityType::TYPE_GROUP_SPEED:
+					$avg_speed   = '<td>' . $strava_som->speed( $activity_details->average_speed ) . '</td>';
+					$max_speed   = '<td>' . $strava_som->speed( $activity_details->max_speed ) . '</td>';
+					$speed_label = '<td>' . $strava_som->get_speed_label() . '</td>';
+					break;
+				case WPStrava_ActivityType::TYPE_GROUP_PACE:
+					$avg_speed   = '<td>' . $strava_som->swimpace( $activity_details->average_speed ) . '</td>';
+					$max_speed   = '<td>' . $strava_som->swimpace( $activity_details->max_speed ) . '</td>';
+					$speed_label = '<td>' . $strava_som->get_swimpace_label() . '</td>';
+					break;
+				default:
+					$avg_title = '';
+					$max_title = '';
+					break;
 
-            }
+			}
 
 			return '
 				<div id="activity-header-' . $atts['id'] . '" class="wp-strava-activity-container">
@@ -137,11 +137,11 @@ class WPStrava_ActivityShortcode {
 							</tr>
 						</tbody>
 					</table>
-					
+
 					<a title="' . $activity_details->name . '" href="' . WPStrava_Activity::ACTIVITIES_URL . $activity_details->id . '">' .
 					WPStrava_StaticMap::get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'] ) .
 					'</a>
-					
+
 				</div>';
 		} // End if( $activity_details ).
 	}

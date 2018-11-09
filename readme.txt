@@ -78,7 +78,7 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 == Changelog ==
 
-= 1.6.1 =
+= NEXT =
 
 Added Pace support (min/km) for Activity Shortcode
 Added Swimpace support (min/100m) for Activity Shortcode

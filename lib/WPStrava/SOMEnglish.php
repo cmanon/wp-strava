@@ -55,56 +55,60 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 		return __( 'mph', 'wp-strava' );
 	}
 
-    /**
-     * Change meters per second to Minutes Per Mile.
-     *
-     * @param float $mps Meters per second.
-     * @return float Minutes Per Mile.
-     */
-    public function pace( $mps ) {
+	/**
+	 * Change meters per second to Minutes Per Mile.
+	 *
+	 * @param float $mps Meters per second.
+	 * @return float Minutes Per Mile.
+	 */
+	public function pace( $mps ) {
 
-        $mph = $mps * 2.2369;
-        $s = 3600 / $mph;
-        $ss = $s/60;
-        $ms = floor($ss)*60;
-        $sec = round($s-$ms);
-        $min = floor($ss);
+		if ( ! $mps ) {
+			return __( 'N/A', 'wp-strava' );
+		}
 
-        return "$min:$sec";
-    }
+		$mph = $mps * 2.2369;
+		$s   = 3600 / $mph;
+		$ss  = $s / 60;
+		$ms  = floor( $ss ) * 60;
+		$sec = round( $s - $ms );
+		$min = floor( $ss );
 
-    /**
-     * Abbreviated label for this system of measure's pace - Minutes Per Mile: min/mile
-     *
-     * @return string 'min/mile'
-     */
-    public function get_pace_label() {
-        return __( 'min/mile', 'wp-strava' );
-    }
+		return "{$min}:{$sec}";
+	}
 
-    /**
-     * Change meters per second to Minutes Per 100 Meters.
-     *
-     * @param float $mps Meters per second.
-     * @return float Minutes Per 100 Meters.
-     */
-    public function swimpace( $mps ) {
+	/**
+	 * Abbreviated label for this system of measure's pace - Minutes Per Mile: min/mile
+	 *
+	 * @return string 'min/mile'
+	 */
+	public function get_pace_label() {
+		return __( 'min/mile', 'wp-strava' );
+	}
 
-        $kmh = $mps * 3.6;
-        $min100m = 60/$kmh/10;
+	/**
+	 * Change meters per second to Minutes Per 100 Meters.
+	 *
+	 * @param float $mps Meters per second.
+	 * @return float Minutes Per 100 Meters.
+	 */
+	public function swimpace( $mps ) {
 
-        return number_format( $min100m, 2 );
+		$kmh     = $mps * 3.6;
+		$min100m = 60 / $kmh / 10;
 
-    }
+		return number_format( $min100m, 2 );
 
-    /**
-     * Abbreviated label for this system of measure's pace - Minutes Per 100 Meters: min/100m
-     *
-     * @return string 'min/100m'
-     */
-    public function get_swimpace_label() {
-        return __( 'min/100m', 'wp-strava' );
-    }
+	}
+
+	/**
+	 * Abbreviated label for this system of measure's pace - Minutes Per 100 Meters: min/100m
+	 *
+	 * @return string 'min/100m'
+	 */
+	public function get_swimpace_label() {
+		return __( 'min/100m', 'wp-strava' );
+	}
 
 	/**
 	 * Change meters to feet.
