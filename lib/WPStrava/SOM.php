@@ -28,8 +28,6 @@ abstract class WPStrava_SOM {
 	abstract public function get_elevation_label();
 	abstract public function pace( $mps );
 	abstract public function get_pace_label();
-	abstract public function swimpace( $mps );
-	abstract public function get_swimpace_label();
 
 	public function time( $seconds ) {
 		return date( 'H:i:s', mktime( 0, 0, $seconds ) );
@@ -37,5 +35,28 @@ abstract class WPStrava_SOM {
 
 	public function get_time_label() {
 		return __( 'hours', 'wp-strava' );
+	}
+
+	/**
+	 * Abbreviated label for this system of measure's pace - Minutes Per 100 Meters: min/100m. Same for English/metric.
+	 *
+	 * @return string 'min/100m'
+	 */
+	public function get_swimpace_label() {
+		return __( 'min/100m', 'wp-strava' );
+	}
+
+	/**
+	 * Change meters per second to Minutes Per 100 Meters. Same for English/metric.
+	 *
+	 * @param float $mps Meters per second.
+	 * @return float Minutes Per 100 Meters.
+	 */
+	public function swimpace( $mps ) {
+
+		$kmh     = $mps * 3.6;
+		$min100m = 60 / $kmh / 10;
+
+		return number_format( $min100m, 2 );
 	}
 }

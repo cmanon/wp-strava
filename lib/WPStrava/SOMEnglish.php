@@ -56,7 +56,7 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	}
 
 	/**
-	 * Change meters per second to Minutes Per Mile.
+	 * Change meters per second to minutes per mile.
 	 *
 	 * @param float $mps Meters per second.
 	 * @return float Minutes Per Mile.
@@ -84,30 +84,6 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	 */
 	public function get_pace_label() {
 		return __( 'min/mile', 'wp-strava' );
-	}
-
-	/**
-	 * Change meters per second to Minutes Per 100 Meters.
-	 *
-	 * @param float $mps Meters per second.
-	 * @return float Minutes Per 100 Meters.
-	 */
-	public function swimpace( $mps ) {
-
-		$kmh     = $mps * 3.6;
-		$min100m = 60 / $kmh / 10;
-
-		return number_format( $min100m, 2 );
-
-	}
-
-	/**
-	 * Abbreviated label for this system of measure's pace - Minutes Per 100 Meters: min/100m
-	 *
-	 * @return string 'min/100m'
-	 */
-	public function get_swimpace_label() {
-		return __( 'min/100m', 'wp-strava' );
 	}
 
 	/**

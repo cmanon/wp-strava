@@ -63,7 +63,7 @@ class WPStrava_RouteShortcode {
 
 		try {
 			$route_details = $route->get_route( $atts['id'] );
-		} catch( WPStrava_Exception $e ) {
+		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}
 

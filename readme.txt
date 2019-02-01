@@ -1,9 +1,9 @@
 === WP-Strava ===
 
-Contributors: cmanon, jrfoell, lancewillett, dlintott
+Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
-Tested up to: 4.9
+Tested up to: 5.0
 Stable tag: 1.6.0
 Requires PHP: 5.2
 License: GPLv2 or later
@@ -80,7 +80,8 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 = NEXT =
 
-Added Pace support (min/km) for Activity Shortcode
+Added Sebastian Erb to contributors.
+Added Pace support (min/km) and (min/mile) for Activity Shortcode
 Added Swimpace support (min/100m) for Activity Shortcode
 
 = 1.6.0 =
@@ -126,7 +127,7 @@ Fix array indices on map widget
 
 = 1.4.0 =
 
-Added dlintott to contributors.
+Added Daniel Lintott to contributors.
 Fixed non-existent settings js from being enqueued.
 Changed all 'ride' styles and functions to 'activity'.
 Added inline documentation.
