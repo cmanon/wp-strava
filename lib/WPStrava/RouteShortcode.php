@@ -101,7 +101,7 @@ class WPStrava_RouteShortcode {
 	 * @param string $som System of measure (english/metric).
 	 * @return string HTML Table of route details.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  NEXT
+	 * @since  1.7.0
 	 */
 	private function get_table( $route_details, $som ) {
 		$strava_som = WPStrava_SOM::get_som( $som );

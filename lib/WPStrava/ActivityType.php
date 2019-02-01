@@ -8,7 +8,7 @@
  * ActivityType class.
  *
  * @author Sebastian Erb <mail@sebastianerb.com>
- * @since  NEXT
+ * @since  1.7.0
  */
 class WPStrava_ActivityType {
 
@@ -62,7 +62,7 @@ class WPStrava_ActivityType {
 	 * @param string $type Type provided by Strava.
 	 * @return string Type group (water/pace/speed/other).
 	 * @author Sebastian Erb <mail@sebastianerb.com>
-	 * @since  NEXT
+	 * @since  1.7.0
 	 */
 	public static function get_type_group( $type ) {
 
