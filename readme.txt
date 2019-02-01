@@ -27,6 +27,7 @@ Also takes the following optional parameters:
 * map_height - height (height of image in pixels).
 * athlete_token - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * markers - Display markers at the start/finish point (true/false, defaults to false).
+* image_only - Display only the map image and not the table (true/false, defaults to false).
 
 [ride] - an alias for [activity] that will accept the same parameters (kept for backwards compatibility).
 
@@ -83,7 +84,7 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 Added Sebastian Erb to contributors.
 Added Pace support (min/km) and (min/mile) for Activity Shortcode
 Added Swimpace support (min/100m) for Activity Shortcode
-Added 'image_only' attribute to [activity] shortcode to optionally remove data table.
+Added 'image_only' attribute to [activity] and [route] shortcode to optionally remove data table.
 Added boolean filtering to shortcodes to prevent false-positive "truthiness" to a shortcode attribute like markers="false".
 Removed 'max-width: none' from activity image to make it responsive.
 
