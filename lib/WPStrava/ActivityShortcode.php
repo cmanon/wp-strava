@@ -73,23 +73,25 @@ class WPStrava_ActivityShortcode {
 			return $e->to_html();
 		}
 
-		//sanitize width & height
-		$map_width  = str_replace( '%', '', $atts['map_width'] );
-		$map_height = str_replace( '%', '', $atts['map_height'] );
-		$map_width  = str_replace( 'px', '', $map_width );
-		$map_height = str_replace( 'px', '', $map_height );
-
+		$activity_output = '';
 		if ( $activity_details ) {
-			$activity_output = '<div id="activity-header-' . $atts['id'] . '" class="wp-strava-activity-container">';
+			$activity_output .= '<div id="activity-header-' . $atts['id'] . '" class="wp-strava-activity-container">';
 			if ( ! $atts['image_only'] ) {
 				$activity_output .= $this->get_table( $activity_details, $atts['som'] );
 			}
+
+			// Sanitize width & height.
+			$map_width  = str_replace( '%', '', $atts['map_width'] );
+			$map_height = str_replace( '%', '', $atts['map_height'] );
+			$map_width  = str_replace( 'px', '', $map_width );
+			$map_height = str_replace( 'px', '', $map_height );
+
 			$activity_output .= '<a title="' . $activity_details->name . '" href="' . WPStrava_Activity::ACTIVITIES_URL . $activity_details->id . '">' .
 				WPStrava_StaticMap::get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'] ) .
 				'</a>
 			</div>';
-			return $activity_output;
 		} // End if( $activity_details ).
+		return $activity_output;
 	}
 
 	/**
