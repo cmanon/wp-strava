@@ -13,7 +13,7 @@ class WPStrava_Activity {
 	 * @param string  $athlete_token Token of athlete to retrieve for
 	 * @param int     $activity_id ID of activity to retrieve.
 	 * @return object stdClass representing this activity.
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 */
 	public function get_activity( $athlete_token, $activity_id ) {
 		return WPStrava::get_instance()->get_api( $athlete_token )->get( "activities/{$activity_id}" );
@@ -22,8 +22,7 @@ class WPStrava_Activity {
 	/**
 	 * Get activity list from Strava API.
 	 *
-	 * @author Justin Foell
-	 *
+	 * @author Justin Foell <justin@foell.org>
 	 * @param string   $athlete_token Token of athlete to retrieve for
 	 * @param int      $club_id       Club ID of all club riders (optional).
 	 * @param int|null $quantity      Number of records to retrieve (optional).
@@ -52,12 +51,12 @@ class WPStrava_Activity {
 	}
 
 	/**
-	 * Undocumented function
+	 * Get activities with a distance longer than specified length.
 	 *
 	 * @param array $activities
 	 * @param float $dist Distance in default system of measure (km/mi).
 	 * @return void
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 */
 	public function get_activities_longer_than( $activities, $dist ) {
 		$som    = WPStrava_SOM::get_som();

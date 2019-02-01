@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.0
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -72,17 +72,20 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 6. Activity Shortcode - Shows a map of activity with some statistics.
 7. Activity Shortcode Settings - An example activity shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
 8. Route Shortcode - Shows a map of a route.
-9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start stop points.
+9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start/stop points.
 10. Activities Shortcode - Shows latest athlete activity in a page or post.
 11. Activities Shortcode Settings - An example activities shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
 
 == Changelog ==
 
-= NEXT =
+= 1.7.0 =
 
 Added Sebastian Erb to contributors.
 Added Pace support (min/km) and (min/mile) for Activity Shortcode
 Added Swimpace support (min/100m) for Activity Shortcode
+Added 'image_only' attribute to [activity] shortcode to optionally remove data table.
+Added boolean filtering to shortcodes to prevent false-positive "truthiness" to a shortcode attribute like markers="false".
+Removed 'max-width: none' from activity image to make it responsive.
 
 = 1.6.0 =
 

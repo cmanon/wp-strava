@@ -38,18 +38,32 @@ class WPStrava_Exception extends WPStrava_Abstract_Exception {
 	 *
 	 * @param WP_Error $error
 	 * @return WPStrava_Exception
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
-	 * @since
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 1.6.0
 	 */
 	public static function from_wp_error( WP_Error $error ) {
 		$class = __CLASS__;
 		return new $class( $error->get_error_message( $error->get_error_code() ) );
 	}
 
+	/**
+	 * HTML version of this exception.
+	 *
+	 * @return string The exception string wrapped in <pre> tags.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.6.0
+	 */
 	public function to_html() {
 		return '<pre>' . $this . '</pre>';
 	}
 
+	/**
+	 * Magic method to convert this exception to a string.
+	 *
+	 * @return string
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.6.0
+	 */
 	public function __toString() {
 		if ( WPSTRAVA_DEBUG && $this->getPrevious() ) {
 			return $this->get_formatted_message( $this->getPrevious() );
@@ -58,6 +72,14 @@ class WPStrava_Exception extends WPStrava_Abstract_Exception {
 		return $this->get_formatted_message( $this );
 	}
 
+	/**
+	 * Exception message with extra formatting.
+	 *
+	 * @param Exception $exception
+	 * @return string Formatted exception message.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.6.0
+	 */
 	public function get_formatted_message( $exception ) {
 		$code = $exception->getCode();
 
