@@ -55,7 +55,12 @@ class WPStrava_RouteShortcode {
 			'markers'       => false,
 		);
 
-		$atts = shortcode_atts( $defaults, $atts );
+		$atts = shortcode_atts( $defaults, $atts, 'route' );
+
+		/* Make sure boolean values are actually boolean
+		 * @see https://wordpress.stackexchange.com/a/119299
+		 */
+		$atts['markers']    = filter_var( $atts['markers'], FILTER_VALIDATE_BOOLEAN );
 
 		$strava_som    = WPStrava_SOM::get_som( $atts['som'] );
 		$route         = WPStrava::get_instance()->routes;
