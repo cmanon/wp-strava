@@ -85,7 +85,7 @@ Added Sebastian Erb to contributors.
 Added Pace support (min/km) and (min/mile) for Activity Shortcode
 Added Swimpace support (min/100m) for Activity Shortcode
 Added 'image_only' attribute to [activity] and [route] shortcode to optionally remove data table.
-Added boolean filtering to shortcodes to prevent false-positive "truthiness" to a shortcode attribute like markers="false".
+Added boolean filtering to shortcodes to prevent false-positive "truthiness" to a shortcode attribute like image_only="false".
 Removed 'max-width: none' from activity image to make it responsive.
 
 = 1.6.0 =
