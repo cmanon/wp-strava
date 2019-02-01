@@ -60,7 +60,7 @@ class WPStrava_RouteShortcode {
 		/* Make sure boolean values are actually boolean
 		 * @see https://wordpress.stackexchange.com/a/119299
 		 */
-		$atts['markers']    = filter_var( $atts['markers'], FILTER_VALIDATE_BOOLEAN );
+		$atts['markers'] = filter_var( $atts['markers'], FILTER_VALIDATE_BOOLEAN );
 
 		$strava_som    = WPStrava_SOM::get_som( $atts['som'] );
 		$route         = WPStrava::get_instance()->routes;
@@ -68,7 +68,7 @@ class WPStrava_RouteShortcode {
 
 		try {
 			$route_details = $route->get_route( $atts['id'] );
-		} catch( WPStrava_Exception $e ) {
+		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}
 
