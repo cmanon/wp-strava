@@ -8,7 +8,7 @@ abstract class WPStrava_SOM {
 	 *
 	 * @param string $som 'english' or 'metric'
 	 * @return WPStrava_SOM Instance of SOM
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 */
 	public static function get_som( $som = null ) {
 		$som = $som ? $som : WPStrava::get_instance()->settings->som;

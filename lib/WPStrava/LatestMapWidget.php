@@ -96,7 +96,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 
 			try {
 				$activities = $strava_activity->get_activities( $athlete_token, $strava_club_id );
-			} catch( WPStrava_Exception $e ) {
+			} catch ( WPStrava_Exception $e ) {
 				echo $e->to_html();
 			}
 
@@ -136,8 +136,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	/**
 	 * Get image for specific activity using Static Maps class.
 	 *
-	 * @author Justin Foell
-	 *
+	 * @author Justin Foell <justin@foell.org>
 	 * @param string  $id        Athlete Token or Club ID.
 	 * @param object  $activity  Activity to get image for.
 	 * @param boolean $build_new Whether to refresh the image from cache.
@@ -157,9 +156,8 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	/**
 	 * Update map in option to cache.
 	 *
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
-	 *
 	 * @param string $id  Athlete Token or Club ID.
 	 * @param string $img Image tag.
 	 */
@@ -170,9 +168,8 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	/**
 	 * Update activity in option to cache.
 	 *
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
-	 *
 	 * @param string $id       Athlete Token or Club ID.
 	 * @param object $activity stdClass Strava activity object.
 	 */
@@ -183,9 +180,8 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	/**
 	 * Update activity in transient to cache.
 	 *
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
-	 *
 	 * @param string $id       Athlete Token or Club ID.
 	 * @param object $activity stdClass Strava activity object.
 	 */
