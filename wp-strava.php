@@ -3,7 +3,7 @@
  * Plugin Name: WP Strava
  * Plugin URI: https://wordpress.org/plugins/wp-strava/
  * Description: Show your strava.com activity on your WordPress site. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.
- * Version: 1.7.0
+ * Version: 1.7.1-b1
  * Author: Carlos Santa Cruz, Justin Foell, Lance Willett, Daniel Lintott, Sebastian Erb
  * License: GPL2
  * Text Domain: wp-strava
@@ -35,33 +35,12 @@ if ( ! defined( 'WPSTRAVA_DEBUG' ) ) {
 	define( 'WPSTRAVA_DEBUG', false );
 }
 
-// Load the multilingual support.
+require_once WPSTRAVA_PLUGIN_DIR . 'lib/autoload.php';
+
+// Load the plugin and multilingual support.
 function wpstrava_load_plugin_textdomain() {
 	load_plugin_textdomain( 'wp-strava', false, WPSTRAVA_PLUGIN_DIR . 'lang/' );
 }
 add_action( 'plugins_loaded', 'wpstrava_load_plugin_textdomain' );
-
-/**
- * Autoloads files with classes when needed.
- *
- * @since  1.6.0
- * @param  string $class_name Name of the class being requested.
- * @return void
- */
-function wpstrava_autoload_classes( $class_name ) {
-	$parts = explode( '_', $class_name );
-
-	// If our class doesn't have our namespace, don't load it.
-	if ( empty( $parts[0] ) || 'WPStrava' !== $parts[0] ) {
-		return;
-	}
-
-	// @TODO Add directory searching if they get created.
-	$file = dirname( __FILE__ ) . '/lib/' . implode( '/', $parts ) . '.php';
-	if ( file_exists( $file ) ) {
-		include_once $file;
-	}
-}
-spl_autoload_register( 'wpstrava_autoload_classes' );
 
 $wpstrava = WPStrava::get_instance();

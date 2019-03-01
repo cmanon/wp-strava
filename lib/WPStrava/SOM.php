@@ -29,10 +29,20 @@ abstract class WPStrava_SOM {
 	abstract public function pace( $mps );
 	abstract public function get_pace_label();
 
+	/**
+	 * Create a time string of hours:minutes:seconds from just seconds.
+	 *
+	 * @return string Time formatted as 'H:i:s'.
+	 */
 	public function time( $seconds ) {
 		return date( 'H:i:s', mktime( 0, 0, $seconds ) );
 	}
 
+	/**
+	 * Label for hours.
+	 *
+	 * @return string 'hours'
+	 */
 	public function get_time_label() {
 		return __( 'hours', 'wp-strava' );
 	}
@@ -49,14 +59,18 @@ abstract class WPStrava_SOM {
 	/**
 	 * Change meters per second to Minutes Per 100 Meters. Same for English/metric.
 	 *
-	 * @param float $mps Meters per second.
-	 * @return float Minutes Per 100 Meters.
+	 * @param float|string $mps Meters per second.
+	 * @return string Minutes Per 100 Meters.
 	 */
 	public function swimpace( $mps ) {
 
-		$kmh     = $mps * 3.6;
-		$min100m = 60 / $kmh / 10;
+		$kmh = $mps * 3.6;
+		$s   = 3600 / $kmh / 10;
+		$ss  = $s / 60;
+		$ms  = floor( $ss ) * 60;
+		$sec = sprintf( '%02d', round( $s - $ms ) );
+		$min = floor( $ss );
 
-		return number_format( $min100m, 2 );
+		return "{$min}:{$sec}";
 	}
 }

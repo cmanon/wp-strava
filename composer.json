@@ -5,6 +5,8 @@
         "php": ">=5.2.4"
     },
     "require-dev": {
-        "wp-coding-standards/wpcs": "~0.14"
+        "wp-coding-standards/wpcs": "^2",
+        "phpunit/phpunit": "^8",
+        "10up/wp_mock": "^0.4"
     }
 }
