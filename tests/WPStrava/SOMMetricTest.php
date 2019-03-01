@@ -21,8 +21,8 @@ class WPStrava_SOMMetricTest extends TestCase {
 	 * @since  1.7.1
 	 */
 	public function test_distance() {
-		$this->assertEquals( '10.00' , $this->som->distance( '10000' ) );
-		$this->assertEquals( '10.00' , $this->som->distance( 10000 ) );
+		$this->assertEquals( '10.00', $this->som->distance( '10000' ) );
+		$this->assertEquals( '10.00', $this->som->distance( 10000 ) );
 	}
 
 	/**
@@ -32,8 +32,8 @@ class WPStrava_SOMMetricTest extends TestCase {
 	 * @since  1.7.1
 	 */
 	public function test_distance_inverse() {
-		$this->assertEquals( '42,195.00' , $this->som->distance_inverse( '42.195' ) );
-		$this->assertEquals( '42,195.00' , $this->som->distance_inverse( 42.195 ) );
+		$this->assertEquals( '42,195.00', $this->som->distance_inverse( '42.195' ) );
+		$this->assertEquals( '42,195.00', $this->som->distance_inverse( 42.195 ) );
 	}
 
 	/**
