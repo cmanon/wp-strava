@@ -33,7 +33,10 @@ class WPStrava_LatestActivities {
 			if ( ! empty( $activity->start_date_local ) ) {
 				$unixtime = strtotime( $activity->start_date_local );
 				// Translators: Shows something like "On <date> <[went 10 miles] [during 2 hours] [climbing 100 feet]>."
-				$response .= sprintf( __( 'On %1$s %2$s', 'wp-strava' ), date_i18n( get_option( 'date_format' ), $unixtime ), date_i18n( get_option( 'time_format' ), $unixtime ) );
+				$response .= sprintf( __( 'On %1$s %2$s', 'wp-strava' ),
+					date_i18n( get_option( 'date_format' ), $unixtime ),
+					self::get_activity_time( $unixtime )
+				);
 			}
 
 			if ( is_numeric( $args['strava_club_id'] ) ) {
@@ -53,5 +56,21 @@ class WPStrava_LatestActivities {
 		}
 		$response .= '</ul>';
 		return $response;
+	}
+
+	/**
+	 * Get the activity time, possibly hiding it.
+	 *
+	 * @param int $unixtime
+	 * @return string Formatted time, or empty string depending on hide_time option.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.7.1
+	 */
+	public static function get_activity_time( $unixtime ) {
+		if ( WPStrava::get_instance()->settings->hide_time ) {
+			return '';
+		}
+
+		return date_i18n( get_option( 'time_format' ), $unixtime );
 	}
 }

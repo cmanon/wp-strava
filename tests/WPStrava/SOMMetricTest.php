@@ -17,7 +17,7 @@ class WPStrava_SOMMetricTest extends TestCase {
 	/**
 	 * Test that 10,000 meters is 10.00 kilometers using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_distance() {
@@ -28,7 +28,7 @@ class WPStrava_SOMMetricTest extends TestCase {
 	/**
 	 * Test that 42.195 km is 42,195.00 meters using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_distance_inverse() {
@@ -39,7 +39,7 @@ class WPStrava_SOMMetricTest extends TestCase {
 	/**
 	 * Test that 4.47 meters per second is 16.09 kmh using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_speed() {
@@ -50,7 +50,7 @@ class WPStrava_SOMMetricTest extends TestCase {
 	/**
 	 * Test that 2.2352 meters per second is a 7:27 minute/kilometer pace using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_pace() {
@@ -61,7 +61,7 @@ class WPStrava_SOMMetricTest extends TestCase {
 	/**
 	 * Test that 70 meters is 70.00 meters using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_elevation() {
@@ -72,7 +72,7 @@ class WPStrava_SOMMetricTest extends TestCase {
 	/**
 	 * Test that 1.66 meters per second is a 1:00 minute/100m pace using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_swimpace() {
