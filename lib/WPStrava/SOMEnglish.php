@@ -10,8 +10,8 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	/**
 	 * Change meters to miles.
 	 *
-	 * @param float $m Distance in meters.
-	 * @return float Distance in miles.
+	 * @param float|string $m Distance in meters.
+	 * @return string Distance in miles.
 	 */
 	public function distance( $m ) {
 		return number_format( $m / 1609.344, 2 );
@@ -20,11 +20,11 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	/**
 	 * Change miles to meters.
 	 *
-	 * @param float $dist Distance in miles.
-	 * @return float Distance in meters.
+	 * @param float|string $dist Distance in miles.
+	 * @return string Distance in meters.
 	 */
 	public function distance_inverse( $dist ) {
-		return $dist * 1609.344;
+		return number_format( $dist * 1609.344, 2 );
 	}
 
 	/**
@@ -39,8 +39,8 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	/**
 	 * Change meters per second to miles per hour.
 	 *
-	 * @param float $mps Meters per second.
-	 * @return float Miles per hour.
+	 * @param float|string $mps Meters per second.
+	 * @return string Miles per hour.
 	 */
 	public function speed( $mps ) {
 		return number_format( $mps * 2.2369, 2 );
@@ -58,8 +58,8 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	/**
 	 * Change meters per second to minutes per mile.
 	 *
-	 * @param float $mps Meters per second.
-	 * @return float Minutes Per Mile.
+	 * @param float|string $mps Meters per second.
+	 * @return string Minutes Per Mile.
 	 */
 	public function pace( $mps ) {
 
@@ -71,7 +71,7 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 		$s   = 3600 / $mph;
 		$ss  = $s / 60;
 		$ms  = floor( $ss ) * 60;
-		$sec = round( $s - $ms );
+		$sec = sprintf( '%02d', round( $s - $ms ) );
 		$min = floor( $ss );
 
 		return "{$min}:{$sec}";
@@ -89,8 +89,8 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	/**
 	 * Change meters to feet.
 	 *
-	 * @param float $m Elevation in meters.
-	 * @return float Elevation in feet.
+	 * @param float|string $m Elevation in meters.
+	 * @return string Elevation in feet.
 	 */
 	public function elevation( $m ) {
 		return number_format( $m / 0.3048, 2 );

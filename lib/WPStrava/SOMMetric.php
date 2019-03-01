@@ -10,8 +10,8 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 	/**
 	 * Change meters to kilometers.
 	 *
-	 * @param float $m Distance in meters.
-	 * @return float Distance in kilometers.
+	 * @param float|string $m Distance in meters.
+	 * @return string Distance in kilometers.
 	 */
 	public function distance( $m ) {
 		return number_format( $m / 1000, 2 );
@@ -20,11 +20,11 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 	/**
 	 * Change kilometers to meters.
 	 *
-	 * @param float $dist Distance in kilometers.
-	 * @return float Distance in meters.
+	 * @param float|string $dist Distance in kilometers.
+	 * @return string Distance in meters.
 	 */
 	public function distance_inverse( $dist ) {
-		return $dist * 1000;
+		return number_format( $dist * 1000, 2 );
 	}
 
 	/**
@@ -39,8 +39,8 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 	/**
 	 * Change meters per second to kilometers per hour.
 	 *
-	 * @param float $mps Meters per second.
-	 * @return float Kilometers per hour.
+	 * @param float|string $mps Meters per second.
+	 * @return string Kilometers per hour.
 	 */
 	public function speed( $mps ) {
 		return number_format( $mps * 3.6, 2 );
@@ -58,8 +58,8 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 	/**
 	 * Change meters per second to minutes per kilometer.
 	 *
-	 * @param float $mps Meters per second.
-	 * @return float Kilometers per hour.
+	 * @param float|string $mps Meters per second.
+	 * @return string Minutes per kilometer.
 	 */
 	public function pace( $mps ) {
 
@@ -72,7 +72,7 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 		$s   = 3600 / $kmh;
 		$ss  = $s / 60;
 		$ms  = floor( $ss ) * 60;
-		$sec = round( $s - $ms );
+		$sec = sprintf( '%02d', round( $s - $ms ) );
 		$min = floor( $ss );
 
 		return "{$min}:{$sec}";
@@ -90,7 +90,7 @@ class WPStrava_SOMMetric extends WPStrava_SOM {
 	/**
 	 * Change meters to meters };^)
 	 *
-	 * @param $m Elevation in meters.
+	 * @param float|string $m Elevation in meters.
 	 * @return string Elevation in meters.
 	 */
 	public function elevation( $m ) {
