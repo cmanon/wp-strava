@@ -23,8 +23,8 @@ This plugin uses the Strava API to embed maps and activity for athletes and club
 Also takes the following optional parameters:
 
 * som - english/metric (system of measure - override from default setting).
-* map_width - width (width of image in pixels).
-* map_height - height (height of image in pixels).
+* map_width - width (width of image in pixels). Note both width and height parameters are limited to 640px except on premium API plans: https://developers.google.com/maps/documentation/maps-static/dev-guide#Imagesizes
+* map_height - height (height of image in pixels). See note above on max height.
 * athlete_token - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * markers - Display markers at the start/finish point (true/false, defaults to false).
 * image_only - Display only the map image and not the table (true/false, defaults to false).
@@ -79,6 +79,13 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 == Changelog ==
 
+= 1.7.1 =
+
+Added PHPUnit tests for all System of Measure calculations.
+Fixed swimpace calculation.
+Fixed seconds display on pace.
+Added Hide Activity Time option to hide time display from Latest Activities List.
+
 = 1.7.0 =
 
 Added Sebastian Erb to contributors.
@@ -87,6 +94,7 @@ Added Swimpace support (min/100m) for Activity Shortcode
 Added 'image_only' attribute to [activity] and [route] shortcode to optionally remove data table.
 Added boolean filtering to shortcodes to prevent false-positive "truthiness" to a shortcode attribute like image_only="false".
 Removed 'max-width: none' from activity image to make it responsive.
+
 
 = 1.6.0 =
 

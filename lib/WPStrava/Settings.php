@@ -125,6 +125,10 @@ class WPStrava_Settings {
 		add_settings_section( 'strava_options', __( 'Options', 'wp-strava' ), null, 'wp-strava' );
 		add_settings_field( 'strava_som', __( 'System of Measurement', 'wp-strava' ), array( $this, 'print_som_input' ), 'wp-strava', 'strava_options' );
 
+		// Hide Time Option.
+		register_setting( $this->option_page, 'strava_hide_time', array( $this, 'sanitize_hide_time' ) );
+		add_settings_field( 'strava_hide_time', __( 'Hide Activity Time', 'wp-strava' ), array( $this, 'print_hide_time_input' ), 'wp-strava', 'strava_options' );
+
 		// Clear cache.
 		register_setting( $this->option_page, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
 		add_settings_section( 'strava_cache', __( 'Cache', 'wp-strava' ), null, 'wp-strava' );
@@ -334,6 +338,33 @@ class WPStrava_Settings {
 
 	public function sanitize_som( $som ) {
 		return $som;
+	}
+
+	/**
+	 * Display the Hide Time Checkbox.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.7.1
+	 */
+	public function print_hide_time_input() {
+		?>
+		<input type="checkbox" id="strava_hide_time" name="strava_hide_time" <?php checked( $this->hide_time, 'on' ); ?>/>
+		<?php
+	}
+
+	/**
+	 * Sanitize the Hide Time Checkbox.
+	 *
+	 * @param string $checked 'on' or null.
+	 * @return string 'on' if checked.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.7.1
+	 */
+	public function sanitize_hide_time( $checked ) {
+		if ( 'on' === $checked ) {
+			return $checked;
+		}
+		return null;
 	}
 
 	public function print_clear_input() {

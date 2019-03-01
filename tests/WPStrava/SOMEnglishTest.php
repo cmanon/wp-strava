@@ -17,7 +17,7 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	/**
 	 * Test that 10,000 meters is 6.21 miles using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_distance() {
@@ -28,7 +28,7 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	/**
 	 * Test that 6.213712 miles is 10,000.00 meters using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_distance_inverse() {
@@ -39,7 +39,7 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	/**
 	 * Test that 6.705 meters per second is 15.00 mph using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_speed() {
@@ -50,7 +50,7 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	/**
 	 * Test that 2.68224 meters per second is a 10:00 minute/mile pace using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_pace() {
@@ -61,7 +61,7 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	/**
 	 * Test that 60.96 meters is 200.00 feet using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_elevation() {
@@ -72,7 +72,7 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	/**
 	 * Test that 4805 seconds is 01:20:05 time (H:i:s) using both string and float inputs.
 	 *
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_time() {
