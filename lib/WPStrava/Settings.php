@@ -357,7 +357,7 @@ class WPStrava_Settings {
 	 * Gets all saved strava tokens as an array.
 	 *
 	 * @return array
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 */
 	public function get_tokens() {
@@ -379,7 +379,7 @@ class WPStrava_Settings {
 	 * Returns first (default) token saved.
 	 *
 	 * @return string|null
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 */
 	public function get_default_token() {
@@ -391,7 +391,7 @@ class WPStrava_Settings {
 	 * Get all tokens and their nicknames in one array.
 	 *
 	 * @return void
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 */
 	public function get_all_tokens() {
@@ -413,7 +413,7 @@ class WPStrava_Settings {
 	/**
 	 * Returns default nickname 'Default' / 'Athlete n'.
 	 *
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 *
 	 * @param integer $number Athlete number (default 1).
@@ -427,7 +427,7 @@ class WPStrava_Settings {
 	/**
 	 * Checks for valid tokens.
 	 *
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 *
 	 * @param  string|array Single token or array of tokens.
@@ -454,7 +454,7 @@ class WPStrava_Settings {
 	 *
 	 * @param string $token
 	 *
-	 * @author Justin Foell
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 */
 	public function add_token( $token ) {

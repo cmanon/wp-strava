@@ -56,6 +56,37 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	}
 
 	/**
+	 * Change meters per second to minutes per mile.
+	 *
+	 * @param float $mps Meters per second.
+	 * @return float Minutes Per Mile.
+	 */
+	public function pace( $mps ) {
+
+		if ( ! $mps ) {
+			return __( 'N/A', 'wp-strava' );
+		}
+
+		$mph = $mps * 2.2369;
+		$s   = 3600 / $mph;
+		$ss  = $s / 60;
+		$ms  = floor( $ss ) * 60;
+		$sec = round( $s - $ms );
+		$min = floor( $ss );
+
+		return "{$min}:{$sec}";
+	}
+
+	/**
+	 * Abbreviated label for this system of measure's pace - Minutes Per Mile: min/mile
+	 *
+	 * @return string 'min/mile'
+	 */
+	public function get_pace_label() {
+		return __( 'min/mile', 'wp-strava' );
+	}
+
+	/**
 	 * Change meters to feet.
 	 *
 	 * @param float $m Elevation in meters.

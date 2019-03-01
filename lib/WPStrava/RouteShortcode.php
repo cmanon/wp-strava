@@ -53,55 +53,81 @@ class WPStrava_RouteShortcode {
 			'map_height'    => '320',
 			'athlete_token' => WPStrava::get_instance()->settings->get_default_token(),
 			'markers'       => false,
+			'image_only'    => false,
 		);
 
-		$atts = shortcode_atts( $defaults, $atts );
+		$atts = shortcode_atts( $defaults, $atts, 'route' );
 
-		$strava_som    = WPStrava_SOM::get_som( $atts['som'] );
+		/* Make sure boolean values are actually boolean
+		 * @see https://wordpress.stackexchange.com/a/119299
+		 */
+		$atts['markers']    = filter_var( $atts['markers'], FILTER_VALIDATE_BOOLEAN );
+		$atts['image_only'] = filter_var( $atts['image_only'], FILTER_VALIDATE_BOOLEAN );
+
 		$route         = WPStrava::get_instance()->routes;
 		$route_details = null;
 
 		try {
 			$route_details = $route->get_route( $atts['id'] );
-		} catch( WPStrava_Exception $e ) {
+		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}
 
-		// Sanitize width & height.
-		$map_width  = str_replace( '%', '', $atts['map_width'] );
-		$map_height = str_replace( '%', '', $atts['map_height'] );
-		$map_width  = str_replace( 'px', '', $map_width );
-		$map_height = str_replace( 'px', '', $map_height );
-
+		$route_output = '';
 		if ( $route_details ) {
-			return '
-				<div id="activity-header-' . $atts['id'] . '" class="wp-strava-activity-container">
-					<table id="activity-details-table">
-						<thead>
-							<tr>
-								<th>' . __( 'Est. Moving Time', 'wp-strava' ) . '</th>
-								<th>' . __( 'Distance', 'wp-strava' ) . '</th>
-								<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="activity-details-table-info">
-								<td>' . $strava_som->time( $route_details->estimated_moving_time ) . '</td>
-								<td>' . $strava_som->distance( $route_details->distance ) . '</td>
-								<td>' . $strava_som->elevation( $route_details->elevation_gain ) . '</td>
-							</tr>
-							<tr class="activity-details-table-units">
-								<td>' . $strava_som->get_time_label() . '</td>
-								<td>' . $strava_som->get_distance_label() . '</td>
-								<td>' . $strava_som->get_elevation_label() . '</td>
-							</tr>
-						</tbody>
-					</table>
-				<a title="' . $route_details->name . '" href="' . WPStrava_Routes::ROUTES_URL . $route_details->id . '">' .
+			$route_output = '<div id="activity-header-' . $atts['id'] . '" class="wp-strava-activity-container">';
+			if ( ! $atts['image_only'] ) {
+				$route_output .= $this->get_table( $route_details, $atts['som'] );
+			}
+
+			// Sanitize width & height.
+			$map_width  = str_replace( '%', '', $atts['map_width'] );
+			$map_height = str_replace( '%', '', $atts['map_height'] );
+			$map_width  = str_replace( 'px', '', $map_width );
+			$map_height = str_replace( 'px', '', $map_height );
+
+			$route_output .= '<a title="' . $route_details->name . '" href="' . WPStrava_Routes::ROUTES_URL . $route_details->id . '">' .
 				WPStrava_StaticMap::get_image_tag( $route_details, $map_height, $map_width, $atts['markers'] ) .
 				'</a>
 			</div>';
 		} // End if( $route_details ).
+		return $route_output;
+	}
+
+	/**
+	 * The the route details in in HTML table.
+	 *
+	 * @param string $route_details route details from the route class.
+	 * @param string $som System of measure (english/metric).
+	 * @return string HTML Table of route details.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.7.0
+	 */
+	private function get_table( $route_details, $som ) {
+		$strava_som = WPStrava_SOM::get_som( $som );
+		return '
+			<table id="activity-details-table">
+				<thead>
+					<tr>
+						<th>' . __( 'Est. Moving Time', 'wp-strava' ) . '</th>
+						<th>' . __( 'Distance', 'wp-strava' ) . '</th>
+						<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="activity-details-table-info">
+						<td>' . $strava_som->time( $route_details->estimated_moving_time ) . '</td>
+						<td>' . $strava_som->distance( $route_details->distance ) . '</td>
+						<td>' . $strava_som->elevation( $route_details->elevation_gain ) . '</td>
+					</tr>
+					<tr class="activity-details-table-units">
+						<td>' . $strava_som->get_time_label() . '</td>
+						<td>' . $strava_som->get_distance_label() . '</td>
+						<td>' . $strava_som->get_elevation_label() . '</td>
+					</tr>
+				</tbody>
+			</table>
+		';
 	}
 
 	/**
