@@ -64,9 +64,13 @@ abstract class WPStrava_SOM {
 	 */
 	public function swimpace( $mps ) {
 
-		$kmh     = $mps * 3.6;
-		$min100m = 60 / $kmh / 10;
+		$kmh = $mps * 3.6;
+		$s   = 3600 / $kmh / 10;
+		$ss  = $s / 60;
+		$ms  = floor( $ss ) * 60;
+		$sec = sprintf( '%02d', round( $s - $ms ) );
+		$min = floor( $ss );
 
-		return number_format( $min100m, 2 );
+		return "{$min}:{$sec}";
 	}
 }
