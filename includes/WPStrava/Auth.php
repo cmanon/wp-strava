@@ -35,7 +35,7 @@ abstract class WPStrava_Auth {
 		$settings = WPStrava::get_instance()->settings;
 
 		// User is clearing to start-over, don't oauth, ignore other errors.
-		if ( isset( $_POST['strava_token'] ) && $settings->tokens_empty( $_POST['strava_token'] ) ) {
+		if ( isset( $_POST['strava_id'] ) && $settings->ids_empty( $_POST['strava_id'] ) ) {
 			return array();
 		}
 
@@ -60,8 +60,6 @@ abstract class WPStrava_Auth {
 				if ( isset( $info->access_token ) ) {
 					// Translators: New strava token
 					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ), 'updated' );
-					$settings->add_token( $info->access_token );
-					$settings->update_token();
 				} else {
 					// throw new WPStrava_Exception( '' );
 					add_settings_error( 'strava_token', 'strava_token', $this->feedback );
@@ -97,6 +95,9 @@ abstract class WPStrava_Auth {
 			$strava_info = $this->token_request( $data );
 
 			if ( isset( $strava_info->access_token ) ) {
+				$settings->add_id( $client_id );
+				$settings->save_info( $client_id, $strava_info );
+
 				$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
 				return $strava_info;
 			}
