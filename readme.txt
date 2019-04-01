@@ -79,6 +79,10 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 == Changelog ==
 
+= 2.0.0 =
+Added new Strava "refresh tokens" ala https://developers.strava.com/docs/oauth-updates/#migration-instructions
+
+
 = 1.7.1 =
 
 Added PHPUnit tests for all System of Measure calculations.

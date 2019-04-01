@@ -11,7 +11,6 @@
 
 class WPStrava_Settings {
 
-	private $feedback;
 	private $tokens         = array();
 	private $page_name      = 'wp-strava-options';
 	private $option_page    = 'wp-strava-settings-group';
@@ -19,38 +18,9 @@ class WPStrava_Settings {
 
 	//register admin menus
 	public function hook() {
-		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
+		add_action( 'admin_init', array( $this, 'register_strava_settings' ), 20 );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
-		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ) );
 		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
-	}
-
-	/**
-	 * This runs after options are saved
-	 */
-	public function maybe_oauth( $value ) {
-		// User is clearing to start-over, don't oauth, ignore other errors.
-		if ( isset( $_POST['strava_token'] ) && $this->tokens_empty( $_POST['strava_token'] ) ) {
-			return array();
-		}
-
-		// Redirect only if all the right options are in place.
-		if ( isset( $value[0]['type'] ) && 'updated' === $value[0]['type'] ) { // Make sure there were no settings errors.
-			if ( isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->option_page ) { // Make sure we're on our settings page.
-
-				// Only re-auth if client ID and secret were saved.
-				if ( ! empty( $_POST['strava_client_id'] ) && ! empty( $_POST['strava_client_secret'] ) ) {
-					$client_id     = $_POST['strava_client_id'];
-					$client_secret = $_POST['strava_client_secret'];
-
-					$redirect = rawurlencode( admin_url( "options-general.php?page={$this->page_name}" ) );
-					$url      = "https://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect}&approval_prompt=force";
-					wp_redirect( $url );
-					exit();
-				}
-			}
-		}
-		return $value;
 	}
 
 	public function add_strava_menu() {
@@ -63,35 +33,11 @@ class WPStrava_Settings {
 		);
 	}
 
-	public function init() {
-		$this->tokens = $this->get_tokens();
-
-		// Only validate additional athlete information if all fields are present.
-		$this->adding_athlete = ! ( empty( $_POST['strava_client_id'] ) && empty( $_POST['strava_client_secret'] ) );
-
-		//only update when redirected back from strava
-		if ( ! isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] === $this->page_name ) {
-			if ( isset( $_GET['code'] ) ) {
-				$token = $this->fetch_token( $_GET['code'] );
-				if ( $token ) {
-					// Translators: strava token
-					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ), 'updated' );
-					$this->add_token( $token );
-					update_option( 'strava_token', $this->tokens );
-				} else {
-					add_settings_error( 'strava_token', 'strava_token', $this->feedback );
-				}
-			} elseif ( isset( $_GET['error'] ) ) {
-				// Translators: authentication error mess
-				add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'Error authenticating at Strava: %s', 'wp-strava' ), str_replace( '_', ' ', $_GET['error'] ) ) );
-			}
-		}
-	}
-
 	public function register_strava_settings() {
-		$this->init();
-
 		add_settings_section( 'strava_api', __( 'Strava API', 'wp-strava' ), array( $this, 'print_api_instructions' ), 'wp-strava' );
+
+		$this->adding_athlete = $this->is_adding_athlete();
+		$this->tokens         = $this->get_tokens();
 
 		if ( $this->tokens_empty( $this->tokens ) ) {
 			register_setting( $this->option_page, 'strava_client_id', array( $this, 'sanitize_client_id' ) );
@@ -136,7 +82,6 @@ class WPStrava_Settings {
 	}
 
 	public function print_api_instructions() {
-		$signup_url   = 'http://www.strava.com/developers';
 		$settings_url = 'https://www.strava.com/settings/api';
 		$icon_url     = 'https://plugins.svn.wordpress.org/wp-strava/assets/icon-128x128.png';
 		$blog_name    = get_bloginfo( 'name' );
@@ -180,7 +125,6 @@ class WPStrava_Settings {
 				<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
 				<li>Once you've created your Google Static Maps API Key, enter the key below.
 			</ol>", 'wp-strava' ), $maps_url, $maps_url );
-
 	}
 
 	public function print_strava_options() {
@@ -283,38 +227,6 @@ class WPStrava_Settings {
 
 	public function sanitize_token( $token ) {
 		return $token;
-	}
-
-	private function fetch_token( $code ) {
-		$client_id     = $this->client_id;
-		$client_secret = $this->client_secret;
-
-		delete_option( 'strava_client_id' );
-		delete_option( 'strava_client_secret' );
-
-		if ( $client_id && $client_secret ) {
-			$api  = new WPStrava_API();
-			$data = array(
-				'client_id'     => $client_id,
-				'client_secret' => $client_secret,
-				'code'          => $code,
-			);
-
-			$strava_info = $api->post( 'oauth/token', $data );
-
-			if ( isset( $strava_info->access_token ) ) {
-				$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
-				return $strava_info->access_token;
-			}
-
-			// Translators: error message from Strava
-			$this->feedback .= sprintf( __( 'There was an error receiving data from Strava: <pre>%s</pre>', 'wp-strava' ), print_r( $strava_info, true ) ); // phpcs:ignore -- Debug output.
-			return false;
-
-		}
-
-		$this->feedback .= __( 'Missing Client ID or Client Secret.', 'wp-strava' );
-		return false;
 	}
 
 	public function print_gmaps_key_input() {
@@ -492,6 +404,78 @@ class WPStrava_Settings {
 		if ( false === array_search( $token, $this->tokens, true ) ) {
 			$this->tokens[] = $token;
 		}
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param array $token
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.0.0
+	 */
+	public function update_token() {
+		update_option( 'strava_token', $this->tokens );
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  2.0.0
+	 */
+	public function delete_id_secret() {
+		delete_option( 'strava_client_id' );
+		delete_option( 'strava_client_secret' );
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param [type] $value
+	 * @return boolean
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  2.0.0
+	 */
+	public function is_settings_updated( $value ) {
+		return isset( $value[0]['type'] ) && 'updated' === $value[0]['type'];
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return boolean
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  2.0.0
+	 */
+	public function is_option_page() {
+		return isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->option_page;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return boolean
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  2.0.0
+	 */
+	public function is_settings_page() {
+		return isset( $_GET['page'] ) && $_GET['page'] === $this->page_name;
+	}
+
+	public function get_page_name() {
+		return $this->page_name;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return boolean
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  2.0.0
+	 */
+	private function is_adding_athlete() {
+		return ! ( empty( $_POST['strava_client_id'] ) && empty( $_POST['strava_client_secret'] ) );
 	}
 
 	public function __get( $name ) {
