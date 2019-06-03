@@ -46,11 +46,12 @@ class WPStrava {
 	 */
 	private function __construct() {
 		$this->settings = new WPStrava_Settings();
-		$this->auth     = WPStrava_Auth::get_auth( 'forever' );
+		$this->auth     = WPStrava_Auth::get_auth( 'refresh' );
+
+		$this->auth->hook();
 
 		if ( is_admin() ) {
 			$this->settings->hook();
-			$this->auth->hook();
 		} else {
 			add_action( 'init', array( $this, 'register_shortcodes' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );

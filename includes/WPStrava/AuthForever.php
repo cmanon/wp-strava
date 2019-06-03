@@ -9,9 +9,18 @@
  * AuthForever Class
  *
  * @since 2.0.0
+ * @see http://developers.strava.com/docs/authentication/
  */
 class WPStrava_AuthForever extends WPStrava_Auth {
 
+	/**
+	 * Authorize URL for old style forever tokens.
+	 *
+	 * @param int $client_id Strava API Client ID.
+	 * @return string URL to authorize against.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.0.0
+	 */
 	protected function get_authorize_url( $client_id ) {
 		return add_query_arg(
 			array(

@@ -398,16 +398,33 @@ class WPStrava_Settings {
 	/**
 	 * Undocumented function
 	 *
-	 * @param [type] $id
-	 * @param [type] $info
-	 * @return void
+	 * @param int $id Strava API Client ID
+	 * @param string $secret Strava API Client Secret
+	 * @param stdClass $info
 	 * @author Justin Foell <justin.foell@webdevstudios.com>
 	 * @since  2.0.0
 	 */
-	public function save_info( $id, $info ) {
+	public function save_info( $id, $secret, $info ) {
 		$infos = get_option( 'strava_info', array() );
+		$infos = array_filter( $infos, array( $this, 'filter_by_id' ), ARRAY_FILTER_USE_KEY ); // Remove old IDs.
+		$info->client_secret = $secret;
 		$infos[ $id ] = $info;
 		update_option( 'strava_info', $infos );
+	}
+
+	/**
+	 * array_filter() callback to remove info for IDs we no longer have.
+	 *
+	 * @param int $key Strava Client ID
+	 * @return boolean True if Client ID is in $this->ids, false otherwise.
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  2.0.0
+	 */
+	public function filter_by_id( $key ) {
+		if ( in_array( $key, $this->ids ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

@@ -24,8 +24,10 @@ abstract class WPStrava_Auth {
 	abstract protected function get_authorize_url( $client_id );
 
 	public function hook() {
-		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ) );
-		add_action( 'admin_init', array( $this, 'init' ) );
+		if ( is_admin() ) {
+			add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ) );
+			add_action( 'admin_init', array( $this, 'init' ) );
+		}
 	}
 
 	/**
@@ -92,11 +94,13 @@ abstract class WPStrava_Auth {
 				'code'          => $code,
 			);
 
+			$data = $this->add_initial_params( $data );
+
 			$strava_info = $this->token_request( $data );
 
 			if ( isset( $strava_info->access_token ) ) {
 				$settings->add_id( $client_id );
-				$settings->save_info( $client_id, $strava_info );
+				$settings->save_info( $client_id, $client_secret, $strava_info );
 
 				$this->feedback .= __( 'Successfully authenticated.', 'wp-strava' );
 				return $strava_info;
@@ -115,6 +119,10 @@ abstract class WPStrava_Auth {
 	protected function token_request( $data ) {
 		$api  = new WPStrava_API();
 		return $api->post( 'oauth/token', $data );
+	}
+
+	protected function add_initial_params( $data ) {
+		return $data;
 	}
 
 }
