@@ -10,26 +10,26 @@ class WPStrava_Activity {
 	/**
 	 * Get single activity by ID.
 	 *
-	 * @param string  $athlete_token Token of athlete to retrieve for
+	 * @param string  $client_id   Client ID of athlete to retrieve for
 	 * @param int     $activity_id ID of activity to retrieve.
-	 * @return object stdClass representing this activity.
+	 * @return object stdClass Representing this activity.
 	 * @author Justin Foell <justin@foell.org>
 	 */
-	public function get_activity( $athlete_token, $activity_id ) {
-		return WPStrava::get_instance()->get_api( $athlete_token )->get( "activities/{$activity_id}" );
+	public function get_activity( $client_id, $activity_id ) {
+		return WPStrava::get_instance()->get_api( $client_id )->get( "activities/{$activity_id}" );
 	}
 
 	/**
 	 * Get activity list from Strava API.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @param string   $athlete_token Token of athlete to retrieve for
-	 * @param int      $club_id       Club ID of all club riders (optional).
-	 * @param int|null $quantity      Number of records to retrieve (optional).
+	 * @param string   $client_id Client ID of athlete to retrieve for
+	 * @param int      $club_id   Club ID of all club riders (optional).
+	 * @param int|null $quantity  Number of records to retrieve (optional).
 	 * @return array Array of activities.
 	 */
-	public function get_activities( $athlete_token, $club_id = null, $quantity = null ) {
-		$api = WPStrava::get_instance()->get_api( $athlete_token );
+	public function get_activities( $client_id, $club_id = null, $quantity = null ) {
+		$api = WPStrava::get_instance()->get_api( $client_id );
 
 		$data = null;
 

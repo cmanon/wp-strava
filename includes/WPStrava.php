@@ -104,16 +104,16 @@ class WPStrava {
 	 * @param string $token Athlete token.
 	 * @return WPStrava_API
 	 */
-	public function get_api( $token = null ) {
-		if ( ! $token ) {
-			$token = $this->settings->get_default_token();
+	public function get_api( $id = null ) {
+		if ( ! $id ) {
+			$id = $this->settings->get_default_id();
 		}
 
-		if ( empty( $this->api[ $token ] ) ) {
-			$this->api[ $token ] = new WPStrava_API( $token );
+		if ( empty( $this->api[ $id ] ) ) {
+			$this->api[ $id ] = new WPStrava_API( $id );
 		}
 
-		return $this->api[ $token ];
+		return $this->api[ $id ];
 	}
 
 	/**

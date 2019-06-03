@@ -51,12 +51,17 @@ class WPStrava_ActivityShortcode {
 			'som'           => WPStrava::get_instance()->settings->som,
 			'map_width'     => '480',
 			'map_height'    => '320',
-			'athlete_token' => WPStrava::get_instance()->settings->get_default_token(),
+			'client_id'     => WPStrava::get_instance()->settings->get_default_id(),
 			'markers'       => false,
 			'image_only'    => false,
 		);
 
 		$atts = shortcode_atts( $defaults, $atts, 'activity' );
+
+		if ( isset( $atts['athlete_token'] ) ) {
+			// Translators: Message shown when using deprecated athlete_token parameter.
+			return __( 'The <code>athlete_token</code> parameter is deprecated as of version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
+		}
 
 		/* Make sure boolean values are actually boolean
 		 * @see https://wordpress.stackexchange.com/a/119299
@@ -68,7 +73,7 @@ class WPStrava_ActivityShortcode {
 		$activity_details = null;
 
 		try {
-			$activity_details = $activity->get_activity( $atts['athlete_token'], $atts['id'] );
+			$activity_details = $activity->get_activity( $atts['client_id'], $atts['id'] );
 		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}

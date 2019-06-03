@@ -47,16 +47,21 @@ class WPStrava_RouteShortcode {
 		$this->add_script = true;
 
 		$defaults = array(
-			'id'            => 0,
-			'som'           => WPStrava::get_instance()->settings->som,
-			'map_width'     => '480',
-			'map_height'    => '320',
-			'athlete_token' => WPStrava::get_instance()->settings->get_default_token(),
-			'markers'       => false,
-			'image_only'    => false,
+			'id'         => 0,
+			'som'        => WPStrava::get_instance()->settings->som,
+			'map_width'  => '480',
+			'map_height' => '320',
+			'client_id'  => WPStrava::get_instance()->settings->get_default_id(),
+			'markers'    => false,
+			'image_only' => false,
 		);
 
 		$atts = shortcode_atts( $defaults, $atts, 'route' );
+
+		if ( isset( $atts['athlete_token'] ) ) {
+			// Translators: Message shown when using deprecated athlete_token parameter.
+			return __( 'The <code>athlete_token</code> parameter is deprecated as of version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
+		}
 
 		/* Make sure boolean values are actually boolean
 		 * @see https://wordpress.stackexchange.com/a/119299

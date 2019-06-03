@@ -27,7 +27,7 @@ Also takes the following optional parameters:
 * som - english/metric (system of measure - override from default setting).
 * map_width - width (width of image in pixels). Note both width and height parameters are limited to 640px except on premium API plans: https://developers.google.com/maps/documentation/maps-static/dev-guide#Imagesizes
 * map_height - height (height of image in pixels). See note above on max height.
-* athlete_token - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
+* client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * markers - Display markers at the start/finish point (true/false, defaults to false).
 * image_only - Display only the map image and not the table (true/false, defaults to false).
 
@@ -43,7 +43,7 @@ This also takes the same optional parameters as the [activity] shortcode above.
 
 * som - english/metric (system of measure - override from default setting).
 * quantity - number of activities to show.
-* athlete_token - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
+* client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * strava_club_id - Will display activity from the specified Strava club ID instead of an athlete.
 
 
@@ -57,7 +57,7 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
-When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as athlete_token=c764a2b199cff281e39f24671760c1b9c9fe005e. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
+When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as client_id=17791. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
 
 = Why is my Google Map not showing up? =
 
@@ -75,11 +75,11 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 4. Latest Map Widget - shows a map of your most recent activity.
 5. Latest Map Widget Settings - settings for the Latest Map Widget. You can limit your activity by minimum distance to show only longer efforts.
 6. Activity Shortcode - Shows a map of activity with some statistics.
-7. Activity Shortcode Settings - An example activity shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
+7. Activity Shortcode Settings - An example activity shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
 8. Route Shortcode - Shows a map of a route.
 9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start/stop points.
 10. Activities Shortcode - Shows latest athlete activity in a page or post.
-11. Activities Shortcode Settings - An example activities shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
+11. Activities Shortcode Settings - An example activities shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
 
 == Changelog ==
 
