@@ -20,6 +20,8 @@ This plugin uses the Strava API to embed maps and activity for athletes and club
 
 [activity id=NUMBER] - add to any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
 
+You should replace NUMBER with an activity ID from Strava. The easiest way to find it is from a strava URL like https://www.strava.com/activities/1793155844 - where 1793155844 is the activity ID number.
+
 Also takes the following optional parameters:
 
 * som - english/metric (system of measure - override from default setting).
@@ -32,6 +34,8 @@ Also takes the following optional parameters:
 [ride] - an alias for [activity] that will accept the same parameters (kept for backwards compatibility).
 
 [route id=NUMBER] - add to any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
+
+You should replace NUMBER with an route ID from Strava. The easiest way to find it is from a strava URL like https://www.strava.com/routes/9001676 - where 9001676 is the route ID number.
 
 This also takes the same optional parameters as the [activity] shortcode above.
 
