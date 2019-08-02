@@ -18,7 +18,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		// outputs the options form on admin
 		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activity Map', 'wp-strava' );
 		$all_ids        = WPStrava::get_instance()->settings->get_all_ids();
-		$client_id      = isset( $instance['client_id'] ) ? esc_attr( $instance['client_id'] ) : WPStrava::get_instance()->settings->get_default_token();
+		$client_id      = isset( $instance['client_id'] ) ? esc_attr( $instance['client_id'] ) : WPStrava::get_instance()->settings->get_default_id();
 		$distance_min   = isset( $instance['distance_min'] ) ? esc_attr( $instance['distance_min'] ) : '';
 		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';
 
