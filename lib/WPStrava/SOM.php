@@ -33,9 +33,13 @@ abstract class WPStrava_SOM {
 	 * Create a time string of hours:minutes:seconds from just seconds.
 	 *
 	 * @return string Time formatted as 'H:i:s'.
+	 * @see https://stackoverflow.com/a/20870843/2146022
 	 */
 	public function time( $seconds ) {
-		return date( 'H:i:s', mktime( 0, 0, $seconds ) );
+		$zero    = new DateTime( '@0' );
+		$offset  = new DateTime( "@{$seconds}" );
+		$diff    = $zero->diff( $offset );
+		return sprintf( '%02d:%02d:%02d', $diff->days * 24 + $diff->h, $diff->i, $diff->s );
 	}
 
 	/**

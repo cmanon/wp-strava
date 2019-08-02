@@ -80,4 +80,16 @@ class WPStrava_SOMEnglishTest extends TestCase {
 		$this->assertEquals( '01:20:05', $this->som->time( 4805 ) );
 
 	}
+
+	/**
+	 * Test that 221071 seconds is 61:24:31 time (H:i:s) using both string and float inputs.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.7.2
+	 */
+	public function test_time_greater24h() {
+		$this->assertEquals( '61:24:31', $this->som->time( '221071' ) );
+		$this->assertEquals( '61:24:31', $this->som->time( 221071 ) );
+	}
+
 }
