@@ -23,7 +23,7 @@ class WPStrava_StaticMap {
 			return '';
 		}
 
-		$url       = "https://maps.googleapis.com/maps/api/staticmap?maptype=terrain&size={$width}x{$height}&sensor=false&key={$key}&path=color:0xFF0000BF|weight:2|enc:";
+		$url       = "https://maps.googleapis.com/maps/api/staticmap?maptype=terrain&size={$width}x{$height}&scale=2&sensor=false&key={$key}&path=color:0xFF0000BF|weight:2|enc:";
 		$url_len   = strlen( $url );
 		$max_chars = 1865;
 

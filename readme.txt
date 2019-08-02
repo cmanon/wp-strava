@@ -87,6 +87,7 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 Added setting to hide elevation.
 Fixed hours for activities greater than 24 hours.
+Added scale=2 to static map to which allows for greater pixel resolution (up to 1024x1024 at 2x) for Google Maps API Premium Plan subscribers https://developers.google.com/maps/documentation/maps-static/dev-guide#Imagesizes
 
 
 = 1.7.1 =
