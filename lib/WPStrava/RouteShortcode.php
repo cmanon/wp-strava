@@ -105,25 +105,37 @@ class WPStrava_RouteShortcode {
 	 */
 	private function get_table( $route_details, $som ) {
 		$strava_som = WPStrava_SOM::get_som( $som );
+
+
+		$elevation_title = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
+		$elevation       = '<td>' . $strava_som->elevation( $route_details->elevation_gain ) . '</td>';
+		$elevation_label = '<td>' . $strava_som->get_elevation_label() . '</td>';
+
+		if ( WPStrava::get_instance()->settings->hide_elevation ) {
+			$elevation       = '';
+			$elevation_title = '';
+			$elevation_label = '';
+		}
+
 		return '
 			<table id="activity-details-table">
 				<thead>
 					<tr>
 						<th>' . __( 'Est. Moving Time', 'wp-strava' ) . '</th>
 						<th>' . __( 'Distance', 'wp-strava' ) . '</th>
-						<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>
+						' . $elevation_title . '
 					</tr>
 				</thead>
 				<tbody>
 					<tr class="activity-details-table-info">
 						<td>' . $strava_som->time( $route_details->estimated_moving_time ) . '</td>
 						<td>' . $strava_som->distance( $route_details->distance ) . '</td>
-						<td>' . $strava_som->elevation( $route_details->elevation_gain ) . '</td>
+						' . $elevation . '
 					</tr>
 					<tr class="activity-details-table-units">
 						<td>' . $strava_som->get_time_label() . '</td>
 						<td>' . $strava_som->get_distance_label() . '</td>
-						<td>' . $strava_som->get_elevation_label() . '</td>
+						' . $elevation_label . '
 					</tr>
 				</tbody>
 			</table>

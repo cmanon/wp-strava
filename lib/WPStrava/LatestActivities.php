@@ -50,8 +50,12 @@ class WPStrava_LatestActivities {
 			$response .= sprintf( __( ' went %1$s %2$s', 'wp-strava' ), $som->distance( $activity->distance ), $som->get_distance_label() );
 			// Translators: "during 2 hours"
 			$response .= sprintf( __( ' during %1$s %2$s', 'wp-strava' ), $som->time( $activity->elapsed_time ), $som->get_time_label() );
-			// Translators: "climbing 100 ft."
-			$response .= sprintf( __( ' climbing %1$s %2$s', 'wp-strava' ), $som->elevation( $activity->total_elevation_gain ), $som->get_elevation_label() );
+
+			if ( ! WPStrava::get_instance()->settings->hide_elevation ) {
+				// Translators: "climbing 100 ft."
+				$response .= sprintf( __( ' climbing %1$s %2$s', 'wp-strava' ), $som->elevation( $activity->total_elevation_gain ), $som->get_elevation_label() );
+			}
+
 			$response .= '</div></li>';
 		}
 		$response .= '</ul>';

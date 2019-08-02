@@ -83,6 +83,11 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 == Changelog ==
 
+= 1.7.2 =
+
+Added setting to hide elevation.
+
+
 = 1.7.1 =
 
 Added PHPUnit tests for all System of Measure calculations.

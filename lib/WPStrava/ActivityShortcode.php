@@ -107,11 +107,14 @@ class WPStrava_ActivityShortcode {
 	private function get_table( $activity_details, $som ) {
 		$strava_som          = WPStrava_SOM::get_som( $som );
 		$strava_activitytype = WPStrava_ActivityType::get_type_group( $activity_details->type );
-		$avg_speed           = '';
-		$max_speed           = '';
-		$speed_label         = '';
 		$avg_title           = '<th>' . __( 'Average Speed', 'wp-strava' ) . '</th>';
 		$max_title           = '<th>' . __( 'Max Speed', 'wp-strava' ) . '</th>';
+		$elevation_title     = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
+		$avg_speed           = '';
+		$max_speed           = '';
+		$elevation           = '<td>' . $strava_som->elevation( $activity_details->total_elevation_gain ) . '</td>';
+		$speed_label         = '';
+		$elevation_label     = '<td>' . $strava_som->get_elevation_label() . '</td>';
 
 		switch ( $strava_activitytype ) {
 			case WPStrava_ActivityType::TYPE_GROUP_PACE:
@@ -135,6 +138,12 @@ class WPStrava_ActivityShortcode {
 				break;
 		}
 
+		if ( WPStrava::get_instance()->settings->hide_elevation ) {
+			$elevation       = '';
+			$elevation_title = '';
+			$elevation_label = '';
+		}
+
 		return '
 			<table id="activity-details-table">
 				<thead>
@@ -144,7 +153,7 @@ class WPStrava_ActivityShortcode {
 						<th>' . __( 'Distance', 'wp-strava' ) . '</th>
 						' . $avg_title . '
 						' . $max_title . '
-						<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>
+						' . $elevation_title . '
 					</tr>
 				</thead>
 				<tbody>
@@ -154,7 +163,7 @@ class WPStrava_ActivityShortcode {
 						<td>' . $strava_som->distance( $activity_details->distance ) . '</td>
 						' . $avg_speed . '
 						' . $max_speed . '
-						<td>' . $strava_som->elevation( $activity_details->total_elevation_gain ) . '</td>
+						' . $elevation . '
 					</tr>
 					<tr class="activity-details-table-units">
 						<td>' . $strava_som->get_time_label() . '</td>
@@ -162,7 +171,7 @@ class WPStrava_ActivityShortcode {
 						<td>' . $strava_som->get_distance_label() . '</td>
 						' . $speed_label . '
 						' . $speed_label . '
-						<td>' . $strava_som->get_elevation_label() . '</td>
+						' . $elevation_label . '
 					</tr>
 				</tbody>
 			</table>

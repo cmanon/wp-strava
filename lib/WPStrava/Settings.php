@@ -506,6 +506,33 @@ class WPStrava_Settings {
 	}
 
 	/**
+	 * Display the Hide Elevation Checkbox.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.7.2
+	 */
+	public function print_hide_elevation_input() {
+		?>
+		<input type="checkbox" id="strava_hide_elevation" name="strava_hide_elevation" <?php checked( $this->hide_elevation, 'on' ); ?>/>
+		<?php
+	}
+
+	/**
+	 * Sanitize the Hide Elevation Checkbox.
+	 *
+	 * @param string $checked 'on' or null.
+	 * @return string 'on' if checked.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.7.2
+	 */
+	public function sanitize_hide_elevation( $checked ) {
+		if ( 'on' === $checked ) {
+			return $checked;
+		}
+		return null;
+	}
+
+	/**
 	 * Print checkbox option to clear cache.
 	 *
 	 * @author Justin Foell <justin@foell.org>
