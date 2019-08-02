@@ -17,7 +17,12 @@ class WPStrava_Settings {
 	private $option_page    = 'wp-strava-settings-group';
 	private $adding_athlete = true;
 
-	//register admin menus
+	/**
+	 * Register actions & filters for menus and authentication.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function hook() {
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
@@ -26,7 +31,10 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * This runs after options are saved
+	 * Run the OAuth process after options are saved.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
 	 */
 	public function maybe_oauth( $value ) {
 		// User is clearing to start-over, don't oauth, ignore other errors.
@@ -53,6 +61,12 @@ class WPStrava_Settings {
 		return $value;
 	}
 
+	/**
+	 * Add the strava settings menu.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function add_strava_menu() {
 		add_options_page(
 			__( 'Strava Settings', 'wp-strava' ),
@@ -63,6 +77,12 @@ class WPStrava_Settings {
 		);
 	}
 
+	/**
+	 * Initialize the settings by getting tokens.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
+	 */
 	public function init() {
 		$this->tokens = $this->get_tokens();
 
@@ -88,6 +108,12 @@ class WPStrava_Settings {
 		}
 	}
 
+	/**
+	 * Register settings using the WP Settings API.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function register_strava_settings() {
 		$this->init();
 
@@ -125,9 +151,11 @@ class WPStrava_Settings {
 		add_settings_section( 'strava_options', __( 'Options', 'wp-strava' ), null, 'wp-strava' );
 		add_settings_field( 'strava_som', __( 'System of Measurement', 'wp-strava' ), array( $this, 'print_som_input' ), 'wp-strava', 'strava_options' );
 
-		// Hide Time Option.
+		// Hide Options.
 		register_setting( $this->option_page, 'strava_hide_time', array( $this, 'sanitize_hide_time' ) );
 		add_settings_field( 'strava_hide_time', __( 'Hide Activity Time', 'wp-strava' ), array( $this, 'print_hide_time_input' ), 'wp-strava', 'strava_options' );
+		register_setting( $this->option_page, 'strava_hide_elevation', array( $this, 'sanitize_hide_elevation' ) );
+		add_settings_field( 'strava_hide_elevation', __( 'Hide Activity Elevation', 'wp-strava' ), array( $this, 'print_hide_elevation_input' ), 'wp-strava', 'strava_options' );
 
 		// Clear cache.
 		register_setting( $this->option_page, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
@@ -135,6 +163,12 @@ class WPStrava_Settings {
 		add_settings_field( 'strava_cache_clear', __( 'Clear cache (images & transient data)', 'wp-strava' ), array( $this, 'print_clear_input' ), 'wp-strava', 'strava_cache' );
 	}
 
+	/**
+	 * Print the Strava setup instructions.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function print_api_instructions() {
 		$signup_url   = 'http://www.strava.com/developers';
 		$settings_url = 'https://www.strava.com/settings/api';
@@ -173,6 +207,12 @@ class WPStrava_Settings {
 		);
 	}
 
+	/**
+	 * Print the google maps instructions.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.1
+	 */
 	public function print_gmaps_instructions() {
 		$maps_url = 'https://developers.google.com/maps/documentation/static-maps/';
 		printf( __( "<p>Steps:</p>
@@ -183,6 +223,12 @@ class WPStrava_Settings {
 
 	}
 
+	/**
+	 * Print the settings page container.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function print_strava_options() {
 		?>
 		<div class="wrap">
@@ -201,18 +247,36 @@ class WPStrava_Settings {
 		<?php
 	}
 
+	/**
+	 * Print the client ID input
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.2.0
+	 */
 	public function print_client_input() {
 		?>
 		<input type="text" id="strava_client_id" name="strava_client_id" value="" />
 		<?php
 	}
 
+	/**
+	 * Print the client secret input
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.2.0
+	 */
 	public function print_secret_input() {
 		?>
 		<input type="text" id="strava_client_secret" name="strava_client_secret" value="" />
 		<?php
 	}
 
+	/**
+	 * Print the nickname input
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.2.0
+	 */
 	public function print_nickname_input() {
 		$nickname = $this->tokens_empty( $this->tokens ) ? __( 'Default', 'wp-strava' ) : '';
 		?>
@@ -220,6 +284,12 @@ class WPStrava_Settings {
 		<?php
 	}
 
+	/**
+	 * Print the strava token(s)
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function print_token_input() {
 		foreach ( $this->get_all_tokens() as $token => $nickname ) {
 			?>
@@ -230,6 +300,14 @@ class WPStrava_Settings {
 		}
 	}
 
+	/**
+	 * Sanitize the client ID.
+	 *
+	 * @param string $client_id
+	 * @return string
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  1.2.0
+	 */
 	public function sanitize_client_id( $client_id ) {
 		// Return early if not trying to add an additional athlete.
 		if ( ! $this->adding_athlete ) {
@@ -242,6 +320,14 @@ class WPStrava_Settings {
 		return $client_id;
 	}
 
+	/**
+	 * Sanitize the client secret.
+	 *
+	 * @param string $client_secret
+	 * @return string
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  1.2.0
+	 */
 	public function sanitize_client_secret( $client_secret ) {
 		// Return early if not trying to add an additional athlete.
 		if ( ! $this->adding_athlete ) {
@@ -254,6 +340,14 @@ class WPStrava_Settings {
 		return $client_secret;
 	}
 
+	/**
+	 * Sanitize the nicknames - make sure we've got the same number of nicknames sa tokens.
+	 *
+	 * @param array $nicknames Nicknames for the athletes saved.
+	 * @return array
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.2.0
+	 */
 	public function sanitize_nickname( $nicknames ) {
 		if ( ! $this->adding_athlete ) {
 
@@ -281,10 +375,26 @@ class WPStrava_Settings {
 		return $nicknames;
 	}
 
+	/**
+	 * Sanitize the token.
+	 *
+	 * @param string $token
+	 * @return string
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function sanitize_token( $token ) {
 		return $token;
 	}
 
+	/**
+	 * Fetch the access token from Strava - previously get_token()
+	 *
+	 * @param string $code
+	 * @return mixed Boolean false if there was a problem, token string otherwise.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
+	 */
 	private function fetch_token( $code ) {
 		$client_id     = $this->client_id;
 		$client_secret = $this->client_secret;
@@ -317,16 +427,36 @@ class WPStrava_Settings {
 		return false;
 	}
 
+	/**
+	 * Print the GMaps key input.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.1
+	 */
 	public function print_gmaps_key_input() {
 		?>
 		<input type="text" id="strava_gmaps_key" name="strava_gmaps_key" value="<?php echo $this->gmaps_key; ?>" />
 		<?php
 	}
 
+	/**
+	 * Sanitize GMaps key input.
+	 *
+	 * @param string $key
+	 * @return string
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.1
+	 */
 	public function sanitize_gmaps_key( $key ) {
 		return $key;
 	}
 
+	/**
+	 * Print System of Measure option.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function print_som_input() {
 		?>
 		<select id="strava_som" name="strava_som">
@@ -336,6 +466,14 @@ class WPStrava_Settings {
 		<?php
 	}
 
+	/**
+	 * Sanitize System of Measure input.
+	 *
+	 * @param string $som Input from System of Measure dropdown.
+	 * @return string
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  0.62
+	 */
 	public function sanitize_som( $som ) {
 		return $som;
 	}
@@ -367,12 +505,26 @@ class WPStrava_Settings {
 		return null;
 	}
 
+	/**
+	 * Print checkbox option to clear cache.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.1
+	 */
 	public function print_clear_input() {
 		?>
 		<input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" />
 		<?php
 	}
 
+	/**
+	 * Clear Strava cache if checkbox is checked.
+	 *
+	 * @param string $checked Clear cache checkbox status.
+	 * @return void
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.1
+	 */
 	public function sanitize_cache_clear( $checked ) {
 		if ( 'on' === $checked ) {
 			global $wpdb;
@@ -494,6 +646,13 @@ class WPStrava_Settings {
 		}
 	}
 
+	/**
+	 * Getter for Strava settings in wp_options.
+	 *
+	 * @param string $name Option name without the 'strava_' prefix.
+	 * @return mixed
+	 * @since  0.62
+	 */
 	public function __get( $name ) {
 		if ( ! strpos( 'strava_', $name ) ) {
 			$name = "strava_{$name}";
@@ -502,6 +661,14 @@ class WPStrava_Settings {
 		return get_option( $name );
 	}
 
+	/**
+	 * Link to the settings on the plugin list page.
+	 *
+	 * @param array $links Array of plugin links.
+	 * @return array Links with settings added.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  1.0
+	 */
 	public function settings_link( $links ) {
 		$settings_link = '<a href="' . admin_url( "options-general.php?page={$this->page_name}" ) . '">' . __( 'Settings', 'wp-strava' ) . '</a>';
 		$links[]       = $settings_link;
