@@ -305,7 +305,7 @@ class WPStrava_Settings {
 	 *
 	 * @param string $client_id
 	 * @return string
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 */
 	public function sanitize_client_id( $client_id ) {
