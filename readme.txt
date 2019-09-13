@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -86,6 +86,13 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 = 2.0.0 =
 
 Added new Strava "refresh tokens" ala https://developers.strava.com/docs/oauth-updates/#migration-instructions
+
+
+= 1.7.2 =
+
+Added setting to hide elevation.
+Fixed hours for activities greater than 24 hours.
+Added scale=2 to static map to which allows for greater pixel resolution (up to 1024x1024 at 2x) for Google Maps API Premium Plan subscribers https://developers.google.com/maps/documentation/maps-static/dev-guide#Imagesizes
 
 
 = 1.7.1 =
