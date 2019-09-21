@@ -81,8 +81,9 @@ class WPStrava_API {
 	 * @author Justin Foell <justin@foell.org>
 	 */
 	public function get( $uri, $args = null ) {
-		$url = self::STRAVA_V3_API;
+		static $retry = true;
 
+		$url  = self::STRAVA_V3_API;
 		$url .= $uri;
 
 		if ( ! empty( $args ) ) {
@@ -101,9 +102,20 @@ class WPStrava_API {
 		}
 
 		$response = wp_remote_get( $url, $get_args );
-
 		if ( is_wp_error( $response ) ) {
 			throw WPStrava_Exception::from_wp_error( $response );
+		}
+
+		// Try *one* real-time token refresh if 404.
+		if ( $retry && 404 == $response['response']['code'] ) {
+			$retry = false;
+			$auth = WPStrava::get_instance()->auth;
+			if ( $auth instanceof WPStrava_AuthRefresh ) {
+				$auth->auth_refresh();
+			}
+			return $this->get( $uri, $args );
+		} else {
+			$retry = true;
 		}
 
 		if ( 200 != $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
@@ -138,21 +150,17 @@ class WPStrava_API {
 	 * @since  2.0.0
 	 */
 	private function get_access_token() {
-		static $access_token = null;
-
 		// If client_id not set (OAuth set-up), don't even look.
 		if ( ! $this->client_id ) {
 			return null;
 		}
 
-		if ( ! $access_token ) {
-			$settings  = WPStrava::get_instance()->settings;
-			$info      = $settings->info;
+		$settings  = WPStrava::get_instance()->settings;
+		$info      = $settings->info;
 
-			if ( ! empty( $info[ $this->client_id ]->access_token ) ) {
-				$access_token = $info[ $this->client_id ]->access_token;
-			}
+		if ( ! empty( $info[ $this->client_id ]->access_token ) ) {
+			return $info[ $this->client_id ]->access_token;
 		}
-		return $access_token;
+		return null;
 	}
 }

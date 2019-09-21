@@ -10,10 +10,14 @@ License: GPLv2 or later
 
 Show your Strava activity on your WordPress site.
 
-
 == Description ==
 
 This plugin uses the Strava API to embed maps and activity for athletes and clubs on your WordPress site. Included are several widgets and shortcodes for showing maps and activity summaries.
+
+
+= Cron =
+
+Using WP-Strava after September 2019 requires a working WordPress cron configuration. By default, WordPress has a built-in cron system to run scheduled events, but it relies on your website getting frequent visitors. The Strava authentication token system expires after 6 hours if not refreshed. If you think your site will not get any visitors over the span on 6 hours, you might want to set up a _real_ cron: https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/. Setting up this sort of cron is beyond the scope of support for this free plugin, so you should seek assistance through your host.
 
 
 = Shortcodes =
@@ -53,19 +57,23 @@ Strava Latest Activity List - shows a list of the last few activities.
 
 Strava Latest Map - shows map of latest activity with option to limit latest map to activities of a certain minimum distance.
 
+
 == Frequently Asked Questions ==
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
 When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as client_id=17791. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
 
+
 = Why is my Google Map not showing up? =
 
 If your API key works with other Google Maps plugins but not WP Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
 
+
 = I recently uploaded an activity, why is it not showing on my site? =
 
 WP-Strava caches activity for one hour so your site doesn't hit the Strava API on every page load. If you recently uploaded activity and want to see it right away, go to the Settings -> Strava in the wp-admin dashboard, check the checkbox labeled "Clear cache (images & transient data)" and then click Save Changes.
+
 
 == Screenshots ==
 
@@ -80,6 +88,7 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start/stop points.
 10. Activities Shortcode - Shows latest athlete activity in a page or post.
 11. Activities Shortcode Settings - An example activities shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
+
 
 == Changelog ==
 

@@ -16,6 +16,17 @@ class WPStrava_Settings {
 	private $option_page    = 'wp-strava-settings-group';
 	private $adding_athlete = true;
 
+
+	/**
+	 * Settings constructor.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.0
+	 */
+	public function __construct() {
+		$this->ids = $this->get_ids();
+	}
+
 	/**
 	 * Register actions & filters for menus and authentication.
 	 *
@@ -54,7 +65,6 @@ class WPStrava_Settings {
 		add_settings_section( 'strava_api', __( 'Strava API', 'wp-strava' ), array( $this, 'print_api_instructions' ), 'wp-strava' );
 
 		$this->adding_athlete = $this->is_adding_athlete();
-		$this->ids            = $this->get_ids();
 
 		if ( $this->ids_empty( $this->ids ) ) {
 			register_setting( $this->option_page, 'strava_client_id', array( $this, 'sanitize_client_id' ) );

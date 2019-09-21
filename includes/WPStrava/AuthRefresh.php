@@ -65,7 +65,7 @@ class WPStrava_AuthRefresh extends WPStrava_Auth {
 				'client_id'       => $client_id,
 				'redirect_uri'    => $this->get_redirect_param(),
 				'approval_prompt' => 'auto',
-				'scope'           => 'read,activity:read',
+				'scope'           => 'activity:read,read',
 			),
 			$this->auth_url
 		);
