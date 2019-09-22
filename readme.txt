@@ -1,10 +1,10 @@
 === WP-Strava ===
 
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
-Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
+Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -17,7 +17,7 @@ This plugin uses the Strava API to embed maps and activity for athletes and club
 
 = Cron =
 
-Using WP-Strava after September 2019 requires a working WordPress cron configuration. By default, WordPress has a built-in cron system to run scheduled events, but it relies on your website getting frequent visitors. The Strava authentication token system expires after 6 hours if not refreshed. If you think your site will not get any visitors over the span on 6 hours, you might want to set up a _real_ cron: https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/. Setting up this sort of cron is beyond the scope of support for this free plugin, so you should seek assistance through your host.
+Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default, WordPress has a built-in cron system to run scheduled events, but it relies on your website getting frequent visitors. The Strava authentication token system expires after 6 hours if not refreshed. If you think your site will not get any visitors over the span on 6 hours, you might want to set up a _real_ cron: https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/. Setting up this sort of cron is beyond the scope of support for this free plugin, so you should seek assistance through your host. Force-running the WordPress cron once an hour is good enough for WP-Strava.
 
 
 = Shortcodes =
@@ -97,6 +97,11 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 Added new Strava "refresh tokens" ala https://developers.strava.com/docs/oauth-updates/#migration-instructions
 
 
+= 1.7.3 =
+
+Added update notice.
+
+
 = 1.7.2 =
 
 Added setting to hide elevation.
@@ -110,6 +115,7 @@ Added PHPUnit tests for all System of Measure calculations.
 Fixed swimpace calculation.
 Fixed seconds display on pace.
 Added Hide Activity Time option to hide time display from Latest Activities List.
+
 
 = 1.7.0 =
 
@@ -236,3 +242,10 @@ Added option to select unit of measurements on the widget. https://wordpress.org
 = 0.6 =
 
 Initial version.
+
+
+== Upgrade Notice ==
+
+= 1.7.3 =
+
+Version 2.0 will be mandatory after October 15th, 2019. Try the 2.0 beta: <a href="https://github.com/cmanon/wp-strava/releases">https://github.com/cmanon/wp-strava/releases</a>. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
