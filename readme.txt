@@ -1,10 +1,10 @@
 === WP-Strava ===
 
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
-Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, gps, shortcode, widget, plugin
+Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -14,6 +14,11 @@ Show your Strava activity on your WordPress site.
 == Description ==
 
 This plugin uses the Strava API to embed maps and activity for athletes and clubs on your WordPress site. Included are several widgets and shortcodes for showing maps and activity summaries.
+
+
+= Cron =
+
+Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default, WordPress has a built-in cron system to run scheduled events, but it relies on your website getting frequent visitors. The Strava authentication token system expires after 6 hours if not refreshed. If you think your site will not get any visitors over the span on 6 hours, you might want to set up a _real_ cron: https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/. Setting up this sort of cron is beyond the scope of support for this free plugin, so you should seek assistance through your host. Force-running the WordPress cron once an hour is good enough for WP-Strava.
 
 
 = Shortcodes =
@@ -82,6 +87,10 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 11. Activities Shortcode Settings - An example activities shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
 
 == Changelog ==
+
+= 1.7.3 =
+
+Added update notice.
 
 = 1.7.2 =
 
@@ -222,3 +231,8 @@ Added option to select unit of measurements on the widget. https://wordpress.org
 = 0.6 =
 
 Initial version.
+
+
+== upgrade_notice ==
+
+The version 2.0 upgrade is coming soon and will be mandatory to use the Strava API after October 15th, 2019. To participate in the 2.0 beta program please visit https://github.com/cmanon/wp-strava/releases. After upgrading to version 2.0, you must upgrade your settings to continue to use WP-Strava 2.0. See https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade.

@@ -28,6 +28,8 @@ class WPStrava_Settings {
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
 		add_filter( 'pre_set_transient_settings_errors', array( $this, 'maybe_oauth' ) );
 		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
+		add_action( 'in_plugin_update_message-wp-strava/wp-strava.php', array( $this, 'plugin_update_message' ), 10, 2 );
+		add_action( 'after_plugin_row_wp-strava/wp-strava.php', array( $this, 'ms_plugin_update_message' ), 10, 2 );
 	}
 
 	/**
@@ -701,4 +703,43 @@ class WPStrava_Settings {
 		$links[]       = $settings_link;
 		return $links;
 	}
+
+	/**
+	 * Plugin Upgrade Notice.
+	 *
+	 * @param array $data     Plugin data with readme additions.
+	 * @param array $response Response from wp.org.
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  1.7.3
+	 * @see https://wisdomplugin.com/add-inline-plugin-update-message/
+	 */
+	public function plugin_update_message( $data, $response ) {
+		if ( isset( $data['upgrade_notice'] ) ) {
+			printf(
+				'<div class="update-message">%s</div>',
+				wpautop( $data['upgrade_notice'] )
+			);
+		}
+	}
+
+	/**
+	 * Plugin Upgrade Notice (multisite).
+	 *
+	 * @param string $file   Relative path to plugin, i.e. wp-strava/wp-strava.php.
+	 * @param array  $plugin Plugin data with readme additions.
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since  1.7.3
+	 */
+	public function ms_plugin_update_message( $file, $plugin ) {
+		if ( is_multisite() && version_compare( $plugin['Version'], $plugin['new_version'], '<' ) ) {
+			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
+			printf(
+				'<tr class="plugin-update-tr"><td colspan="%s" class="plugin-update update-message notice inline notice-warning notice-alt"><div class="update-message"><h4 style="margin: 0; font-size: 14px;">%s</h4>%s</div></td></tr>',
+				$wp_list_table->get_column_count(),
+				$plugin['Name'],
+				wpautop( $plugin['upgrade_notice'] )
+			);
+		}
+	}
+
 }
