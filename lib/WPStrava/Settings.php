@@ -711,14 +711,10 @@ class WPStrava_Settings {
 	 * @param array $response Response from wp.org.
 	 * @author Justin Foell <justin.foell@webdevstudios.com>
 	 * @since  1.7.3
-	 * @see https://wisdomplugin.com/add-inline-plugin-update-message/
 	 */
 	public function plugin_update_message( $data, $response ) {
 		if ( isset( $data['upgrade_notice'] ) ) {
-			printf(
-				'<div class="update-message">%s</div>',
-				wpautop( $data['upgrade_notice'] )
-			);
+			echo wp_kses_post( $data['upgrade_notice'] );
 		}
 	}
 
@@ -731,13 +727,13 @@ class WPStrava_Settings {
 	 * @since  1.7.3
 	 */
 	public function ms_plugin_update_message( $file, $plugin ) {
-		if ( is_multisite() && version_compare( $plugin['Version'], $plugin['new_version'], '<' ) ) {
+		if ( is_multisite() && ! is_network_admin() && version_compare( $plugin['Version'], $plugin['new_version'], '<' ) ) {
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 			printf(
 				'<tr class="plugin-update-tr"><td colspan="%s" class="plugin-update update-message notice inline notice-warning notice-alt"><div class="update-message"><h4 style="margin: 0; font-size: 14px;">%s</h4>%s</div></td></tr>',
 				$wp_list_table->get_column_count(),
 				$plugin['Name'],
-				wpautop( $plugin['upgrade_notice'] )
+				wp_kses_post( $plugin['upgrade_notice'] )
 			);
 		}
 	}

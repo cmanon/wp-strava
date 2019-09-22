@@ -233,6 +233,8 @@ Added option to select unit of measurements on the widget. https://wordpress.org
 Initial version.
 
 
-== upgrade_notice ==
+== Upgrade Notice ==
 
-The version 2.0 upgrade is coming soon and will be mandatory to use the Strava API after October 15th, 2019. To participate in the 2.0 beta program please visit https://github.com/cmanon/wp-strava/releases. After upgrading to version 2.0, you must upgrade your settings to continue to use WP-Strava 2.0. See https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade.
+= 1.7.3 =
+
+Version 2.0 will be mandatory after October 15th, 2019. Try the 2.0 beta: <a href="https://github.com/cmanon/wp-strava/releases">https://github.com/cmanon/wp-strava/releases</a>. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
