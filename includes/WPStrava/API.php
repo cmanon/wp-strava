@@ -112,8 +112,8 @@ class WPStrava_API {
 			$auth = WPStrava::get_instance()->auth;
 			if ( $auth instanceof WPStrava_AuthRefresh ) {
 				$auth->auth_refresh();
+				return $this->get( $uri, $args );
 			}
-			return $this->get( $uri, $args );
 		} else {
 			$retry = true;
 		}
