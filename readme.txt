@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 1.7.3
+Stable tag: 2.0
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -246,6 +246,11 @@ Initial version.
 
 == Upgrade Notice ==
 
+= 2.0 =
+
+Version 2.0 is mandatory after October 15th, 2019. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
+
+
 = 1.7.3 =
 
-Version 2.0 will be mandatory after October 15th, 2019. Try the 2.0 beta: <a href="https://github.com/cmanon/wp-strava/releases">https://github.com/cmanon/wp-strava/releases</a>. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
+Version 2.0 is mandatory after October 15th, 2019. Try the 2.0 beta: <a href="https://github.com/cmanon/wp-strava/releases">https://github.com/cmanon/wp-strava/releases</a>. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.

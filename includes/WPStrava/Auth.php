@@ -3,7 +3,7 @@
 abstract class WPStrava_Auth {
 
 	protected $auth_url = 'https://www.strava.com/oauth/authorize?response_type=code';
-	private $feedback;
+	protected $feedback = '';
 
 	/**
 	 * Factory method to get the correct Auth class based on specified string
