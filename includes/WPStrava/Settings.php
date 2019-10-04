@@ -16,17 +16,6 @@ class WPStrava_Settings {
 	private $option_page    = 'wp-strava-settings-group';
 	private $adding_athlete = true;
 
-
-	/**
-	 * Settings constructor.
-	 *
-	 * @author Justin Foell <justin@foell.org>
-	 * @since 2.0
-	 */
-	public function __construct() {
-		$this->ids = $this->get_ids();
-	}
-
 	/**
 	 * Register actions & filters for menus and authentication.
 	 *
@@ -34,6 +23,9 @@ class WPStrava_Settings {
 	 * @since  0.62
 	 */
 	public function hook() {
+		// Load IDs for any subsequent actions.
+		$this->ids = $this->get_ids();
+
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
 		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
@@ -260,7 +252,7 @@ class WPStrava_Settings {
 	 *
 	 * @param string $client_secret
 	 * @return string
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 */
 	public function sanitize_client_secret( $client_secret ) {
@@ -574,12 +566,12 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Undocumented function
+	 * Update options with new Client ID and Info.
 	 *
 	 * @param int $id Strava API Client ID
 	 * @param string $secret Strava API Client Secret
 	 * @param stdClass $info
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	public function save_info( $id, $secret, $info ) {
@@ -595,7 +587,7 @@ class WPStrava_Settings {
 	 *
 	 * @param int $key Strava Client ID
 	 * @return boolean True if Client ID is in $this->ids, false otherwise.
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	public function filter_by_id( $key ) {
@@ -606,10 +598,9 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Undocumented function
+	 * Remove the client ID and Secret (they're saved in the strava_info option).
 	 *
-	 * @return void
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	public function delete_id_secret() {
@@ -618,11 +609,11 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Undocumented function
+	 * Check to see if settings have been updated.
 	 *
-	 * @param [type] $value
+	 * @param array $value Data array from pre_set_transient_settings_errors filter.
 	 * @return boolean
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	public function is_settings_updated( $value ) {
@@ -630,10 +621,10 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Undocumented function
+	 * Whether or not we're on the options page.
 	 *
 	 * @return boolean
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	public function is_option_page() {
@@ -641,10 +632,10 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Undocumented function
+	 * Whether or not we're on the WP-Strava settings page.
 	 *
 	 * @return boolean
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	public function is_settings_page() {
@@ -652,10 +643,10 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Undocumented function
+	 * Get the WP-Strava settings page name.
 	 *
 	 * @return string
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	public function get_page_name() {
@@ -663,10 +654,10 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Undocumented function
+	 * Whether or not we're adding a new athlete.
 	 *
 	 * @return boolean
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
 	private function is_adding_athlete() {
@@ -707,7 +698,7 @@ class WPStrava_Settings {
 	 *
 	 * @param array $data     Plugin data with readme additions.
 	 * @param array $response Response from wp.org.
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.3
 	 */
 	public function plugin_update_message( $data, $response ) {
@@ -721,7 +712,7 @@ class WPStrava_Settings {
 	 *
 	 * @param string $file   Relative path to plugin, i.e. wp-strava/wp-strava.php.
 	 * @param array  $plugin Plugin data with readme additions.
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.3
 	 */
 	public function ms_plugin_update_message( $file, $plugin ) {

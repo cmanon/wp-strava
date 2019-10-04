@@ -47,19 +47,6 @@ class WPStrava {
 	private function __construct() {
 		$this->settings = new WPStrava_Settings();
 		$this->auth     = WPStrava_Auth::get_auth( 'refresh' );
-
-		$this->auth->hook();
-
-		if ( is_admin() ) {
-			$this->settings->hook();
-		} else {
-			add_action( 'init', array( $this, 'register_shortcodes' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
-		}
-
-		// Register widgets.
-		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
-
 	}
 
 	/**
@@ -73,6 +60,27 @@ class WPStrava {
 			self::$instance = new $class();
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * Function to install hooks at WP runtime.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.0.0
+	 */
+	public function hook() {
+		$this->auth->hook();
+
+		if ( is_admin() ) {
+			$this->settings->hook();
+		} else {
+			add_action( 'init', array( $this, 'register_shortcodes' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
+		}
+
+		// Register widgets.
+		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+
 	}
 
 	/**

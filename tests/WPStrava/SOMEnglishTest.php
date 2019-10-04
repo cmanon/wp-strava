@@ -7,7 +7,12 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	private $som;
 
 	public function setUp() : void {
+		\WP_Mock::setUp();
 		$this->som = new WPStrava_SOMEnglish();
+	}
+
+	public function tearDown() : void {
+		\WP_Mock::tearDown();
 	}
 
 	public function test_object() {
@@ -26,14 +31,13 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	}
 
 	/**
-	 * Test that 6.213712 miles is 10,000.00 meters using both string and float inputs.
+	 * Test that 6.213712 miles is 10,000.00 meters using float input.
 	 *
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_distance_inverse() {
-		$this->assertEquals( '10,000.00', $this->som->distance_inverse( '6.213712' ) );
-		$this->assertEquals( '10,000.00', $this->som->distance_inverse( 6.213712 ) );
+		$this->assertEquals( 10000.00, $this->som->distance_inverse( 6.213712 ) );
 	}
 
 	/**

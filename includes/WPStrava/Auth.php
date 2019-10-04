@@ -78,7 +78,7 @@ abstract class WPStrava_Auth {
 		return rawurlencode( admin_url( "options-general.php?page={$page_name}" ) );
 	}
 
-	// was fetch_token();
+	// Was fetch_token();
 	private function token_exchange_initial( $code ) {
 		$settings = WPStrava::get_instance()->settings;
 		$client_id     = $settings->client_id;

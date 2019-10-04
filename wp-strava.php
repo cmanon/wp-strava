@@ -44,3 +44,4 @@ function wpstrava_load_plugin_textdomain() {
 add_action( 'plugins_loaded', 'wpstrava_load_plugin_textdomain' );
 
 $wpstrava = WPStrava::get_instance();
+$wpstrava->hook();

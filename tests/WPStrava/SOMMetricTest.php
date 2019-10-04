@@ -26,14 +26,13 @@ class WPStrava_SOMMetricTest extends TestCase {
 	}
 
 	/**
-	 * Test that 42.195 km is 42,195.00 meters using both string and float inputs.
+	 * Test that 42.195 km is 42,195.00 meters using float input.
 	 *
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
 	public function test_distance_inverse() {
-		$this->assertEquals( '42,195.00', $this->som->distance_inverse( '42.195' ) );
-		$this->assertEquals( '42,195.00', $this->som->distance_inverse( 42.195 ) );
+		$this->assertEquals( 42195.00, $this->som->distance_inverse( 42.195 ) );
 	}
 
 	/**

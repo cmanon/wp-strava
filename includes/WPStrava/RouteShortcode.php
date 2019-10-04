@@ -111,7 +111,6 @@ class WPStrava_RouteShortcode {
 	private function get_table( $route_details, $som ) {
 		$strava_som = WPStrava_SOM::get_som( $som );
 
-
 		$elevation_title = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
 		$elevation       = '<td>' . $strava_som->elevation( $route_details->elevation_gain ) . '</td>';
 		$elevation_label = '<td>' . $strava_som->get_elevation_label() . '</td>';
