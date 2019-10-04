@@ -215,7 +215,7 @@ class WPStrava_Settings {
 	 * Renamed from print_token_input().
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  2.0
+	 * @since  2.0.0
 	 */
 	public function print_id_input() {
 		foreach ( $this->get_all_ids() as $id => $nickname ) {
@@ -268,7 +268,7 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Sanitize the nicknames - make sure we've got the same number of nicknames sa tokens.
+	 * Sanitize the nicknames - make sure we've got the same number of nicknames sa IDs.
 	 *
 	 * @param array $nicknames Nicknames for the athletes saved.
 	 * @return array
@@ -307,7 +307,7 @@ class WPStrava_Settings {
 	 *
 	 * Renamed from sanitize_token().
 	 *
-	 * @param string $token
+	 * @param string $id Client ID.
 	 * @return string
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0

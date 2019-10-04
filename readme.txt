@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 2.0
+Stable tag: 2.0.0
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -95,6 +95,7 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 = 2.0.0 =
 
 Added new Strava "refresh tokens" ala https://developers.strava.com/docs/oauth-updates/#migration-instructions
+Fixed long activity filter https://wordpress.org/support/topic/minimum-distance-on-last-activity-map-widget-not-working/
 
 
 = 1.7.3 =
@@ -246,7 +247,7 @@ Initial version.
 
 == Upgrade Notice ==
 
-= 2.0 =
+= 2.0.0 =
 
 Version 2.0 is mandatory after October 15th, 2019. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
 

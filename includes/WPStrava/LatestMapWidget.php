@@ -137,7 +137,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 * Get image for specific activity using Static Maps class.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @param string  $id        Athlete Token or Club ID.
+	 * @param string  $id        Client ID or Club ID.
 	 * @param object  $activity  Activity to get image for.
 	 * @param boolean $build_new Whether to refresh the image from cache.
 	 * @return string            Image tag.
@@ -158,7 +158,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 *
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
-	 * @param string $id  Athlete Token or Club ID.
+	 * @param string $id  Client ID or Club ID.
 	 * @param string $img Image tag.
 	 */
 	private function update_map( $id, $img ) {
@@ -170,7 +170,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 *
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
-	 * @param string $id       Athlete Token or Club ID.
+	 * @param string $id       Client ID or Club ID.
 	 * @param object $activity stdClass Strava activity object.
 	 */
 	private function update_activity( $id, $activity ) {
@@ -182,7 +182,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	 *
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
-	 * @param string $id       Athlete Token or Club ID.
+	 * @param string $id       CLient ID or Club ID.
 	 * @param object $activity stdClass Strava activity object.
 	 */
 	private function update_activity_transient( $id, $activity ) {

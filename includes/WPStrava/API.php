@@ -155,8 +155,8 @@ class WPStrava_API {
 			return null;
 		}
 
-		$settings  = WPStrava::get_instance()->settings;
-		$info      = $settings->info;
+		$settings = WPStrava::get_instance()->settings;
+		$info     = $settings->info;
 
 		if ( ! empty( $info[ $this->client_id ]->access_token ) ) {
 			return $info[ $this->client_id ]->access_token;

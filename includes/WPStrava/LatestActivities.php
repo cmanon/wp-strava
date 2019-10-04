@@ -14,7 +14,7 @@ class WPStrava_LatestActivities {
 
 		if ( isset( $args['athlete_token'] ) ) {
 			// Translators: Message shown when using deprecated athlete_token parameter.
-			return __( 'The <code>athlete_token</code> parameter is deprecated as of version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
+			return __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
 		}
 
 		$som             = WPStrava_SOM::get_som( $args['som'] );

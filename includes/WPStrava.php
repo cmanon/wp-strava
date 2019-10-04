@@ -107,9 +107,9 @@ class WPStrava {
 	}
 
 	/**
-	 * Get an API object for the given athlete token.
+	 * Get an API object for the given Client ID.
 	 *
-	 * @param string $token Athlete token.
+	 * @param string $id Client ID.
 	 * @return WPStrava_API
 	 */
 	public function get_api( $id = null ) {
