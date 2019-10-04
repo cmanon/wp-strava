@@ -14,17 +14,17 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	 * @return string Distance in miles.
 	 */
 	public function distance( $m ) {
-		return number_format( $m / 1609.344, 2 );
+		return number_format_i18n( $m / 1609.344, 2 );
 	}
 
 	/**
 	 * Change miles to meters.
 	 *
-	 * @param float|string $dist Distance in miles.
-	 * @return string Distance in meters.
+	 * @param float $dist Distance in miles.
+	 * @return float Distance in meters.
 	 */
 	public function distance_inverse( $dist ) {
-		return number_format( $dist * 1609.344, 2 );
+		return (float) number_format( $dist * 1609.344, 2, '.', '' );
 	}
 
 	/**
@@ -43,7 +43,7 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	 * @return string Miles per hour.
 	 */
 	public function speed( $mps ) {
-		return number_format( $mps * 2.2369, 2 );
+		return number_format_i18n( $mps * 2.2369, 2 );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class WPStrava_SOMEnglish extends WPStrava_SOM {
 	 * @return string Elevation in feet.
 	 */
 	public function elevation( $m ) {
-		return number_format( $m / 0.3048, 2 );
+		return number_format_i18n( $m / 0.3048, 2 );
 	}
 
 	/**
