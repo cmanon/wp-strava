@@ -17,8 +17,8 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	public function form( $instance ) {
 		// outputs the options form on admin
 		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activity Map', 'wp-strava' );
-		$all_tokens     = WPStrava::get_instance()->settings->get_all_tokens();
-		$athlete_token  = isset( $instance['athlete_token'] ) ? esc_attr( $instance['athlete_token'] ) : WPStrava::get_instance()->settings->get_default_token();
+		$all_ids        = WPStrava::get_instance()->settings->get_all_ids();
+		$client_id      = isset( $instance['client_id'] ) ? esc_attr( $instance['client_id'] ) : WPStrava::get_instance()->settings->get_default_id();
 		$distance_min   = isset( $instance['distance_min'] ) ? esc_attr( $instance['distance_min'] ) : '';
 		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';
 
@@ -31,10 +31,10 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
 		</p>
 		<p>
-				<label for="<?php echo $this->get_field_id( 'athlete_token' ); ?>"><?php _e( 'Athlete:', 'wp-strava' ); ?></label>
-				<select name="<?php echo $this->get_field_name( 'athlete_token' ); ?>">
-				<?php foreach ( $all_tokens as $token => $nickname ) : ?>
-					<option value="<?php echo $token; ?>"<?php selected( $token, $athlete_token ); ?>><?php echo $nickname; ?></option>
+				<label for="<?php echo $this->get_field_id( 'client_id' ); ?>"><?php _e( 'Athlete:', 'wp-strava' ); ?></label>
+				<select name="<?php echo $this->get_field_name( 'client_id' ); ?>">
+				<?php foreach ( $all_ids as $id => $nickname ) : ?>
+					<option value="<?php echo $id; ?>"<?php selected( $id, $client_id ); ?>><?php echo $nickname; ?></option>
 				<?php endforeach; ?>
 				</select>
 			</p>
@@ -56,7 +56,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 		// Processes widget options to be saved from the admin.
 		$instance                   = $old_instance;
 		$instance['title']          = strip_tags( $new_instance['title'] );
-		$instance['athlete_token']  = strip_tags( $new_instance['athlete_token'] );
+		$instance['client_id']      = strip_tags( $new_instance['client_id'] );
 		$instance['strava_club_id'] = strip_tags( $new_instance['strava_club_id'] );
 		$instance['distance_min']   = strip_tags( $new_instance['distance_min'] );
 		return $instance;
@@ -71,12 +71,12 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		$title          = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activity Map', 'wp-strava' ) : $instance['title'] );
-		$athlete_token  = isset( $instance['athlete_token'] ) ? $instance['athlete_token'] : WPStrava::get_instance()->settings->get_default_token();
+		$client_id      = isset( $instance['client_id'] ) ? $instance['client_id'] : WPStrava::get_instance()->settings->get_default_id();
 		$distance_min   = empty( $instance['distance_min'] ) ? 0 : absint( $instance['distance_min'] );
 		$strava_club_id = empty( $instance['strava_club_id'] ) ? null : $instance['strava_club_id'];
 		$build_new      = false;
 
-		$id = empty( $strava_club_id ) ? $athlete_token : $strava_club_id;
+		$id = empty( $strava_club_id ) ? $client_id : $strava_club_id;
 
 		// Try our transient first.
 		$activity_transient = get_transient( 'strava_latest_map_activity_' . $id );
@@ -95,7 +95,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			$activities = array();
 
 			try {
-				$activities = $strava_activity->get_activities( $athlete_token, $strava_club_id );
+				$activities = $strava_activity->get_activities( $client_id, $strava_club_id );
 			} catch ( WPStrava_Exception $e ) {
 				echo $e->to_html();
 			}

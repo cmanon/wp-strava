@@ -16,7 +16,7 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">lib</directory>
+            <directory suffix=".php">includes</directory>
         </whitelist>
     </filter>
 </phpunit>

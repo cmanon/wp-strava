@@ -25,7 +25,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activities', 'wp-strava' ) : $instance['title'] );
 
 		$activities_args = array(
-			'athlete_token'  => isset( $instance['athlete_token'] ) ? $instance['athlete_token'] : null,
+			'client_id'      => isset( $instance['client_id'] ) ? $instance['client_id'] : null,
 			'strava_club_id' => isset( $instance['strava_club_id'] ) ? $instance['strava_club_id'] : null,
 			'quantity'       => isset( $instance['quantity'] ) ? $instance['quantity'] : null,
 		);
@@ -42,7 +42,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance                   = $old_instance;
 		$instance['title']          = strip_tags( $new_instance['title'] );
-		$instance['athlete_token']  = strip_tags( $new_instance['athlete_token'] );
+		$instance['client_id']      = strip_tags( $new_instance['client_id'] );
 		$instance['strava_club_id'] = strip_tags( $new_instance['strava_club_id'] );
 		$instance['quantity']       = $new_instance['quantity'];
 
@@ -52,8 +52,8 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 	/** @see WP_Widget::form */
 	public function form( $instance ) {
 		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activities', 'wp-strava' );
-		$all_tokens     = WPStrava::get_instance()->settings->get_all_tokens();
-		$athlete_token  = isset( $instance['athlete_token'] ) ? esc_attr( $instance['athlete_token'] ) : WPStrava::get_instance()->settings->get_default_token();
+		$all_ids        = WPStrava::get_instance()->settings->get_all_ids();
+		$client_id      = isset( $instance['client_id'] ) ? esc_attr( $instance['client_id'] ) : WPStrava::get_instance()->settings->get_default_id();
 		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';
 		$quantity       = isset( $instance['quantity'] ) ? absint( $instance['quantity'] ) : 5;
 
@@ -63,10 +63,10 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'athlete_token' ); ?>"><?php _e( 'Athlete:', 'wp-strava' ); ?></label>
-				<select name="<?php echo $this->get_field_name( 'athlete_token' ); ?>">
-				<?php foreach ( $all_tokens as $token => $nickname ) : ?>
-					<option value="<?php echo $token; ?>"<?php selected( $token, $athlete_token ); ?>><?php echo $nickname; ?></option>
+				<label for="<?php echo $this->get_field_id( 'client_id' ); ?>"><?php _e( 'Athlete:', 'wp-strava' ); ?></label>
+				<select name="<?php echo $this->get_field_name( 'client_id' ); ?>">
+				<?php foreach ( $all_ids as $id => $nickname ) : ?>
+					<option value="<?php echo $id; ?>"<?php selected( $id, $client_id ); ?>><?php echo $nickname; ?></option>
 				<?php endforeach; ?>
 				</select>
 			</p>

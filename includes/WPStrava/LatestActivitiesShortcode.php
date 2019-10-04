@@ -35,7 +35,7 @@ class WPStrava_LatestActivitiesShortcode {
 	/**
 	 * Shortcode handler for [activities].
 	 *
-	 * [activities som=metric quantity=5 athlete_token=xxx|strava_club_id=yyy]
+	 * [activities som=metric quantity=5 client_id=xxx|strava_club_id=yyy]
 	 *
 	 * @param array $atts Array of attributes (id, som, etc.).
 	 * @return string Shortcode output

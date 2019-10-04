@@ -8,7 +8,7 @@
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
 	</rule>
 
-	<file>./lib</file>
+	<file>./includes</file>
 	<file>./wp-strava.php</file>
 
 	<exclude-pattern>*/vendor/*</exclude-pattern>

@@ -4,12 +4,11 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 1.7.3
+Stable tag: 2.0
 Requires PHP: 5.2
 License: GPLv2 or later
 
 Show your Strava activity on your WordPress site.
-
 
 == Description ==
 
@@ -32,7 +31,7 @@ Also takes the following optional parameters:
 * som - english/metric (system of measure - override from default setting).
 * map_width - width (width of image in pixels). Note both width and height parameters are limited to 640px except on premium API plans: https://developers.google.com/maps/documentation/maps-static/dev-guide#Imagesizes
 * map_height - height (height of image in pixels). See note above on max height.
-* athlete_token - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
+* client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * markers - Display markers at the start/finish point (true/false, defaults to false).
 * image_only - Display only the map image and not the table (true/false, defaults to false).
 
@@ -48,7 +47,7 @@ This also takes the same optional parameters as the [activity] shortcode above.
 
 * som - english/metric (system of measure - override from default setting).
 * quantity - number of activities to show.
-* athlete_token - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
+* client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * strava_club_id - Will display activity from the specified Strava club ID instead of an athlete.
 
 
@@ -58,19 +57,23 @@ Strava Latest Activity List - shows a list of the last few activities.
 
 Strava Latest Map - shows map of latest activity with option to limit latest map to activities of a certain minimum distance.
 
+
 == Frequently Asked Questions ==
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
-When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as athlete_token=c764a2b199cff281e39f24671760c1b9c9fe005e. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
+When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as client_id=17791. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
+
 
 = Why is my Google Map not showing up? =
 
 If your API key works with other Google Maps plugins but not WP Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
 
+
 = I recently uploaded an activity, why is it not showing on my site? =
 
 WP-Strava caches activity for one hour so your site doesn't hit the Strava API on every page load. If you recently uploaded activity and want to see it right away, go to the Settings -> Strava in the wp-admin dashboard, check the checkbox labeled "Clear cache (images & transient data)" and then click Save Changes.
+
 
 == Screenshots ==
 
@@ -80,17 +83,24 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 4. Latest Map Widget - shows a map of your most recent activity.
 5. Latest Map Widget Settings - settings for the Latest Map Widget. You can limit your activity by minimum distance to show only longer efforts.
 6. Activity Shortcode - Shows a map of activity with some statistics.
-7. Activity Shortcode Settings - An example activity shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
+7. Activity Shortcode Settings - An example activity shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
 8. Route Shortcode - Shows a map of a route.
 9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start/stop points.
 10. Activities Shortcode - Shows latest athlete activity in a page or post.
-11. Activities Shortcode Settings - An example activities shortcode. The athlete_token parameter is only needed if your site is connected to multiple athlete accounts.
+11. Activities Shortcode Settings - An example activities shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
+
 
 == Changelog ==
+
+= 2.0.0 =
+
+Added new Strava "refresh tokens" ala https://developers.strava.com/docs/oauth-updates/#migration-instructions
+
 
 = 1.7.3 =
 
 Added update notice.
+
 
 = 1.7.2 =
 
@@ -105,6 +115,7 @@ Added PHPUnit tests for all System of Measure calculations.
 Fixed swimpace calculation.
 Fixed seconds display on pace.
 Added Hide Activity Time option to hide time display from Latest Activities List.
+
 
 = 1.7.0 =
 
@@ -235,6 +246,11 @@ Initial version.
 
 == Upgrade Notice ==
 
+= 2.0 =
+
+Version 2.0 is mandatory after October 15th, 2019. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
+
+
 = 1.7.3 =
 
-Version 2.0 will be mandatory after October 15th, 2019. Try the 2.0 beta: <a href="https://github.com/cmanon/wp-strava/releases">https://github.com/cmanon/wp-strava/releases</a>. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
+Version 2.0 is mandatory after October 15th, 2019. Try the 2.0 beta: <a href="https://github.com/cmanon/wp-strava/releases">https://github.com/cmanon/wp-strava/releases</a>. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.

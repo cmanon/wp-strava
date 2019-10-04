@@ -66,7 +66,7 @@ class WPStrava_StaticMap {
 	 * }
 	 */
 	private static function decode_start_finish( $enc ) {
-		require_once WPSTRAVA_PLUGIN_DIR . 'lib/Polyline.php';
+		require_once WPSTRAVA_PLUGIN_DIR . 'includes/Polyline.php';
 		$points = Polyline::decode( $enc );
 		$points = Polyline::pair( $points );
 		$start  = $points[0];

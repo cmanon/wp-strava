@@ -17,6 +17,12 @@ class WPStrava {
 	private $settings = null;
 
 	/**
+	 * Authorization object.
+	 * @var WPStrava_Auth
+	 */
+	private $auth = null;
+
+	/**
 	 * Array of WPStrava_API objects (one for each athlete).
 	 *
 	 * @var array
@@ -40,6 +46,9 @@ class WPStrava {
 	 */
 	private function __construct() {
 		$this->settings = new WPStrava_Settings();
+		$this->auth     = WPStrava_Auth::get_auth( 'refresh' );
+
+		$this->auth->hook();
 
 		if ( is_admin() ) {
 			$this->settings->hook();
@@ -90,21 +99,21 @@ class WPStrava {
 	}
 
 	/**
-	 * Get an API object for the given athelete token.
+	 * Get an API object for the given athlete token.
 	 *
 	 * @param string $token Athlete token.
 	 * @return WPStrava_API
 	 */
-	public function get_api( $token = null ) {
-		if ( ! $token ) {
-			$token = $this->settings->get_default_token();
+	public function get_api( $id = null ) {
+		if ( ! $id ) {
+			$id = $this->settings->get_default_id();
 		}
 
-		if ( empty( $this->api[ $token ] ) ) {
-			$this->api[ $token ] = new WPStrava_API( $token );
+		if ( empty( $this->api[ $id ] ) ) {
+			$this->api[ $id ] = new WPStrava_API( $id );
 		}
 
-		return $this->api[ $token ];
+		return $this->api[ $id ];
 	}
 
 	/**
