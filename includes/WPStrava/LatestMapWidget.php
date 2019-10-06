@@ -97,7 +97,12 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			try {
 				$activities = $strava_activity->get_activities( $client_id, $strava_club_id );
 			} catch ( WPStrava_Exception $e ) {
-				echo $e->to_html();
+				if ( isset( $instance['athlete_token'] ) ) {
+					// Translators: Message shown when using deprecated athlete_token parameter.
+					echo wp_kses_post( __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' ) );
+				} else {
+					echo $e->to_html();
+				}
 			}
 
 			if ( ! empty( $activities ) ) {

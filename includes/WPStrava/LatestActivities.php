@@ -2,6 +2,10 @@
 
 class WPStrava_LatestActivities {
 	public static function get_activities_html( $args ) {
+		if ( isset( $args['athlete_token'] ) ) {
+			// Translators: Message shown when using deprecated athlete_token parameter.
+			return __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
+		}
 
 		$defaults = array(
 			'client_id'      => WPStrava::get_instance()->settings->get_default_id(),
@@ -11,11 +15,6 @@ class WPStrava_LatestActivities {
 		);
 
 		$args = wp_parse_args( $args, $defaults );
-
-		if ( isset( $args['athlete_token'] ) ) {
-			// Translators: Message shown when using deprecated athlete_token parameter.
-			return __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
-		}
 
 		$som             = WPStrava_SOM::get_som( $args['som'] );
 		$strava_activity = WPStrava::get_instance()->activity;
