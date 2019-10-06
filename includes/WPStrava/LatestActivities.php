@@ -35,9 +35,10 @@ class WPStrava_LatestActivities {
 			$response .= "<div class='activity-item'>";
 
 			if ( ! empty( $activity->start_date_local ) ) {
-				$unixtime = strtotime( $activity->start_date_local );
-				// Translators: Shows something like "On <date> <[went 10 miles] [during 2 hours] [climbing 100 feet]>."
-				$response .= sprintf( __( 'On %1$s %2$s', 'wp-strava' ),
+				$unixtime  = strtotime( $activity->start_date_local );
+				$response .= sprintf(
+					// Translators: Shows something like "On <date> <[went 10 miles] [during 2 hours] [climbing 100 feet]>."
+					__( 'On %1$s %2$s', 'wp-strava' ),
 					date_i18n( get_option( 'date_format' ), $unixtime ),
 					self::get_activity_time( $unixtime )
 				);

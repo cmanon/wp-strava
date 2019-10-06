@@ -16,7 +16,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 
 	public function maybe_enqueue() {
 		if ( is_active_widget( false, false, $this->id_base ) ) {
-			wp_enqueue_style( 'wp-strava-style' ); //only load this when wigit is loaded
+			wp_enqueue_style( 'wp-strava-style' ); // Only load this when widget is loaded.
 		}
 	}
 
@@ -41,9 +41,9 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 	/** @see WP_Widget::update */
 	public function update( $new_instance, $old_instance ) {
 		$instance                   = $old_instance;
-		$instance['title']          = strip_tags( $new_instance['title'] );
-		$instance['client_id']      = strip_tags( $new_instance['client_id'] );
-		$instance['strava_club_id'] = strip_tags( $new_instance['strava_club_id'] );
+		$instance['title']          = wp_strip_all_tags( $new_instance['title'] );
+		$instance['client_id']      = wp_strip_all_tags( $new_instance['client_id'] );
+		$instance['strava_club_id'] = wp_strip_all_tags( $new_instance['strava_club_id'] );
 		$instance['quantity']       = $new_instance['quantity'];
 
 		return $instance;

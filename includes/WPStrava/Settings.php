@@ -580,8 +580,9 @@ class WPStrava_Settings {
 	public function save_info( $id, $secret, $info ) {
 		$infos = get_option( 'strava_info', array() );
 		$infos = array_filter( $infos, array( $this, 'filter_by_id' ), ARRAY_FILTER_USE_KEY ); // Remove old IDs.
+
 		$info->client_secret = $secret;
-		$infos[ $id ] = $info;
+		$infos[ $id ]        = $info;
 		update_option( 'strava_info', $infos );
 	}
 

@@ -52,13 +52,13 @@ class WPStrava_ActivityShortcode {
 		$this->add_script = true;
 
 		$defaults = array(
-			'id'            => 0,
-			'som'           => WPStrava::get_instance()->settings->som,
-			'map_width'     => '480',
-			'map_height'    => '320',
-			'client_id'     => WPStrava::get_instance()->settings->get_default_id(),
-			'markers'       => false,
-			'image_only'    => false,
+			'id'         => 0,
+			'som'        => WPStrava::get_instance()->settings->som,
+			'map_width'  => '480',
+			'map_height' => '320',
+			'client_id'  => WPStrava::get_instance()->settings->get_default_id(),
+			'markers'    => false,
+			'image_only' => false,
 		);
 
 		$atts = shortcode_atts( $defaults, $atts, 'activity' );

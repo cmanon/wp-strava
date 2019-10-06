@@ -55,10 +55,10 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		// Processes widget options to be saved from the admin.
 		$instance                   = $old_instance;
-		$instance['title']          = strip_tags( $new_instance['title'] );
-		$instance['client_id']      = strip_tags( $new_instance['client_id'] );
-		$instance['strava_club_id'] = strip_tags( $new_instance['strava_club_id'] );
-		$instance['distance_min']   = strip_tags( $new_instance['distance_min'] );
+		$instance['title']          = wp_strip_all_tags( $new_instance['title'] );
+		$instance['client_id']      = wp_strip_all_tags( $new_instance['client_id'] );
+		$instance['strava_club_id'] = wp_strip_all_tags( $new_instance['strava_club_id'] );
+		$instance['distance_min']   = wp_strip_all_tags( $new_instance['distance_min'] );
 		return $instance;
 	}
 
@@ -97,6 +97,7 @@ class WPStrava_LatestMapWidget extends WP_Widget {
 			try {
 				$activities = $strava_activity->get_activities( $client_id, $strava_club_id );
 			} catch ( WPStrava_Exception $e ) {
+				// If athlete_token is still set, warn about that first and foremost.
 				if ( isset( $instance['athlete_token'] ) ) {
 					// Translators: Message shown when using deprecated athlete_token parameter.
 					echo wp_kses_post( __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' ) );
