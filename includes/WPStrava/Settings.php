@@ -449,7 +449,10 @@ class WPStrava_Settings {
 			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_strava_latest_map_%'" );
 			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'strava_latest_map%'" );
 
+			// Old options.
 			delete_option( 'strava_token' );
+			delete_option( 'strava_email' );
+			delete_option( 'strava_password' );
 		}
 		return null;
 	}
