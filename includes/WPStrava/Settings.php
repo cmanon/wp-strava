@@ -8,7 +8,6 @@
  * Get redirected back to this settings page with ?code= or ?error=
  * Use code to retrieve auth token
  */
-
 class WPStrava_Settings {
 
 	private $ids            = array();
@@ -469,6 +468,8 @@ class WPStrava_Settings {
 		if ( 'on' === $checked ) {
 			global $wpdb;
 
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_timeout_strava_api_data_%'" );
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_strava_api_data_%'" );
 			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_timeout_strava_latest_map_%'" );
 			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_strava_latest_map_%'" );
 			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'strava_latest_map%'" );
