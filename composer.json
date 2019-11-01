@@ -1,6 +1,9 @@
 {
     "name": "wpackagist-plugin/wp-strava",
     "description": "Show your strava.com activity on your WordPress site.",
+    "homepage": "https://wordpress.org/plugins/wp-strava/",
+    "license": "GPL-2.0+",
+    "type": "wordpress-plugin",
     "require": {
         "php": ">=5.2.4"
     },
