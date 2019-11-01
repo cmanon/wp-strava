@@ -173,5 +173,6 @@ class WPStrava {
 		new WPStrava_ActivityShortcode();
 		new WPStrava_LatestActivitiesShortcode();
 		new WPStrava_RouteShortcode();
+		new WPStrava_LatestMapShortcode();
 	}
 }
