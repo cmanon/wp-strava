@@ -34,7 +34,7 @@ class WPStrava_LatestMap {
 					// Translators: Message shown when using deprecated athlete_token parameter.
 					echo wp_kses_post( __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' ) );
 				} else {
-					echo $e->to_html();
+					echo $e->to_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Debug only.
 				}
 			}
 
@@ -63,9 +63,9 @@ class WPStrava_LatestMap {
 		if ( $activity ) {
 			echo empty( $activity->map ) ?
 				// Translators: Text with activity name shown in place of image if not available.
-				sprintf( __( 'Map not available for activity "%s"', 'wp-strava' ), $activity->name ) :
-				"<a title='{$activity->name}' href='" . WPStrava_Activity::ACTIVITIES_URL . "{$activity->id}'>" .
-				self::get_static_image( $id, $activity, $build_new ) .
+				esc_html( sprintf( __( 'Map not available for activity "%s"', 'wp-strava' ), $activity->name ) ) :
+				"<a title='" . esc_attr( $activity->name ) . "' href='" . esc_attr( WPStrava_Activity::ACTIVITIES_URL . $activity->id ) . "'>" .
+				self::get_static_image( $id, $activity, $build_new ) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Image OK.
 				'</a>';
 		}
 
