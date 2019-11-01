@@ -72,7 +72,7 @@ class WPStrava_API {
 	}
 
 	/**
-	 * GET something from the Strava API.
+	 * GET something from the Strava API - checking the cache first.
 	 *
 	 * @param string $uri Path within the Strava API.
 	 * @param array $args Request arguments.
@@ -81,6 +81,36 @@ class WPStrava_API {
 	 * @author Justin Foell <justin@foell.org>
 	 */
 	public function get( $uri, $args = null ) {
+
+		// @see https://stackoverflow.com/a/3764390/2146022
+		$arg_suffix = is_array( $args ) ? '_' . substr( md5( wp_json_encode( $args ), true ), 0, 12 ) : '';
+
+		$transient_key = 'strava_api_data_' . $uri . $arg_suffix;
+
+		$data = get_transient( $transient_key );
+
+		if ( $data ) {
+			return $data;
+		}
+
+		$data = $this->remote_get( $uri, $args );
+
+		set_transient( $transient_key, $data, HOUR_IN_SECONDS );
+
+		return $data;
+	}
+
+	/**
+	 * GET something from the Strava API.
+	 *
+	 * @param string $uri Path within the Strava API.
+	 * @param array $args Request arguments.
+	 * @return stdClass Strava API response.
+	 * @throws WPStrava_Exception
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.0.1
+	 */
+	private function remote_get( $uri, $args = null ) {
 		static $retry = true;
 
 		$url  = self::STRAVA_V3_API;
@@ -112,7 +142,7 @@ class WPStrava_API {
 			$auth  = WPStrava::get_instance()->auth;
 			if ( $auth instanceof WPStrava_AuthRefresh ) {
 				$auth->auth_refresh();
-				return $this->get( $uri, $args );
+				return $this->remote_get( $uri, $args );
 			}
 		} else {
 			$retry = true;
