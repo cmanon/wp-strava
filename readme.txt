@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -50,6 +50,12 @@ This also takes the same optional parameters as the [activity] shortcode above.
 * client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * strava_club_id - Will display activity from the specified Strava club ID instead of an athlete.
 
+[latest_map] - shows a map of your latest activity. Takes the following optional parameters:
+
+* som - english/metric (system of measure - override from default setting).
+* distance_min - show only the latest activity longer than this distance in km/mi.
+* client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
+
 
 = Widgets =
 
@@ -94,7 +100,9 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 = 2.0.1 =
 
-Added latest_map shortcode https://wordpress.org/support/topic/show-latest-map-not-in-widget/
+Added [latest_map] shortcode https://wordpress.org/support/topic/show-latest-map-not-in-widget/
+Code formatting cleanup, escaping, and input filtering
+Added caching to all API requests https://wordpress.org/support/topic/data-not-cached/
 
 
 = 2.0.0 =
@@ -251,6 +259,10 @@ Initial version.
 
 
 == Upgrade Notice ==
+
+= 2.0.1 =
+
+Adds API caching - speed up your page loads 8^)
 
 = 2.0.0 =
 
