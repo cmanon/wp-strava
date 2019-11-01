@@ -37,15 +37,30 @@ abstract class WPStrava_Auth {
 		$settings = WPStrava::get_instance()->settings;
 
 		// User is clearing to start-over, don't oauth, ignore other errors.
-		if ( isset( $_POST['strava_id'] ) && $settings->ids_empty( $_POST['strava_id'] ) ) {
+
+		$input_args = array(
+			'strava_id'            => array(
+				'filter' => FILTER_SANITIZE_NUMBER_INT,
+				'flags'  => FILTER_REQUIRE_ARRAY,
+			),
+			'strava_client_id'     => array(
+				'filter' => FILTER_SANITIZE_NUMBER_INT,
+				'flags'  => FILTER_REQUIRE_SCALAR,
+			),
+			'strava_client_secret' => FILTER_SANITIZE_STRING,
+		);
+
+		$input = filter_input_array( INPUT_POST, $input_args );
+
+		if ( $settings->ids_empty( $input['strava_id'] ) ) {
 			return array();
 		}
 
 		// Redirect only if all the right options are in place.
 		if ( $settings->is_settings_updated( $value ) && $settings->is_option_page() ) {
 			// Only re-auth if client ID and secret were saved.
-			if ( ! empty( $_POST['strava_client_id'] ) && ! empty( $_POST['strava_client_secret'] ) ) {
-				wp_redirect( $this->get_authorize_url( $_POST['strava_client_id'] ) );
+			if ( ! empty( $input['strava_client_id'] ) && ! empty( $input['strava_client_secret'] ) ) {
+				wp_redirect( $this->get_authorize_url( $input['strava_client_id'] ) );
 				exit();
 			}
 		}
@@ -55,10 +70,17 @@ abstract class WPStrava_Auth {
 	public function init() {
 		$settings = WPStrava::get_instance()->settings;
 
+		$input_args = array(
+			'settings-updated' => FILTER_SANITIZE_STRING,
+			'code'             => FILTER_SANITIZE_STRING,
+		);
+
+		$input = filter_input_array( INPUT_GET, $input_args );
+
 		//only update when redirected back from strava
-		if ( ! isset( $_GET['settings-updated'] ) && $settings->is_settings_page() ) {
-			if ( isset( $_GET['code'] ) ) {
-				$info = $this->token_exchange_initial( $_GET['code'] );
+		if ( ! isset( $input['settings-updated'] ) && $settings->is_settings_page() ) {
+			if ( isset( $input['code'] ) ) {
+				$info = $this->token_exchange_initial( $input['code'] );
 				if ( isset( $info->access_token ) ) {
 					// Translators: New strava token
 					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ), 'updated' );
@@ -80,7 +102,7 @@ abstract class WPStrava_Auth {
 
 	// Was fetch_token();
 	private function token_exchange_initial( $code ) {
-		$settings = WPStrava::get_instance()->settings;
+		$settings      = WPStrava::get_instance()->settings;
 		$client_id     = $settings->client_id;
 		$client_secret = $settings->client_secret;
 
@@ -117,7 +139,7 @@ abstract class WPStrava_Auth {
 	}
 
 	protected function token_request( $data ) {
-		$api  = new WPStrava_API();
+		$api = new WPStrava_API();
 		return $api->post( 'oauth/token', $data );
 	}
 
