@@ -30,12 +30,14 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 			'quantity'       => isset( $instance['quantity'] ) ? $instance['quantity'] : null,
 		);
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Widget OK.
 		echo $args['before_widget'];
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 		echo WPStrava_LatestActivities::get_activities_html( $activities_args );
 		echo $args['after_widget'];
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/** @see WP_Widget::update */
@@ -59,24 +61,24 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 
 		?>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wp-strava' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+				<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'wp-strava' ); ?></label>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'client_id' ); ?>"><?php _e( 'Athlete:', 'wp-strava' ); ?></label>
-				<select name="<?php echo $this->get_field_name( 'client_id' ); ?>">
+				<label for="<?php echo esc_attr( $this->get_field_id( 'client_id' ) ); ?>"><?php esc_html_e( 'Athlete:', 'wp-strava' ); ?></label>
+				<select name="<?php echo esc_attr( $this->get_field_name( 'client_id' ) ); ?>">
 				<?php foreach ( $all_ids as $id => $nickname ) : ?>
-					<option value="<?php echo $id; ?>"<?php selected( $id, $client_id ); ?>><?php echo $nickname; ?></option>
+					<option value="<?php echo esc_attr( $id ); ?>"<?php selected( $id, $client_id ); ?>><?php echo esc_html( $nickname ); ?></option>
 				<?php endforeach; ?>
 				</select>
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'strava_club_id' ); ?>"><?php esc_html_e( 'Club ID (leave blank to show single Athlete):', 'wp-strava' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'strava_club_id' ); ?>" name="<?php echo $this->get_field_name( 'strava_club_id' ); ?>" type="text" value="<?php echo $strava_club_id; ?>" />
+				<label for="<?php echo esc_attr( $this->get_field_id( 'strava_club_id' ) ); ?>"><?php esc_html_e( 'Club ID (leave blank to show single Athlete):', 'wp-strava' ); ?></label>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'strava_club_id' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'strava_club_id' ) ); ?>" type="text" value="<?php echo esc_attr( $strava_club_id ); ?>" />
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'quantity' ); ?>"><?php esc_html_e( 'Quantity:', 'wp-strava' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'quantity' ); ?>" name="<?php echo $this->get_field_name( 'quantity' ); ?>" type="text" value="<?php echo $quantity; ?>" />
+				<label for="<?php echo esc_attr( $this->get_field_id( 'quantity' ) ); ?>"><?php esc_html_e( 'Quantity:', 'wp-strava' ); ?></label>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'quantity' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'quantity' ) ); ?>" type="text" value="<?php echo esc_html( $quantity ); ?>" />
 			</p>
 		<?php
 	}

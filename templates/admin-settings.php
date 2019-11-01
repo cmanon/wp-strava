@@ -2,7 +2,7 @@
 	<div id="icon-options-general" class="icon32"><br/></div>
 	<h2><?php esc_html_e( 'Strava Settings', 'wp-strava' ); ?></h2>
 
-	<form method="post" action="<?php echo admin_url( 'options.php' ); ?>">
+	<form method="post" action="<?php echo esc_attr( admin_url( 'options.php' ) ); ?>">
 		<?php settings_fields( $this->option_page ); ?>
 		<?php do_settings_sections( 'wp-strava' ); ?>
 

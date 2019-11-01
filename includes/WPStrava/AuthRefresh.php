@@ -104,9 +104,11 @@ class WPStrava_AuthRefresh extends WPStrava_Auth {
 		$strava_info = $this->token_request( $data );
 
 		if ( isset( $strava_info->access_token ) ) {
+			// Translators: Token refresh success message.
 			$this->feedback .= __( 'ID %s successfully re-authenticated.', 'wp-strava' );
 
 			if ( $strava_info->access_token != $info->access_token ) {
+				// Translators: New token created message.
 				$this->feedback .= __( 'ID %s access extended.', 'wp-strava' );
 
 				$settings = WPStrava::get_instance()->settings;

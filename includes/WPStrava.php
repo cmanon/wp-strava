@@ -154,7 +154,7 @@ class WPStrava {
 	 */
 	public function register_scripts() {
 		// Register a personalized stylesheet.
-		wp_register_style( 'wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css' );
+		wp_register_style( 'wp-strava-style', WPSTRAVA_PLUGIN_URL . 'css/wp-strava.css', array(), WPSTRAVA_PLUGIN_VERSION );
 	}
 
 	/**
@@ -175,4 +175,5 @@ class WPStrava {
 		new WPStrava_RouteShortcode();
 		new WPStrava_LatestMapShortcode();
 	}
+
 }

@@ -121,29 +121,35 @@ class WPStrava_Settings {
 
 		// Translators: Strava "app" description
 		$description = sprintf( __( 'WP-Strava for %s', 'wp-strava' ), $blog_name );
-		printf( __( "<p>Steps:</p>
-			<ol>
-				<li>Create your free API Application/Connection here: <a href='%1\$s'>%2\$s</a> using the following information:</li>
-				<ul>
-					<li>App Icon: <strong>upload <a href='%3\$s'>this image</a></strong></li>
-					<li>Application Name: <strong>%4\$s</strong></li>
-					<li>Category: OK to leave at default 'other'</li>
-					<li>Club: OK to leave blank</li>
-					<li>Website: <strong>%5\$s</strong></li>
-					<li>Application Description: <strong>%6\$s</strong></li>
-					<li>Authorization Callback Domain: <strong>%7\$s</strong></li>
-				</ul>
-				<li>Once you've created your API Application at strava.com, enter the <strong>Client ID</strong> and <strong>Client Secret</strong> below, which can now be found on that same strava API Settings page.
-				<li>After saving your Client ID and Secret, you'll be redirected to strava to authorize your API Application. If successful, your Strava ID will display in a table, next to your nickname.</li>
-				<li>If you need to re-authorize your API Application, erase your Strava ID next to your nickname and click 'Save Changes' to start over.</li>
-			</ol>", 'wp-strava' ),
-			$settings_url,
-			$settings_url,
-			$icon_url,
-			$app_name,
-			$site_url,
-			$description,
-			wp_parse_url( $site_url, PHP_URL_HOST )
+		echo wp_kses_post(
+			sprintf(
+				__(
+					"<p>Steps:</p>
+					<ol>
+						<li>Create your free API Application/Connection here: <a href='%1\$s'>%2\$s</a> using the following information:</li>
+						<ul>
+							<li>App Icon: <strong>upload <a href='%3\$s'>this image</a></strong></li>
+							<li>Application Name: <strong>%4\$s</strong></li>
+							<li>Category: OK to leave at default 'other'</li>
+							<li>Club: OK to leave blank</li>
+							<li>Website: <strong>%5\$s</strong></li>
+							<li>Application Description: <strong>%6\$s</strong></li>
+							<li>Authorization Callback Domain: <strong>%7\$s</strong></li>
+						</ul>
+						<li>Once you've created your API Application at strava.com, enter the <strong>Client ID</strong> and <strong>Client Secret</strong> below, which can now be found on that same strava API Settings page.
+						<li>After saving your Client ID and Secret, you'll be redirected to strava to authorize your API Application. If successful, your Strava ID will display in a table, next to your nickname.</li>
+						<li>If you need to re-authorize your API Application, erase your Strava ID next to your nickname and click 'Save Changes' to start over.</li>
+					</ol>",
+					'wp-strava'
+				),
+				$settings_url,
+				$settings_url,
+				$icon_url,
+				$app_name,
+				$site_url,
+				$description,
+				wp_parse_url( $site_url, PHP_URL_HOST )
+			)
 		);
 	}
 
@@ -155,11 +161,20 @@ class WPStrava_Settings {
 	 */
 	public function print_gmaps_instructions() {
 		$maps_url = 'https://developers.google.com/maps/documentation/static-maps/';
-		printf( __( "<p>Steps:</p>
-			<ol>
-				<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
-				<li>Once you've created your Google Static Maps API Key, enter the key below.
-			</ol>", 'wp-strava' ), $maps_url, $maps_url );
+		echo wp_kses_post(
+			sprintf(
+				__(
+					"<p>Steps:</p>
+					<ol>
+						<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
+						<li>Once you've created your Google Static Maps API Key, enter the key below.
+					</ol>",
+					'wp-strava'
+				),
+				$maps_url,
+				$maps_url
+			)
+		);
 	}
 
 	/**
@@ -205,7 +220,7 @@ class WPStrava_Settings {
 	public function print_nickname_input() {
 		$nickname = $this->ids_empty( $this->ids ) ? __( 'Default', 'wp-strava' ) : '';
 		?>
-		<input type="text" name="strava_nickname[]" value="<?php echo $nickname; ?>" />
+		<input type="text" name="strava_nickname[]" value="<?php echo esc_attr( $nickname ); ?>" />
 		<?php
 	}
 
@@ -268,7 +283,7 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Sanitize the nicknames - make sure we've got the same number of nicknames sa IDs.
+	 * Sanitize the nicknames - make sure we've got the same number of nicknames and IDs.
 	 *
 	 * @param array $nicknames Nicknames for the athletes saved.
 	 * @return array
@@ -278,11 +293,20 @@ class WPStrava_Settings {
 	public function sanitize_nickname( $nicknames ) {
 		if ( ! $this->adding_athlete ) {
 
+			$input_args = array(
+				'strava_id' => array(
+					'filter' => FILTER_SANITIZE_NUMBER_INT,
+					'flags'  => FILTER_REQUIRE_ARRAY,
+				),
+			);
+
+			$input = filter_input_array( INPUT_POST, $input_args );
+
 			// Chop $nicknames to same size as ids.
-			$nicknames = array_slice( $nicknames, 0, count( $_POST['strava_id'] ) );
+			$nicknames = array_slice( $nicknames, 0, count( $input['strava_id'] ) );
 
 			// Remove indexes from $nicknames that have empty ids.
-			foreach ( $_POST['strava_id'] as $index => $id ) {
+			foreach ( $input['strava_id'] as $index => $id ) {
 				$id = trim( $id );
 				if ( empty( $id ) ) {
 					unset( $nicknames[ $index ] );
@@ -324,7 +348,7 @@ class WPStrava_Settings {
 	 */
 	public function print_gmaps_key_input() {
 		?>
-		<input type="text" id="strava_gmaps_key" name="strava_gmaps_key" value="<?php echo $this->gmaps_key; ?>" />
+		<input type="text" id="strava_gmaps_key" name="strava_gmaps_key" value="<?php echo esc_attr( $this->gmaps_key ); ?>" />
 		<?php
 	}
 
@@ -632,7 +656,7 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function is_option_page() {
-		return isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->option_page;
+		return filter_input( INPUT_POST, 'option_page', FILTER_SANITIZE_STRING ) === $this->option_page;
 	}
 
 	/**
@@ -643,7 +667,7 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function is_settings_page() {
-		return isset( $_GET['page'] ) && $_GET['page'] === $this->page_name;
+		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) === $this->page_name;
 	}
 
 	/**
@@ -665,7 +689,7 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	private function is_adding_athlete() {
-		return ! ( empty( $_POST['strava_client_id'] ) && empty( $_POST['strava_client_secret'] ) );
+		return filter_input( INPUT_POST, 'strava_client_id', FILTER_SANITIZE_NUMBER_INT ) && filter_input( INPUT_POST, 'strava_client_secret', FILTER_SANITIZE_STRING );
 	}
 
 	/**
@@ -722,11 +746,13 @@ class WPStrava_Settings {
 	public function ms_plugin_update_message( $file, $plugin ) {
 		if ( is_multisite() && ! is_network_admin() && version_compare( $plugin['Version'], $plugin['new_version'], '<' ) ) {
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
-			printf(
-				'<tr class="plugin-update-tr"><td colspan="%s" class="plugin-update update-message notice inline notice-warning notice-alt"><div class="update-message"><h4 style="margin: 0; font-size: 14px;">%s</h4>%s</div></td></tr>',
-				$wp_list_table->get_column_count(),
-				$plugin['Name'],
-				wp_kses_post( $plugin['upgrade_notice'] )
+			echo wp_kses_post(
+				sprintf(
+					'<tr class="plugin-update-tr"><td colspan="%s" class="plugin-update update-message notice inline notice-warning notice-alt"><div class="update-message"><h4 style="margin: 0; font-size: 14px;">%s</h4>%s</div></td></tr>',
+					$wp_list_table->get_column_count(),
+					$plugin['Name'],
+					$plugin['upgrade_notice']
+				)
 			);
 		}
 	}

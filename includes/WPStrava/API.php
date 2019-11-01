@@ -109,7 +109,7 @@ class WPStrava_API {
 		// Try *one* real-time token refresh if 404.
 		if ( $retry && 404 == $response['response']['code'] ) {
 			$retry = false;
-			$auth = WPStrava::get_instance()->auth;
+			$auth  = WPStrava::get_instance()->auth;
 			if ( $auth instanceof WPStrava_AuthRefresh ) {
 				$auth->auth_refresh();
 				return $this->get( $uri, $args );
