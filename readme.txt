@@ -3,8 +3,8 @@
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
-Tested up to: 5.2
-Stable tag: 2.0.1
+Tested up to: 5.3
+Stable tag: 2.1.0
 Requires PHP: 5.2
 License: GPLv2 or later
 
@@ -81,6 +81,11 @@ If your API key works with other Google Maps plugins but not WP Strava, you may 
 WP-Strava caches activity for one hour so your site doesn't hit the Strava API on every page load. If you recently uploaded activity and want to see it right away, go to the Settings -> Strava in the wp-admin dashboard, check the checkbox labeled "Clear cache (images & transient data)" and then click Save Changes.
 
 
+- Why can't I remove and add an athlete at the same time? -
+
+On the WP-Strava settings page you cannot currently remove and add another athlete at the same time. This is a known limitation. WP-Strava will remove the athlete(s) that you cleared the ID/Nickname fields for, but the new athlete will no be added. Please complete the add/remove operations as separate save actions on the WP-Strava settings page.
+
+
 == Screenshots ==
 
 1. WP Strava settings - this walks you through connecting the WP Strava plugin to your strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
@@ -97,6 +102,11 @@ WP-Strava caches activity for one hour so your site doesn't hit the Strava API o
 
 
 == Changelog ==
+
+= 2.1.0 =
+
+Updated settings to work with WP 5.3.
+
 
 = 2.0.1 =
 
