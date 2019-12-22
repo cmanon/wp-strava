@@ -52,7 +52,7 @@ abstract class WPStrava_Auth {
 
 		$input = filter_input_array( INPUT_POST, $input_args );
 
-		if ( $settings->ids_empty( $input['strava_id'] ) ) {
+		if ( is_array( $input['strava_id'] ) && $settings->ids_empty( $input['strava_id'] ) ) {
 			return array();
 		}
 

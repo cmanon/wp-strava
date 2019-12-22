@@ -646,7 +646,7 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function is_settings_updated( $value ) {
-		return isset( $value[0]['type'] ) && 'updated' === $value[0]['type'];
+		return ( isset( $value[0]['type'] ) && ( 'updated' === $value[0]['type'] || 'success' === $value[0]['type'] ) );
 	}
 
 	/**
