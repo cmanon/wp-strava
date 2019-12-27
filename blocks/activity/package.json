@@ -1,0 +1,13 @@
+{
+  "name": "activity",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "wp-scripts build"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "6.1.0"
+  }
+}
