@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 
-define( 'WPSTRAVA_PLUGIN_VERSION', '2.0.1' );
+define( 'WPSTRAVA_PLUGIN_VERSION', '2.1.0' );
 define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 define( 'WPSTRAVA_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
 define( 'WPSTRAVA_PLUGIN_NAME', plugin_basename( __FILE__ ) );
@@ -39,10 +39,16 @@ if ( ! defined( 'WPSTRAVA_DEBUG' ) ) {
 require_once WPSTRAVA_PLUGIN_DIR . 'includes/autoload.php';
 
 // Load the plugin and multilingual support.
-function wpstrava_load_plugin_textdomain() {
+function wpstrava_plugin_loaded() {
+	// Load language files.
 	load_plugin_textdomain( 'wp-strava', false, WPSTRAVA_PLUGIN_DIR . 'lang/' );
+
+	// Include Gutenberg blocks.
+	if ( function_exists( 'register_block_type' ) ) {
+		include WPSTRAVA_PLUGIN_DIR . 'blocks/index.php';
+	}
 }
-add_action( 'plugins_loaded', 'wpstrava_load_plugin_textdomain' );
+add_action( 'plugins_loaded', 'wpstrava_plugin_loaded' );
 
 $wpstrava = WPStrava::get_instance();
 $wpstrava->hook();
