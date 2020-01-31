@@ -27,8 +27,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 define( 'WPSTRAVA_PLUGIN_VERSION', '2.1.0' );
+define( 'WPSTRAVA_PLUGIN_FILE', __FILE__ );
 define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 define( 'WPSTRAVA_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
 define( 'WPSTRAVA_PLUGIN_NAME', plugin_basename( __FILE__ ) );
@@ -45,7 +45,7 @@ function wpstrava_plugin_loaded() {
 
 	// Include Gutenberg blocks.
 	if ( function_exists( 'register_block_type' ) ) {
-		include WPSTRAVA_PLUGIN_DIR . 'blocks/index.php';
+		include WPSTRAVA_PLUGIN_DIR . 'src/blocks.php';
 	}
 }
 add_action( 'plugins_loaded', 'wpstrava_plugin_loaded' );
