@@ -36,7 +36,7 @@ if ( ! defined( 'WPSTRAVA_DEBUG' ) ) {
 	define( 'WPSTRAVA_DEBUG', false );
 }
 
-require_once WPSTRAVA_PLUGIN_DIR . 'includes/autoload.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'src/autoload.php';
 
 // Load the plugin and multilingual support.
 function wpstrava_plugin_loaded() {
