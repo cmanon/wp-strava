@@ -16,45 +16,45 @@ function wpstrava_register_block() {
 	// automatically load dependencies and version
 	$asset_file = include WPSTRAVA_PLUGIN_DIR . 'build/index.asset.php';
 
-	wp_enqueue_script(
+	wp_register_script(
 		'wp-strava-block',
 		plugins_url( 'build/index.js', WPSTRAVA_PLUGIN_FILE ),
 		$asset_file['dependencies'],
 		$asset_file['version']
 	);
 
-	wp_enqueue_style(
+	wp_register_style(
 		'wp-strava-block-editor',
 		plugins_url( 'build/editor.css', WPSTRAVA_PLUGIN_FILE ),
 		array( 'wp-edit-blocks' ),
 		filemtime( WPSTRAVA_PLUGIN_DIR . 'build/editor.css' )
 	);
 
-	wp_enqueue_style(
+	wp_register_style(
 		'wp-strava-block',
 		plugins_url( 'build/style.css', WPSTRAVA_PLUGIN_FILE ),
 		array(),
 		filemtime( WPSTRAVA_PLUGIN_DIR . 'build/style.css' )
 	);
 
-	// register_block_type(
-	// 	'wp-strava-block',
-	// 	array(
-	// 		'style'           => 'wp-strava-block',
-	// 		'editor_style'    => 'wp-strava-block-editor',
-	// 		'editor_script'   => 'wp-strava-block',
-	// 		'render_callback' => 'wpstrava_activity_render_block',
-	// 	)
-	// );
+	register_block_type(
+		'wp-strava/activity',
+		array(
+			'style'           => 'wp-strava-block',
+			'editor_style'    => 'wp-strava-block-editor',
+			'editor_script'   => 'wp-strava-block',
+			'render_callback' => 'wpstrava_activity_render_block',
+		)
+	);
 
-	// if ( function_exists( 'wp_set_script_translations' ) ) {
-	// 	/**
-	// 	 * May be extended to wp_set_script_translations( 'my-handle', 'my-domain',
-	// 	 * plugin_dir_path( MY_PLUGIN ) . 'languages' ) ). For details see
-	// 	 * https://make.wordpress.org/core/2018/11/09/new-javascript-i18n-support-in-wordpress/
-	// 	 */
-	// 	wp_set_script_translations( 'wp-strava-block', 'wp-strava' );
-	// }
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		/**
+		 * May be extended to wp_set_script_translations( 'my-handle', 'my-domain',
+		 * plugin_dir_path( MY_PLUGIN ) . 'languages' ) ). For details see
+		 * https://make.wordpress.org/core/2018/11/09/new-javascript-i18n-support-in-wordpress/
+		 */
+		wp_set_script_translations( 'wp-strava-block', 'wp-strava' );
+	}
 }
 add_action( 'init', 'wpstrava_register_block' );
 
