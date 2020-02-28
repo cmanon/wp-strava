@@ -42,11 +42,6 @@ require_once WPSTRAVA_PLUGIN_DIR . 'src/autoload.php';
 function wpstrava_plugin_loaded() {
 	// Load language files.
 	load_plugin_textdomain( 'wp-strava', false, WPSTRAVA_PLUGIN_DIR . 'lang/' );
-
-	// Include Gutenberg blocks.
-	if ( function_exists( 'register_block_type' ) ) {
-		include WPSTRAVA_PLUGIN_DIR . 'src/blocks.php';
-	}
 }
 add_action( 'plugins_loaded', 'wpstrava_plugin_loaded' );
 
