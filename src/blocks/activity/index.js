@@ -1,10 +1,18 @@
+/* global wp, wpStrava */
 import { registerBlockType } from '@wordpress/blocks';
-import ActivityImage from './activity.png';
+
+/**
+ * Localized Data.
+ */
+const {
+    placeholderActivityImg,
+} = wpStrava;
+
 
 registerBlockType( 'wp-strava/activity', {
     title: 'Strava Activity',
     icon: 'chart-line',
-    category: 'widgets',
-    edit: () => <img className="wp-strava-img" src={ActivityImage} />,
-    save: () => <div>Hola, mundo!</div>,
+    category: 'embed',
+    edit: () => <img className="wp-strava-img" src={placeholderActivityImg} />,
+    save: () => <img className="wp-strava-img" src={placeholderActivityImg} />,
 } );

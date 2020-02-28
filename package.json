@@ -9,7 +9,6 @@
     "start": "wp-scripts start"
   },
   "devDependencies": {
-    "@wordpress/scripts": "6.1.0",
-    "url-loader": "^3.0.0"
+    "@wordpress/scripts": "6.1.0"
   }
 }

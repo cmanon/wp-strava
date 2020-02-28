@@ -215,6 +215,14 @@ class WPStrava {
 			filemtime( WPSTRAVA_PLUGIN_DIR . 'build/style.css' )
 		);
 
+		wp_localize_script(
+			'wp-strava-block',
+			'wpStrava',
+			array(
+				'placeholderActivityImg' => WPSTRAVA_PLUGIN_URL . 'images/example-activity.png',
+			)
+		);
+
 		foreach ( $blocks as $block_class ) {
 			$block = new $block_class();
 			$block->register_block();
