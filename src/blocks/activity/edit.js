@@ -1,6 +1,7 @@
 /* global wp, wpStrava */
 import EmbedPlaceholder from './embed-placeholder';
 import EmbedControls from './embed-controls';
+const { isEmpty } = lodash;
 
 const { Component } = wp.element;
 
@@ -19,8 +20,8 @@ class Edit extends Component {
 		this.switchBackToURLInput = this.switchBackToURLInput.bind( this );
 
 		this.state = {
-			editingURL: true,
 			url: this.props.attributes.url,
+			editingURL: isEmpty( this.props.attributes.url ) ? true : false,
 		};
 	}
 
