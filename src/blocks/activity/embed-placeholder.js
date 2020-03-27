@@ -1,9 +1,11 @@
 /**
  * WordPress dependencies
  */
+
+import { BlockIcon } from '@wordpress/editor';
+
 const { __, _x } = wp.i18n;
 const { Button, Placeholder, ExternalLink } = wp.components;
-const { BlockIcon } = wp.blockEditor;
 
 const EmbedPlaceholder = ( props ) => {
 	const {

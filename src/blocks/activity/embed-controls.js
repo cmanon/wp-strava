@@ -1,13 +1,14 @@
 /**
  * WordPress dependencies
  */
+import { BlockControls } from '@wordpress/editor';
+
 const { __ } = wp.i18n;
 const {
 	Icon,
 	Button,
 	Toolbar,
 } = wp.components;
-const { BlockControls } = wp.blockEditor;
 
 const EmbedControls = ( props ) => {
 	const {
