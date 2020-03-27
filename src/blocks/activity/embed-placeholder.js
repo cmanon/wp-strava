@@ -5,7 +5,7 @@
 import { BlockIcon } from '@wordpress/editor';
 
 const { __, _x } = wp.i18n;
-const { Button, Placeholder, ExternalLink } = wp.components;
+const { Button, Placeholder } = wp.components;
 
 const EmbedPlaceholder = ( props ) => {
 	const {
@@ -22,7 +22,7 @@ const EmbedPlaceholder = ( props ) => {
 			label={ label }
 			className="wp-block-embed"
 			instructions={ __(
-				'Paste a link to the content you want to display on your site.'
+				'Paste a link to the Strava Activity you want to display on your site.'
 			) }
 		>
 			<form onSubmit={ onSubmit }>
@@ -31,22 +31,13 @@ const EmbedPlaceholder = ( props ) => {
 					value={ value || '' }
 					className="components-placeholder__input"
 					aria-label={ label }
-					placeholder={ __( 'Enter URL to embed here…' ) }
+					placeholder={ __( 'Enter Activity URL to embed here…' ) }
 					onChange={ onChange }
 				/>
 				<Button isPrimary type="submit">
 					{ _x( 'Embed', 'button label' ) }
 				</Button>
 			</form>
-			<div className="components-placeholder__learn-more">
-				<ExternalLink
-					href={ __(
-						'https://wordpress.org/support/article/embeds/' // @TODO update for wp-strava
-					) }
-				>
-					{ __( 'Learn more about embeds' ) }
-				</ExternalLink>
-			</div>
 		</Placeholder>
 	);
 };

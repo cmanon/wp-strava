@@ -1,9 +1,9 @@
 /* global wp, wpStrava */
 import EmbedPlaceholder from './embed-placeholder';
 import EmbedControls from './embed-controls';
-const { isEmpty } = lodash;
 
 const { Component } = wp.element;
+const { isEmpty } = lodash;
 
 /**
  * Localized Data.
@@ -47,7 +47,7 @@ class Edit extends Component {
 			return (
 				<EmbedPlaceholder
 					icon="chart-line"
-					label="BBQ LOL Label"
+					label="Strava Activity"
 					onSubmit={ this.setUrl }
 					value={ url }
 					onChange={ ( event ) =>
