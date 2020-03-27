@@ -5,7 +5,7 @@
     "license": "GPL-2.0+",
     "type": "wordpress-plugin",
     "require": {
-        "php": ">=5.2.4"
+        "php": ">=5.3"
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "^2",

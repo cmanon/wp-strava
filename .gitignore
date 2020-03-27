@@ -1,7 +1,6 @@
 *~
 .svn
 .vscode
-composer.lock
 /vendor/
 node_modules/
 /build/**
