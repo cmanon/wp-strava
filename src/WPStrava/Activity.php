@@ -4,8 +4,8 @@
  */
 class WPStrava_Activity {
 
-	const ACTIVITIES_URL = 'http://strava.com/activities/';
-	const ATHLETES_URL   = 'http://strava.com/athletes/';
+	const ACTIVITIES_URL = 'https://strava.com/activities/';
+	const ATHLETES_URL   = 'https://strava.com/athletes/';
 
 	/**
 	 * Get single activity by ID.

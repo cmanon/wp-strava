@@ -16,7 +16,7 @@ function wpstrava_autoload_classes( $class_name ) {
 	}
 
 	// @TODO Add directory searching if they get created.
-	$file = WPSTRAVA_PLUGIN_DIR . '/includes/' . implode( '/', $parts ) . '.php';
+	$file = WPSTRAVA_PLUGIN_DIR . '/src/' . implode( '/', $parts ) . '.php';
 	if ( file_exists( $file ) ) {
 		include_once $file;
 	}

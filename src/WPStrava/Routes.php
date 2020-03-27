@@ -7,7 +7,7 @@
  * @since 1.3.0
  */
 class WPStrava_Routes {
-	const ROUTES_URL = 'http://strava.com/routes/';
+	const ROUTES_URL = 'https://strava.com/routes/';
 
 	/**
 	 * Get single route by ID.

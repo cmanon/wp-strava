@@ -3,7 +3,7 @@
  * Plugin Name: WP Strava
  * Plugin URI: https://wordpress.org/plugins/wp-strava/
  * Description: Show your strava.com activity on your WordPress site. Some Icons are Copyright © Yusuke Kamiyamane. All rights reserved. Licensed under a Creative Commons Attribution 3.0 license.
- * Version: 2.1.0
+ * Version: 2.2.0
  * Author: Carlos Santa Cruz, Justin Foell, Lance Willett, Daniel Lintott, Sebastian Erb
  * License: GPL2
  * Text Domain: wp-strava
@@ -27,8 +27,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
-define( 'WPSTRAVA_PLUGIN_VERSION', '2.0.1' );
+define( 'WPSTRAVA_PLUGIN_VERSION', '2.2.0' );
+define( 'WPSTRAVA_PLUGIN_FILE', __FILE__ );
 define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 define( 'WPSTRAVA_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
 define( 'WPSTRAVA_PLUGIN_NAME', plugin_basename( __FILE__ ) );
@@ -36,13 +36,14 @@ if ( ! defined( 'WPSTRAVA_DEBUG' ) ) {
 	define( 'WPSTRAVA_DEBUG', false );
 }
 
-require_once WPSTRAVA_PLUGIN_DIR . 'includes/autoload.php';
+require_once WPSTRAVA_PLUGIN_DIR . 'src/autoload.php';
 
 // Load the plugin and multilingual support.
-function wpstrava_load_plugin_textdomain() {
+function wpstrava_plugin_loaded() {
+	// Load language files.
 	load_plugin_textdomain( 'wp-strava', false, WPSTRAVA_PLUGIN_DIR . 'lang/' );
 }
-add_action( 'plugins_loaded', 'wpstrava_load_plugin_textdomain' );
+add_action( 'plugins_loaded', 'wpstrava_plugin_loaded' );
 
 $wpstrava = WPStrava::get_instance();
 $wpstrava->hook();

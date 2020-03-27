@@ -4,8 +4,8 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 2.1.0
-Requires PHP: 5.2
+Stable tag: 2.2.0
+Requires PHP: 5.3
 License: GPLv2 or later
 
 Show your Strava activity on your WordPress site.
@@ -102,6 +102,11 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 
 == Changelog ==
+
+= 2.2.0 =
+Added rudimentary gutenberg block for single Activity.
+Changed all Strava links to HTTPS.
+Moved PHP classes from includes/ to src/.
 
 = 2.1.0 =
 

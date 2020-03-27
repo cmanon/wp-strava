@@ -71,6 +71,11 @@ class WPStrava {
 	public function hook() {
 		$this->auth->hook();
 
+		// Include Gutenberg blocks.
+		if ( function_exists( 'register_block_type' ) ) {
+			add_action( 'init', array( $this, 'register_blocks' ) );
+		}
+
 		if ( is_admin() ) {
 			$this->settings->hook();
 		} else {
@@ -174,6 +179,63 @@ class WPStrava {
 		new WPStrava_LatestActivitiesShortcode();
 		new WPStrava_RouteShortcode();
 		new WPStrava_LatestMapShortcode();
+	}
+
+	/**
+	 * Registers all block assets so that they can be enqueued through Gutenberg in
+	 * the corresponding context.
+	 *
+	 * @see https://wordpress.org/gutenberg/handbook/blocks/writing-your-first-block-type/#enqueuing-block-scripts
+	 */
+	public function register_blocks() {
+		static $blocks = array( 'WPStrava_Blocks_Activity' );
+
+		// automatically load dependencies and version
+		$asset_file = include WPSTRAVA_PLUGIN_DIR . 'build/index.asset.php';
+
+		wp_register_script(
+			'wp-strava-block',
+			plugins_url( 'build/index.js', WPSTRAVA_PLUGIN_FILE ),
+			$asset_file['dependencies'],
+			$asset_file['version'],
+			true
+		);
+
+		wp_register_style(
+			'wp-strava-block-editor',
+			plugins_url( 'build/editor.css', WPSTRAVA_PLUGIN_FILE ),
+			array( 'wp-edit-blocks' ),
+			filemtime( WPSTRAVA_PLUGIN_DIR . 'build/editor.css' )
+		);
+
+		wp_register_style(
+			'wp-strava-block',
+			plugins_url( 'build/style.css', WPSTRAVA_PLUGIN_FILE ),
+			array(),
+			filemtime( WPSTRAVA_PLUGIN_DIR . 'build/style.css' )
+		);
+
+		wp_localize_script(
+			'wp-strava-block',
+			'wpStrava',
+			array(
+				'placeholderActivityImg' => WPSTRAVA_PLUGIN_URL . 'images/example-activity.png',
+			)
+		);
+
+		foreach ( $blocks as $block_class ) {
+			$block = new $block_class();
+			$block->register_block();
+		}
+
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			/**
+			 * May be extended to wp_set_script_translations( 'my-handle', 'my-domain',
+			 * plugin_dir_path( MY_PLUGIN ) . 'languages' ) ). For details see
+			 * https://make.wordpress.org/core/2018/11/09/new-javascript-i18n-support-in-wordpress/
+			 */
+			wp_set_script_translations( 'wp-strava-block', 'wp-strava' );
+		}
 	}
 
 }
