@@ -29,7 +29,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 	 * @param array $attributes JSON attributes saved in the HTML comment for this block.
 	 * @param string $content The content from JS save() for this block.
 	 * @return string HTML for this block.
-	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.2.0
 	 */
 	public function render_block( $attributes, $content ) {
