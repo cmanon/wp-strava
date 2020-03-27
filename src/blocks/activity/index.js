@@ -1,5 +1,6 @@
 /* global wp, wpStrava */
 const { registerBlockType } = wp.blocks;
+
 import edit from './edit';
 
 /**

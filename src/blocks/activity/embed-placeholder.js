@@ -12,9 +12,6 @@ const EmbedPlaceholder = ( props ) => {
 		value,
 		onSubmit,
 		onChange,
-		cannotEmbed,
-		fallback,
-		tryAgain,
 	} = props;
 
 	return (
@@ -48,19 +45,6 @@ const EmbedPlaceholder = ( props ) => {
 					{ __( 'Learn more about embeds' ) }
 				</ExternalLink>
 			</div>
-			{ cannotEmbed && (
-				<div className="components-placeholder__error">
-					<div className="components-placeholder__instructions">
-						{ __( 'Sorry, this content could not be embedded.' ) }
-					</div>
-					<Button isSecondary onClick={ tryAgain }>
-						{ _x( 'Try again', 'button label' ) }
-					</Button>{ ' ' }
-					<Button isSecondary onClick={ fallback }>
-						{ _x( 'Convert to link', 'button label' ) }
-					</Button>
-				</div>
-			) }
 		</Placeholder>
 	);
 };
