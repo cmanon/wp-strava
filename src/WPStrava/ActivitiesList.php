@@ -22,6 +22,8 @@ class WPStrava_ActivitiesList {
 			'strava_club_id' => null,
 			'quantity'       => 5,
 			'som'            => WPStrava::get_instance()->settings->som,
+			'date_start'     => '',
+			'date_end'       => '',
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -31,7 +33,7 @@ class WPStrava_ActivitiesList {
 		$activities      = array();
 
 		try {
-			$activities = $strava_activity->get_activities( $args['client_id'], $args['strava_club_id'], $args['quantity'] );
+			$activities = $strava_activity->get_activities( $args );
 		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}

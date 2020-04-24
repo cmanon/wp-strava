@@ -16,7 +16,7 @@ class WPStrava_LatestMap {
 		$activities = array();
 
 		try {
-			$activities = $strava_activity->get_activities( $args['client_id'], $args['strava_club_id'] );
+			$activities = $strava_activity->get_activities( $args );
 		} catch ( WPStrava_Exception $e ) {
 			// If athlete_token is still set, warn about that first and foremost.
 			if ( isset( $args['athlete_token'] ) ) {

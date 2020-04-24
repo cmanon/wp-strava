@@ -23,23 +23,49 @@ class WPStrava_Activity {
 	 * Get activity list from Strava API.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @param string   $client_id Client ID of athlete to retrieve for
-	 * @param int      $club_id   Club ID of all club riders (optional).
-	 * @param int|null $quantity  Number of records to retrieve (optional).
+	 * @param array $args {
+	 *     Array of arguments.
+	 *
+	 *     @type string   $client_id      Client ID of athlete to retrieve for
+	 *     @type int      $strava_club_id Club ID of all club riders (optional).
+	 *     @type int|null $quantity       Number of records to retrieve (optional).
+	 *     @type int|null $date_start     Timestamp for filtering activities after a certain time (optional, negates $quantity).
+	 *     @type int|null $date_end       Timestamp for filtering activities before a certain time (optional, negates $quantity).
+	 * }
 	 * @return array Array of activities.
 	 */
-	public function get_activities( $client_id, $club_id = null, $quantity = null ) {
-		$api = WPStrava::get_instance()->get_api( $client_id );
+	public function get_activities( $args ) {
+		$api = WPStrava::get_instance()->get_api( $args['client_id'] );
+
+		$get_args = array();
+
+		if ( ! empty( $args['quantity'] ) && is_numeric( $args['quantity'] ) ) {
+			$get_args['per_page'] = $args['quantity'];
+		}
+
+		// Add start/end date (not supported for clubs).
+		if ( empty( $args['strava_club_id'] ) && ! empty( $args['date_start'] ) && ! empty( $args['date_end'] ) ) {
+
+			// Check for valid dates.
+			if ( strtotime( $args['date_start'] ) && strtotime( $args['date_end'] ) ) {
+				unset( $get_args['per_page'] );
+
+				$localtime = new DateTimeZone( get_option( 'timezone_string' ) );
+				$before_dt = new DateTime( $args['date_end'], $localtime );
+				$after_dt  = new DateTime( $args['date_start'], $localtime );
+
+				$get_args['before'] = $before_dt->format( 'U' );
+				$get_args['after']  = $after_dt->format( 'U' );
+			}
+		}
 
 		$data = null;
 
-		$args = $quantity ? array( 'per_page' => $quantity ) : null;
-
 		//Get the json results using the constructor specified values.
-		if ( is_numeric( $club_id ) ) {
-			$data = $api->get( "clubs/{$club_id}/activities", $args );
+		if ( ! empty( $args['strava_club_id'] ) && is_numeric( $args['strava_club_id'] ) ) {
+			$data = $api->get( "clubs/{$args['strava_club_id']}/activities", $get_args );
 		} else {
-			$data = $api->get( 'athlete/activities', $args );
+			$data = $api->get( 'athlete/activities', $get_args );
 		}
 
 		if ( is_array( $data ) ) {
@@ -71,5 +97,4 @@ class WPStrava_Activity {
 
 		return $long_activities;
 	}
-
 }
