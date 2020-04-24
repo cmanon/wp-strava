@@ -3,8 +3,8 @@
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
-Tested up to: 5.3
-Stable tag: 2.2.0
+Tested up to: 5.4
+Stable tag: 2.3.0
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -49,6 +49,8 @@ This also takes the same optional parameters as the [activity] shortcode above.
 * quantity - number of activities to show.
 * client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * strava_club_id - Will display activity from the specified Strava club ID instead of an athlete.
+* date_start - Will display activities after specified date - must be [PHP DateTime strtotime compatible](https://www.php.net/manual/en/datetime.formats.php).
+* date_end - Will display activities before the specified date - must be [PHP DateTime compatible](https://www.php.net/manual/en/datetime.formats.php).
 
 [latest_map] - shows a map of your latest activity. Takes the following optional parameters:
 
@@ -102,6 +104,11 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 
 == Changelog ==
+
+= 2.3.0 =
+Renamed LatestActivities classes to ActivitiesList.
+Added exception handling to authorization process.
+
 
 = 2.2.0 =
 Added rudimentary gutenberg block for single Activity.

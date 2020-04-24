@@ -1,16 +1,23 @@
 <?php
+/**
+ * Activities List Widget.
+ * @package WPStrava
+ */
 
 /**
- * WP Strava Latest Activities Widget Class
+ * Activities List Widget class (converted from LatestActivitiesWidget).
+ *
+ * @author Justin Foell <justin@foell.org>
+ * @since  2.3.0
  */
-class WPStrava_LatestActivitiesWidget extends WP_Widget {
+class WPStrava_ActivitiesListWidget extends WP_Widget {
 
 	public function __construct() {
 		$widget_ops = array(
-			'classname'   => 'LatestActivitiesWidget',
-			'description' => __( 'Will show your latest activities from strava.com.', 'wp-strava' ),
+			'classname'   => 'wp-strava-activities-list-widget',
+			'description' => __( 'Show a list of activities from strava.com.', 'wp-strava' ),
 		);
-		parent::__construct( 'wp-strava', __( 'Strava Latest Activities List', 'wp-strava' ), $widget_ops );
+		parent::__construct( 'wp-strava', __( 'Strava Activities List', 'wp-strava' ), $widget_ops );
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
 	}
 
@@ -22,7 +29,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 
 	/** @see WP_Widget::widget */
 	public function widget( $args, $instance ) {
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activities', 'wp-strava' ) : $instance['title'] );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Activities List', 'wp-strava' ) : $instance['title'] );
 
 		$activities_args = array(
 			'client_id'      => isset( $instance['client_id'] ) ? $instance['client_id'] : null,
@@ -35,7 +42,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
-		echo WPStrava_LatestActivities::get_activities_html( $activities_args );
+		echo WPStrava_ActivitiesList::get_activities_html( $activities_args );
 		echo $args['after_widget'];
 		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
@@ -53,7 +60,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 
 	/** @see WP_Widget::form */
 	public function form( $instance ) {
-		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activities', 'wp-strava' );
+		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Activities List', 'wp-strava' );
 		$all_ids        = WPStrava::get_instance()->settings->get_all_ids();
 		$client_id      = isset( $instance['client_id'] ) ? esc_attr( $instance['client_id'] ) : WPStrava::get_instance()->settings->get_default_id();
 		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';
@@ -83,4 +90,4 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 		<?php
 	}
 
-} // class LatestActivitiesWidget
+}

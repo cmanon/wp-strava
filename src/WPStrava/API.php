@@ -83,7 +83,7 @@ class WPStrava_API {
 	public function get( $uri, $args = null ) {
 
 		// @see https://stackoverflow.com/a/3764390/2146022
-		$arg_suffix = is_array( $args ) ? '_' . substr( md5( wp_json_encode( $args ) ), 0, 12 ) : '';
+		$arg_suffix = is_array( $args ) && ! empty( $args ) ? '_' . substr( md5( wp_json_encode( $args ) ), 0, 12 ) : '';
 
 		$transient_key = 'strava_api_data_' . $this->client_id . '_' . $uri . $arg_suffix;
 

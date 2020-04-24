@@ -1,16 +1,16 @@
 <?php
 /**
- * Latest Activities Shortcode [activities].
+ * Activities List Shortcode [activities].
  * @package WPStrava
  */
 
 /**
- * Latest Activities Shortcode class (converted from LatestRides).
+ * Activities List Shortcode class (converted from LatestActivitiesShortcode).
  *
  * @author Justin Foell <justin@foell.org>
- * @since  1.3.0
+ * @since  2.3.0
  */
-class WPStrava_LatestActivitiesShortcode {
+class WPStrava_ActivitiesListShortcode {
 
 	/**
 	 * Whether or not to enqueue styles (if shortcode is present).
@@ -44,7 +44,7 @@ class WPStrava_LatestActivitiesShortcode {
 	 */
 	public function handler( $atts ) {
 		$this->add_script = true;
-		return WPStrava_LatestActivities::get_activities_html( $atts );
+		return WPStrava_ActivitiesList::get_activities_html( $atts );
 	}
 
 	/**

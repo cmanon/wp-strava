@@ -1,6 +1,16 @@
 <?php
+/**
+ * Activities List.
+ * @package WPStrava
+ */
 
-class WPStrava_LatestActivities {
+/**
+ * Activities List class for shortcode and widget.
+ *
+ * @author Justin Foell <justin@foell.org>
+ * @since  2.3.0
+ */
+class WPStrava_ActivitiesList {
 	public static function get_activities_html( $args ) {
 		if ( isset( $args['athlete_token'] ) ) {
 			// Translators: Message shown when using deprecated athlete_token parameter.
@@ -12,6 +22,8 @@ class WPStrava_LatestActivities {
 			'strava_club_id' => null,
 			'quantity'       => 5,
 			'som'            => WPStrava::get_instance()->settings->som,
+			'date_start'     => '',
+			'date_end'       => '',
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -21,7 +33,7 @@ class WPStrava_LatestActivities {
 		$activities      = array();
 
 		try {
-			$activities = $strava_activity->get_activities( $args['client_id'], $args['strava_club_id'], $args['quantity'] );
+			$activities = $strava_activity->get_activities( $args );
 		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}
