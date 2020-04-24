@@ -108,6 +108,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 = 2.3.0 =
 Renamed LatestActivities classes to ActivitiesList.
 Added exception handling to authorization process.
+Added date_start and date_end to activities short code.
 
 
 = 2.2.0 =
