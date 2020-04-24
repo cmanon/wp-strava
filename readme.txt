@@ -49,7 +49,7 @@ This also takes the same optional parameters as the [activity] shortcode above.
 * quantity - number of activities to show.
 * client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 * strava_club_id - Will display activity from the specified Strava club ID instead of an athlete.
-* date_start - Will display activities after specified date - must be [PHP DateTime strtotime compatible](https://www.php.net/manual/en/datetime.formats.php).
+* date_start - Will display activities after specified date - must be [PHP DateTime compatible](https://www.php.net/manual/en/datetime.formats.php).
 * date_end - Will display activities before the specified date - must be [PHP DateTime compatible](https://www.php.net/manual/en/datetime.formats.php).
 
 [latest_map] - shows a map of your latest activity. Takes the following optional parameters:
@@ -108,7 +108,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 = 2.3.0 =
 Renamed LatestActivities classes to ActivitiesList.
 Added exception handling to authorization process.
-Added date_start and date_end to activities short code.
+Added date_start and date_end to [activities] short code https://wordpress.org/support/topic/activities-shortcode-for-date-range/
 
 
 = 2.2.0 =
