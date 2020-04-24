@@ -1,15 +1,11 @@
 <?php
 /**
- *
+ * Activities List Widget.
+ * @package WPStrava
  */
 
 /**
- * WP Strava Latest Activities Widget Class
- */
-
-
-/**
- * Activities List Widget class.
+ * Activities List Widget class (converted from LatestActivitiesWidget).
  *
  * @author Justin Foell <justin@foell.org>
  * @since  2.3.0
@@ -33,7 +29,7 @@ class WPStrava_ActivitiesListWidget extends WP_Widget {
 
 	/** @see WP_Widget::widget */
 	public function widget( $args, $instance ) {
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Latest Activities', 'wp-strava' ) : $instance['title'] );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Activities List', 'wp-strava' ) : $instance['title'] );
 
 		$activities_args = array(
 			'client_id'      => isset( $instance['client_id'] ) ? $instance['client_id'] : null,
@@ -64,7 +60,7 @@ class WPStrava_ActivitiesListWidget extends WP_Widget {
 
 	/** @see WP_Widget::form */
 	public function form( $instance ) {
-		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Latest Activities', 'wp-strava' );
+		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Activities List', 'wp-strava' );
 		$all_ids        = WPStrava::get_instance()->settings->get_all_ids();
 		$client_id      = isset( $instance['client_id'] ) ? esc_attr( $instance['client_id'] ) : WPStrava::get_instance()->settings->get_default_id();
 		$strava_club_id = isset( $instance['strava_club_id'] ) ? esc_attr( $instance['strava_club_id'] ) : '';

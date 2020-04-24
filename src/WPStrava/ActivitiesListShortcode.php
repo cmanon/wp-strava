@@ -1,11 +1,11 @@
 <?php
 /**
- * Latest Activities Shortcode [activities].
+ * Activities List Shortcode [activities].
  * @package WPStrava
  */
 
 /**
- * Latest Activities Shortcode class (converted from LatestRides).
+ * Activities List Shortcode class (converted from LatestActivitiesShortcode).
  *
  * @author Justin Foell <justin@foell.org>
  * @since  2.3.0
