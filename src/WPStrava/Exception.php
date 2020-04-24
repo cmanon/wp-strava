@@ -1,9 +1,7 @@
-<?php
+<?php // phpcs:disable Generic.Files.OneClassPerFile.MultipleFound, Generic.Classes.DuplicateClassName.Found, Generic.Files.OneObjectStructurePerFile.MultipleFound
 /**
  * WPStrava Exception(s).
  */
-
-// phpcs:disable Generic.Files.OneClassPerFile.MultipleFound, Generic.Classes.DuplicateClassName.Found
 
 /*
  * PHP 5.2 Nonsense
@@ -30,6 +28,9 @@ if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {
 
 /*
  * Exception class for error handling/display.
+ *
+ * For creation use `new WPStrava_Exception()` or `WPStrava_Exception::from_wp_error( $error )`.
+ * For display use $e->to_html(), echo/(s)printf $e, or strval( $e ).
  */
 class WPStrava_Exception extends WPStrava_Abstract_Exception {
 
@@ -80,7 +81,7 @@ class WPStrava_Exception extends WPStrava_Abstract_Exception {
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.6.0
 	 */
-	public function get_formatted_message( $exception ) {
+	private function get_formatted_message( $exception ) {
 		$code = $exception->getCode();
 
 		if ( $exception->getPrevious() ) {
@@ -100,4 +101,3 @@ class WPStrava_Exception extends WPStrava_Abstract_Exception {
 		return sprintf( __( 'WP Strava ERROR %1$s', 'wp-strava' ), $exception->getMessage() );
 	}
 }
-// phpcs:enable

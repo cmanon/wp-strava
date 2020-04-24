@@ -118,7 +118,11 @@ abstract class WPStrava_Auth {
 
 			$data = $this->add_initial_params( $data );
 
-			$strava_info = $this->token_request( $data );
+			try {
+				$strava_info = $this->token_request( $data );
+			} catch ( WPStrava_Exception $e ) {
+				wp_die( $e->to_html() ); // phpcs:ignore -- Debug only.
+			}
 
 			if ( isset( $strava_info->access_token ) ) {
 				$settings->add_id( $client_id );

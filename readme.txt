@@ -105,6 +105,8 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 = 2.3.0 =
 Renamed LatestActivities classes to ActivitiesList.
+Added exception handling to authorization process.
+
 
 = 2.2.0 =
 Added rudimentary gutenberg block for single Activity.
