@@ -1,6 +1,16 @@
 <?php
+/**
+ * Activities List.
+ * @package WPStrava
+ */
 
-class WPStrava_LatestActivities {
+/**
+ * Activities List class for shortcode and widget.
+ *
+ * @author Justin Foell <justin@foell.org>
+ * @since  2.3.0
+ */
+class WPStrava_ActivitiesList {
 	public static function get_activities_html( $args ) {
 		if ( isset( $args['athlete_token'] ) ) {
 			// Translators: Message shown when using deprecated athlete_token parameter.

@@ -103,6 +103,9 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
+= 2.3.0 =
+Renamed LatestActivities classes to ActivitiesList.
+
 = 2.2.0 =
 Added rudimentary gutenberg block for single Activity.
 Changed all Strava links to HTTPS.

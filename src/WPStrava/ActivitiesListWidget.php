@@ -1,16 +1,27 @@
 <?php
+/**
+ *
+ */
 
 /**
  * WP Strava Latest Activities Widget Class
  */
-class WPStrava_LatestActivitiesWidget extends WP_Widget {
+
+
+/**
+ * Activities List Widget class.
+ *
+ * @author Justin Foell <justin@foell.org>
+ * @since  2.3.0
+ */
+class WPStrava_ActivitiesListWidget extends WP_Widget {
 
 	public function __construct() {
 		$widget_ops = array(
-			'classname'   => 'LatestActivitiesWidget',
-			'description' => __( 'Will show your latest activities from strava.com.', 'wp-strava' ),
+			'classname'   => 'wp-strava-activities-list-widget',
+			'description' => __( 'Show a list of activities from strava.com.', 'wp-strava' ),
 		);
-		parent::__construct( 'wp-strava', __( 'Strava Latest Activities List', 'wp-strava' ), $widget_ops );
+		parent::__construct( 'wp-strava', __( 'Strava Activities List', 'wp-strava' ), $widget_ops );
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
 	}
 
@@ -35,7 +46,7 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
-		echo WPStrava_LatestActivities::get_activities_html( $activities_args );
+		echo WPStrava_ActivitiesList::get_activities_html( $activities_args );
 		echo $args['after_widget'];
 		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
@@ -83,4 +94,4 @@ class WPStrava_LatestActivitiesWidget extends WP_Widget {
 		<?php
 	}
 
-} // class LatestActivitiesWidget
+}

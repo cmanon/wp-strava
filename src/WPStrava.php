@@ -166,7 +166,7 @@ class WPStrava {
 	 * Register the widgets.
 	 */
 	public function register_widgets() {
-		register_widget( 'WPStrava_LatestActivitiesWidget' );
+		register_widget( 'WPStrava_ActivitiesListWidget' );
 		register_widget( 'WPStrava_LatestMapWidget' );
 	}
 
@@ -176,7 +176,7 @@ class WPStrava {
 	public function register_shortcodes() {
 		// Initialize short code classes.
 		new WPStrava_ActivityShortcode();
-		new WPStrava_LatestActivitiesShortcode();
+		new WPStrava_ActivitiesListShortcode();
 		new WPStrava_RouteShortcode();
 		new WPStrava_LatestMapShortcode();
 	}
