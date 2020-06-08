@@ -2,8 +2,12 @@
 import EmbedPlaceholder from './embed-placeholder';
 import EmbedControls from './embed-controls';
 
+const { __ } = wp.i18n;
 const { Component } = wp.element;
+const { InspectorControls } = wp.editor;
+const { PanelBody, ToggleControl } = wp.components;
 const { isEmpty } = lodash;
+
 
 /**
  * Localized Data.
@@ -16,11 +20,15 @@ class Edit extends Component {
 
 	constructor() {
 		super( ...arguments );
-		this.setUrl = this.setUrl.bind( this );
+		this.setUrl               = this.setUrl.bind( this );
 		this.switchBackToURLInput = this.switchBackToURLInput.bind( this );
+		this.toggleImageOnly      = this.toggleImageOnly.bind( this );
+		this.toggleDisplayMarkers = this.toggleDisplayMarkers.bind( this );
 
 		this.state = {
 			url: this.props.attributes.url,
+			imageOnly: this.props.attributes.imageOnly,
+			displayMarkers: this.props.attributes.displayMarkers,
 			editingURL: isEmpty( this.props.attributes.url ) ? true : false,
 		};
 	}
@@ -29,18 +37,31 @@ class Edit extends Component {
 		if ( event ) {
 			event.preventDefault();
 		}
-		const { url } = this.state;
-		const { setAttributes } = this.props;
 		this.setState( { editingURL: false } );
-		setAttributes( { url } );
+		this.props.setAttributes( { url: this.state.url } );
 	}
 
 	switchBackToURLInput() {
 		this.setState( { editingURL: true } );
 	}
 
+	toggleImageOnly( checked ) {
+		this.setState( { imageOnly: checked } );
+		this.props.setAttributes( { imageOnly: checked } );
+	}
+
+	toggleDisplayMarkers( checked ) {
+		this.setState( { displayMarkers: checked } );
+		this.props.setAttributes( { displayMarkers: checked } );
+	}
+
 	render() {
-		const { url, editingURL } = this.state;
+		const {
+			url,
+			editingURL,
+			imageOnly,
+			displayMarkers,
+		} = this.state;
 
 		// Newly inserted block or we've clicked the edit button.
 		if ( editingURL ) {
@@ -63,10 +84,25 @@ class Edit extends Component {
 					switchBackToURLInput={ this.switchBackToURLInput }
 				/>
 				<img className="wp-strava-img" src={placeholderActivityImg} />
+				<InspectorControls>
+					<PanelBody
+						title={ __( 'Display Options' ) }
+					>
+						<ToggleControl
+							label={ __( 'Image Only' ) }
+							checked={ imageOnly }
+							onChange={ ( checked ) => this.toggleImageOnly( checked ) }
+						/>
+						<ToggleControl
+							label={ __( 'Display Markers' ) }
+							checked={ displayMarkers }
+							onChange={ (checked ) => this.toggleDisplayMarkers( checked ) }
+						/>
+					</PanelBody>
+				</InspectorControls>
 			</>
 		);
 	}
-
 };
 
 export default Edit;
