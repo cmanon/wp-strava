@@ -74,6 +74,10 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 
 == Frequently Asked Questions ==
 
+= Why do I see someone else's activity when embedding a Strava Activity block? =
+
+The image you see in the editor is a static placeholder image to give an approximation of what your activity map will look like. You won't see your actual activity map until you view the page or post.
+
 = Why am I getting "ERROR 401 Unauthorized"? =
 
 When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as client_id=17791. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
@@ -107,6 +111,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start/stop points.
 10. Activities Shortcode - Shows latest athlete activity in a page or post.
 11. Activities Shortcode Settings - An example activities shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
+12. Strava Activity Block - Shows the activity block and options with a placeholder image in the editor.
 
 
 == Changelog ==
