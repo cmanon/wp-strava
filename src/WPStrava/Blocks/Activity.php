@@ -40,8 +40,15 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 		$matches = [];
 		preg_match( "/\/activities\/([0-9].*)$/", $attributes['url'], $matches );
 		if ( $matches[1] ) {
+			// Transform from block attributes to shortcode standard.
+			$attributes = array(
+				'image_only' => isset( $attributes['imageOnly'] ) ? $attributes['imageOnly'] : false,
+				'markers'    => isset( $attributes['displayMarkers'] ) ? $attributes['displayMarkers'] : false,
+				'id'         => $matches[1],
+			);
+
 			$renderer = new WPStrava_ActivityRenderer();
-			return $renderer->get_html( array( 'id' => $matches[1] ) );
+			return $renderer->get_html( $attributes );
 		}
 		return $content;
 	}

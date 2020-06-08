@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -20,11 +20,17 @@ This plugin uses the Strava API to embed maps and activity for athletes and club
 Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default, WordPress has a built-in cron system to run scheduled events, but it relies on your website getting frequent visitors. The Strava authentication token system expires after 6 hours if not refreshed. If you think your site will not get any visitors over the span on 6 hours, you might want to set up a _real_ cron: https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/. Setting up this sort of cron is beyond the scope of support for this free plugin, so you should seek assistance through your host. Force-running the WordPress cron once an hour is good enough for WP-Strava.
 
 
+= Blocks =
+
+Strava Activity  - embed an activity in any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
+
+Paste in the full activity URL from Strava, such as https://www.strava.com/activities/1793155844 and click "Embed." The preview map shown in the editor is a static sample image, the actual activity map will be displayed on the front-end. In the side-panel you can selection options to show the image only (without the details table) and to display markers at the start & finish points.
+
 = Shortcodes =
 
 [activity id=NUMBER] - add to any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
 
-You should replace NUMBER with an activity ID from Strava. The easiest way to find it is from a strava URL like https://www.strava.com/activities/1793155844 - where 1793155844 is the activity ID number.
+You should replace NUMBER with an activity ID from Strava. The easiest way to find it is from a Strava URL like https://www.strava.com/activities/1793155844 - where 1793155844 is the activity ID number.
 
 Also takes the following optional parameters:
 
@@ -39,11 +45,11 @@ Also takes the following optional parameters:
 
 [route id=NUMBER] - add to any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
 
-You should replace NUMBER with an route ID from Strava. The easiest way to find it is from a strava URL like https://www.strava.com/routes/9001676 - where 9001676 is the route ID number.
+You should replace NUMBER with an route ID from Strava. The easiest way to find it is from a Strava URL like https://www.strava.com/routes/9001676 - where 9001676 is the route ID number.
 
 This also takes the same optional parameters as the [activity] shortcode above.
 
-[activities] - shows a list of recent activities the same way the "Strava Latest Activities List" does, but with a shortcode rather than a widget. Takes the following optional parameters:
+[activities] - shows a list of recent activities the same way the "Strava Activities List" Widget does, but with a shortcode rather than a widget. Takes the following optional parameters:
 
 * som - english/metric (system of measure - override from default setting).
 * quantity - number of activities to show.
@@ -61,12 +67,16 @@ This also takes the same optional parameters as the [activity] shortcode above.
 
 = Widgets =
 
-Strava Latest Activity List - shows a list of the last few activities.
+Strava Activities List - shows a list of the most recent activities.
 
 Strava Latest Map - shows map of latest activity with option to limit latest map to activities of a certain minimum distance.
 
 
 == Frequently Asked Questions ==
+
+= Why do I see someone else's activity when embedding a Strava Activity block? =
+
+The image you see in the editor is a static placeholder image to give an approximation of what your activity map will look like. You won't see your actual activity map until you view the page or post.
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
@@ -90,20 +100,24 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Screenshots ==
 
-1. WP Strava settings - this walks you through connecting the WP Strava plugin to your strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
-2. Latest Activities List Widget - shows a list of the most recent activities for the selected athlete.
-3. Latest Activities List Widget Settings - settings for the Latest Activities List Widget.
-4. Latest Map Widget - shows a map of your most recent activity.
-5. Latest Map Widget Settings - settings for the Latest Map Widget. You can limit your activity by minimum distance to show only longer efforts.
+1. WP Strava settings - this walks you through connecting the WP Strava plugin to your Strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
+2. Strava Activities List Widget - shows a list of the most recent activities for the selected athlete.
+3. Strava Activities List Widget Settings - settings for the Strava Activities List Widget.
+4. Strava Latest Map Widget - shows a map of your most recent activity.
+5. Strava Latest Map Widget Settings - settings for the Latest Map Widget. You can limit your activity by minimum distance to show only longer efforts.
 6. Activity Shortcode - Shows a map of activity with some statistics.
 7. Activity Shortcode Settings - An example activity shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
 8. Route Shortcode - Shows a map of a route.
 9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start/stop points.
 10. Activities Shortcode - Shows latest athlete activity in a page or post.
 11. Activities Shortcode Settings - An example activities shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
+12. Strava Activity Block - Shows the activity block and options with a placeholder image in the editor.
 
 
 == Changelog ==
+
+= 2.3.1 =
+Added Image Only and Display Markers toggles to Activity Block.
 
 = 2.3.0 =
 Renamed LatestActivities classes to ActivitiesList.
