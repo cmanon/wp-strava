@@ -38,9 +38,13 @@ class WPStrava_LatestMap {
 			echo empty( $activity->map ) ?
 				// Translators: Text with activity name shown in place of image if not available.
 				esc_html( sprintf( __( 'Map not available for activity "%s"', 'wp-strava' ), $activity->name ) ) :
-				"<a title='" . esc_attr( $activity->name ) . "' href='" . esc_attr( WPStrava_Activity::ACTIVITIES_URL . $activity->id ) . "'>" .
-				WPStrava_StaticMap::get_image_tag( $activity ) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Image OK.
-				'</a>';
+				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Image OK.
+				$strava_activity->get_activity_link(
+					$activity->id,
+					WPStrava_StaticMap::get_image_tag( $activity, null, null, false, $activity->name ),
+					$activity->name
+				);
+				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 }
