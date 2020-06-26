@@ -13,9 +13,10 @@ class WPStrava_StaticMap {
 	 * @param int     $height   Height of map in pixels.
 	 * @param int     $width    Width of map in pixels.
 	 * @param bool    $markers  Display start and finish markers.
+	 * @param string  $title    Title attribute to accompany image (default empty).
 	 * @return string           HTML img tag with static map image.
 	 */
-	public static function get_image_tag( $activity, $height = 320, $width = 480, $markers = false, $link = true ) {
+	public static function get_image_tag( $activity, $height = 320, $width = 480, $markers = false, $title = '' ) {
 		$key = WPStrava::get_instance()->settings->gmaps_key;
 
 		// Short circuit if missing key or activity object doesn't have the data we need.
@@ -42,7 +43,8 @@ class WPStrava_StaticMap {
 			$url    .= $markers;
 		}
 
-		return "<img class='wp-strava-img' src='{$url}' />";
+		$title_attr = $title ? " title='" . esc_attr( $title ) . "'" : '';
+		return "<img class='wp-strava-img' src='{$url}'{$title_attr} />";
 	}
 
 	/**
