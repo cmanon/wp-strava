@@ -93,14 +93,18 @@ class WPStrava_Settings {
 
 		// Hide Options.
 		register_setting( $this->option_page, 'strava_hide_time', array( $this, 'sanitize_hide_time' ) );
-		add_settings_field( 'strava_hide_time', __( 'Hide Activity Time', 'wp-strava' ), array( $this, 'print_hide_time_input' ), 'wp-strava', 'strava_options' );
+		add_settings_field( 'strava_hide_time', __( 'Time', 'wp-strava' ), array( $this, 'print_hide_time_input' ), 'wp-strava', 'strava_options' );
 		register_setting( $this->option_page, 'strava_hide_elevation', array( $this, 'sanitize_hide_elevation' ) );
-		add_settings_field( 'strava_hide_elevation', __( 'Hide Activity Elevation', 'wp-strava' ), array( $this, 'print_hide_elevation_input' ), 'wp-strava', 'strava_options' );
+		add_settings_field( 'strava_hide_elevation', __( 'Elevation', 'wp-strava' ), array( $this, 'print_hide_elevation_input' ), 'wp-strava', 'strava_options' );
+
+		// No Activity Links.
+		register_setting( $this->option_page, 'strava_no_link', array( $this, 'sanitize_no_link' ) );
+		add_settings_field( 'strava_no_link', __( 'Links', 'wp-strava' ), array( $this, 'print_no_link_input' ), 'wp-strava', 'strava_options' );
 
 		// Clear cache.
 		register_setting( $this->option_page, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
 		add_settings_section( 'strava_cache', __( 'Cache', 'wp-strava' ), null, 'wp-strava' );
-		add_settings_field( 'strava_cache_clear', __( 'Clear cache (images & transient data)', 'wp-strava' ), array( $this, 'print_clear_input' ), 'wp-strava', 'strava_cache' );
+		add_settings_field( 'strava_cache_clear', __( 'Clear cache', 'wp-strava' ), array( $this, 'print_clear_input' ), 'wp-strava', 'strava_cache' );
 	}
 
 	/**
@@ -398,7 +402,8 @@ class WPStrava_Settings {
 	 */
 	public function print_hide_time_input() {
 		?>
-		<input type="checkbox" id="strava_hide_time" name="strava_hide_time" <?php checked( $this->hide_time, 'on' ); ?>/>
+		<label for="strava_hide_time"><input type="checkbox" id="strava_hide_time" name="strava_hide_time" <?php checked( $this->hide_time, 'on' ); ?>/>
+		<?php _e( 'Do not show time on activities', 'wp-strava' ); ?></label>
 		<?php
 	}
 
@@ -425,7 +430,8 @@ class WPStrava_Settings {
 	 */
 	public function print_hide_elevation_input() {
 		?>
-		<input type="checkbox" id="strava_hide_elevation" name="strava_hide_elevation" <?php checked( $this->hide_elevation, 'on' ); ?>/>
+		<label for="strava_hide_elevation"><input type="checkbox" id="strava_hide_elevation" name="strava_hide_elevation" <?php checked( $this->hide_elevation, 'on' ); ?>/>
+		<?php _e( 'Do not show elevation on activities', 'wp-strava' ); ?></label>
 		<?php
 	}
 
@@ -445,6 +451,34 @@ class WPStrava_Settings {
 	}
 
 	/**
+	 * Display the No Links Checkbox.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.3.2
+	 */
+	public function print_no_link_input() {
+		?>
+		<label for="strava_no_link"><input type="checkbox" id="strava_no_link" name="strava_no_link" <?php checked( $this->no_link, 'on' ); ?>/>
+		<?php _e( 'Do not link activities to Strava.com', 'wp-strava' ); ?></label>
+		<?php
+	}
+
+	/**
+	 * Sanitize the No Links Checkbox.
+	 *
+	 * @param string $checked 'on' or null.
+	 * @return string 'on' if checked.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.3.2
+	 */
+	public function sanitize_no_link( $checked ) {
+		if ( 'on' === $checked ) {
+			return $checked;
+		}
+		return null;
+	}
+
+	/**
 	 * Print checkbox option to clear cache.
 	 *
 	 * @author Justin Foell <justin@foell.org>
@@ -452,7 +486,9 @@ class WPStrava_Settings {
 	 */
 	public function print_clear_input() {
 		?>
-		<input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" />
+		<label for="strava_cache_clear"><input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" />
+		<?php _e( 'Clear cached image and transient data', 'wp-strava' ); ?></label>
+		<p class="description"><?php _e( 'To clear cache, check this box and click "Save Changes"' ); ?></p>
 		<?php
 	}
 

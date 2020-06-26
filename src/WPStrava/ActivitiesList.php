@@ -42,8 +42,7 @@ class WPStrava_ActivitiesList {
 		foreach ( $activities as $activity ) {
 			$response .= "<li class='activity'>";
 			$response .= empty( $activity->id ) ?
-				$activity->name :
-				"<a href='" . WPStrava_Activity::ACTIVITIES_URL . $activity->id . "'>" . $activity->name . '</a>';
+				$activity->name : $strava_activity->get_activity_link( $activity->id, $activity->name );
 			$response .= "<div class='activity-item'>";
 
 			if ( ! empty( $activity->start_date_local ) ) {

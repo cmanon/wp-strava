@@ -53,10 +53,13 @@ class WPStrava_ActivityRenderer {
 			$map_width  = str_replace( 'px', '', $map_width );
 			$map_height = str_replace( 'px', '', $map_height );
 
-			$activity_output .= '<a title="' . $activity_details->name . '" href="' . WPStrava_Activity::ACTIVITIES_URL . $activity_details->id . '">' .
-				WPStrava_StaticMap::get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'] ) .
-				'</a>
-			</div>';
+			$activity_output .= $activity->get_activity_link(
+				$activity_details->id,
+				WPStrava_StaticMap::get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'], $activity_details->name ),
+				$activity_details->name
+			);
+
+			$activity_output .= '</div>';
 		} // End if( $activity_details ).
 		return $activity_output;
 	}
