@@ -97,4 +97,23 @@ class WPStrava_Activity {
 
 		return $long_activities;
 	}
+
+	/**
+	 * Conditionally display a link based on settings.
+	 *
+	 * @param int    $activity_id Strava Activity ID
+	 * @param string $text        Text (or HTML) that is the content of link.
+	 * @param string $title       Title attribute (default empty).
+	 * @return void
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.3.2
+	 */
+	public function get_activity_link( $activity_id, $text, $title = '' ) {
+		if ( WPStrava::get_instance()->settings->no_link ) {
+			return $text;
+		}
+		$url        = esc_url( self::ATHLETES_URL . $activity_id );
+		$title_attr = $title ? " title='" . esc_attr( $title ) . "'" : '';
+		return "<a href='{$url}'{$title_attr}>{$text}</a>";
+	}
 }
