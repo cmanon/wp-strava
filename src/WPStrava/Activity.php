@@ -112,7 +112,7 @@ class WPStrava_Activity {
 		if ( WPStrava::get_instance()->settings->no_link ) {
 			return $text;
 		}
-		$url        = esc_url( self::ATHLETES_URL . $activity_id );
+		$url        = esc_url( self::ACTIVITIES_URL . $activity_id );
 		$title_attr = $title ? " title='" . esc_attr( $title ) . "'" : '';
 		return "<a href='{$url}'{$title_attr}>{$text}</a>";
 	}
