@@ -117,7 +117,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 == Changelog ==
 
 = 2.3.2 =
-Added support to not link to activities.
+Added support to not link to activities https://wordpress.org/support/topic/feature-request-make-link-to-activity-optional
 
 = 2.3.1 =
 Added Image Only and Display Markers toggles to Activity Block.
