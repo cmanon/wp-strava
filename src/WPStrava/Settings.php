@@ -305,6 +305,11 @@ class WPStrava_Settings {
 
 			$input = filter_input_array( INPUT_POST, $input_args );
 
+			// All IDs have been removed.
+			if ( empty( $input['strava_id'] ) ) {
+				return array();
+			}
+
 			// Chop $nicknames to same size as ids.
 			$nicknames = array_slice( $nicknames, 0, count( $input['strava_id'] ) );
 

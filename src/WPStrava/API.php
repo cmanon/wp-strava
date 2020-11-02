@@ -136,16 +136,18 @@ class WPStrava_API {
 			throw WPStrava_Exception::from_wp_error( $response );
 		}
 
-		// Try *one* real-time token refresh if 404.
-		if ( $retry && 404 == $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+		// Try *one* real-time token refresh if Unauthorized.
+		if ( $retry && 401 == $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 			$retry = false;
 			$auth  = WPStrava::get_instance()->auth;
 			if ( $auth instanceof WPStrava_AuthRefresh ) {
 				$auth->auth_refresh();
-				return $this->remote_get( $uri, $args );
+				$access_token = $this->get_access_token();
+				if ( $access_token ) {
+					$get_args['headers']['Authorization'] = 'Bearer ' . $access_token;
+				}
+				return $this->remote_get( $uri, $get_args );
 			}
-		} else {
-			$retry = true;
 		}
 
 		if ( 200 != $response['response']['code'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
