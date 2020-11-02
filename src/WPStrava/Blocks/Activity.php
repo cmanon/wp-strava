@@ -5,6 +5,10 @@
 
 class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 
+	public function __construct() {
+		WPStrava_ActivityRenderer::load_style_translations( array( 'wp-strava/activity' ) );
+	}
+
 	/**
 	 * Register the wp-strava/activity block.
 	 *

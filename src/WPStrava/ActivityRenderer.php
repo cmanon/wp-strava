@@ -2,7 +2,7 @@
 /*
  * ActivityRenderer has all the markup for the Activity Block & Shortcode.
  */
-class WPStrava_ActivityRenderer {
+class WPStrava_ActivityRenderer extends WPStrava_StyleTranslationRenderer {
 
 	/**
 	 * Get the HTML for a single activity.
@@ -64,10 +64,19 @@ class WPStrava_ActivityRenderer {
 		return $activity_output;
 	}
 
+	public static function load_style_translations() {
+		self::add_style_translation( 'wp-strava-td-avg-speed', __( 'Average Speed', 'wp-strava' ) );
+		self::add_style_translation( 'wp-strava-td-max-speed', __( 'Max Speed', 'wp-strava' ) );
+		self::add_style_translation( 'wp-strava-td-elevation', __( 'Elevation Gain', 'wp-strava' ) );
+		self::add_style_translation( 'wp-strava-td-elapsed-time', __( 'Elapsed Time', 'wp-strava' ) );
+		self::add_style_translation( 'wp-strava-td-moving-time', __( 'Moving Time', 'wp-strava' ) );
+		self::add_style_translation( 'wp-strava-td-distance', __( 'Distance', 'wp-strava' ) );
+	}
+
 	/**
 	 * The the activity details in in HTML table.
 	 *
-	 * @param string $activity_details Activity details from the activity class.
+	 * @param stdClass $activity_details Activity details from the activity class.
 	 * @param string $som System of measure (english/metric).
 	 * @return string HTML Table of activity details.
 	 * @author Justin Foell <justin@foell.org>
@@ -80,27 +89,42 @@ class WPStrava_ActivityRenderer {
 		$avg_title           = '<th>' . __( 'Average Speed', 'wp-strava' ) . '</th>';
 		$max_title           = '<th>' . __( 'Max Speed', 'wp-strava' ) . '</th>';
 		$elevation_title     = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
+		$elevation           = '<td class="wp-strava-td-elevation">
+									<div class="activity-details-table-info">' . $strava_som->elevation( $activity_details->total_elevation_gain ) . '</div>
+									<div class="activity-details-table-units">' . $strava_som->get_elevation_label() . '</div>
+								</td>';
 		$avg_speed           = '';
 		$max_speed           = '';
-		$elevation           = '<td>' . $strava_som->elevation( $activity_details->total_elevation_gain ) . '</td>';
-		$speed_label         = '';
-		$elevation_label     = '<td>' . $strava_som->get_elevation_label() . '</td>';
 
 		switch ( $strava_activitytype ) {
 			case WPStrava_ActivityType::TYPE_GROUP_PACE:
-				$avg_speed   = '<td>' . $strava_som->pace( $activity_details->average_speed ) . '</td>';
-				$max_speed   = '<td>' . $strava_som->pace( $activity_details->max_speed ) . '</td>';
-				$speed_label = '<td>' . $strava_som->get_pace_label() . '</td>';
+				$avg_speed = '<td class="wp-strava-td-avg-speed">
+								<div class="activity-details-table-info">' . $strava_som->pace( $activity_details->average_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_pace_label() . '</div>
+							</td>';
+				$max_speed = '<td class="wp-strava-td-max-speed">
+								<div>' . $strava_som->pace( $activity_details->max_speed ) . '</div>
+							</td>';
 				break;
 			case WPStrava_ActivityType::TYPE_GROUP_SPEED:
-				$avg_speed   = '<td>' . $strava_som->speed( $activity_details->average_speed ) . '</td>';
-				$max_speed   = '<td>' . $strava_som->speed( $activity_details->max_speed ) . '</td>';
-				$speed_label = '<td>' . $strava_som->get_speed_label() . '</td>';
+				$avg_speed = '<td class="wp-strava-td-avg-speed">
+								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->average_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
+							</td>';
+				$max_speed = '<td class="wp-strava-td-max-speed">
+								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->max_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
+							</td>';
 				break;
 			case WPStrava_ActivityType::TYPE_GROUP_PACE:
-				$avg_speed   = '<td>' . $strava_som->swimpace( $activity_details->average_speed ) . '</td>';
-				$max_speed   = '<td>' . $strava_som->swimpace( $activity_details->max_speed ) . '</td>';
-				$speed_label = '<td>' . $strava_som->get_swimpace_label() . '</td>';
+				$avg_speed = '<td class="wp-strava-td-avg-speed">
+								<div class="activity-details-table-info">' . $strava_som->swimpace( $activity_details->average_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_swimpace_label() . '</div>
+							</td>';
+				$max_speed = '<td class="wp-strava-td-max-speed">
+								<div class="activity-details-table-info">' . $strava_som->swimpace( $activity_details->max_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_swimpace_label() . '</div>
+							</td>';
 				break;
 			default:
 				$avg_title = '';
@@ -109,9 +133,8 @@ class WPStrava_ActivityRenderer {
 		}
 
 		if ( WPStrava::get_instance()->settings->hide_elevation ) {
-			$elevation       = '';
 			$elevation_title = '';
-			$elevation_label = '';
+			$elevation       = '';
 		}
 
 		return '
@@ -127,21 +150,22 @@ class WPStrava_ActivityRenderer {
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="activity-details-table-info">
-						<td>' . $strava_som->time( $activity_details->elapsed_time ) . '</td>
-						<td>' . $strava_som->time( $activity_details->moving_time ) . '</td>
-						<td>' . $strava_som->distance( $activity_details->distance ) . '</td>
+					<tr>
+						<td class="wp-strava-td-elapsed-time">
+							<div class="activity-details-table-info">' . $strava_som->time( $activity_details->elapsed_time ) . '</div>
+							<div class="activity-details-table-units">' . $strava_som->get_time_label() . '</div>
+						</td>
+						<td class="wp-strava-td-moving-time">
+							<div class="activity-details-table-info">' . $strava_som->time( $activity_details->moving_time ) . '</div>
+							<div class="activity-details-table-units">' . $strava_som->get_time_label() . '</div>
+						</td>
+						<td class="wp-strava-td-distance">
+							<div class="activity-details-table-info">' . $strava_som->distance( $activity_details->distance ) . '</div>
+							<div class="activity-details-table-units">' . $strava_som->get_distance_label() . '</div>
+						</td>
 						' . $avg_speed . '
 						' . $max_speed . '
 						' . $elevation . '
-					</tr>
-					<tr class="activity-details-table-units">
-						<td>' . $strava_som->get_time_label() . '</td>
-						<td>' . $strava_som->get_time_label() . '</td>
-						<td>' . $strava_som->get_distance_label() . '</td>
-						' . $speed_label . '
-						' . $speed_label . '
-						' . $elevation_label . '
 					</tr>
 				</tbody>
 			</table>
