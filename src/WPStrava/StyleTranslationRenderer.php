@@ -180,7 +180,7 @@ abstract class WPStrava_StyleTranslationRenderer {
 	}
 
 	/**
-	 * Undocumented function
+	 * Hook into wp_head to print styles (only once).
 	 *
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.4
