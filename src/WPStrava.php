@@ -42,12 +42,6 @@ class WPStrava {
 	private $routes = null;
 
 	/**
-	 * Style Translation object for responsive tables.
-	 * @var WPStrava_StyleTranslations
-	 */
-	private $style_translations = null;
-
-	/**
 	 * Private constructor (singleton).
 	 */
 	private function __construct() {
