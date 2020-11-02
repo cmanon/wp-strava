@@ -102,7 +102,7 @@ class WPStrava_RouteShortcode {
 	/**
 	 * The the route details in in HTML table.
 	 *
-	 * @param string $route_details route details from the route class.
+	 * @param stdClass $route_details route details from the route class.
 	 * @param string $som System of measure (english/metric).
 	 * @return string HTML Table of route details.
 	 * @author Justin Foell <justin@foell.org>

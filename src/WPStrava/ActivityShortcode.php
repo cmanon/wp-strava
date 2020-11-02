@@ -31,7 +31,7 @@ class WPStrava_ActivityShortcode {
 		add_shortcode( 'ride', array( $this, 'handler' ) ); // @deprecated 1.1
 		add_shortcode( 'activity', array( $this, 'handler' ) );
 		add_action( 'wp_footer', array( $this, 'print_scripts' ) );
-		WPStrava_ActivityRenderer::load_shortcode_style_translations( array( 'ride', 'activity' ) );
+		WPStrava_ActivityRenderer::register_shortcode_style_translations( array( 'ride', 'activity' ) );
 		WPStrava_ActivityRenderer::load_style_translations();
 	}
 

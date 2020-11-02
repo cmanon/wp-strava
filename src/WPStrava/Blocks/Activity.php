@@ -6,7 +6,8 @@
 class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 
 	public function __construct() {
-		WPStrava_ActivityRenderer::load_style_translations( array( 'wp-strava/activity' ) );
+		WPStrava_ActivityRenderer::register_block_style_translations( 'wp-strava/activity' );
+		WPStrava_ActivityRenderer::load_style_translations();
 	}
 
 	/**
