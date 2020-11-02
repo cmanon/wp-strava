@@ -122,7 +122,7 @@ class WPStrava_RouteShortcode {
 		}
 
 		return '
-			<table id="activity-details-table">
+			<table class="activity-details-table">
 				<thead>
 					<tr>
 						<th>' . __( 'Est. Moving Time', 'wp-strava' ) . '</th>

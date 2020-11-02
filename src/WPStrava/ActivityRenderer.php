@@ -115,7 +115,7 @@ class WPStrava_ActivityRenderer {
 		}
 
 		return '
-			<table id="activity-details-table">
+			<table class="activity-details-table">
 				<thead>
 					<tr>
 						<th>' . __( 'Elapsed Time', 'wp-strava' ) . '</th>

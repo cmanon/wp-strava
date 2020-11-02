@@ -42,6 +42,12 @@ class WPStrava {
 	private $routes = null;
 
 	/**
+	 * Style Translation object for responsive tables.
+	 * @var WPStrava_StyleTranslations
+	 */
+	private $style_translations = null;
+
+	/**
 	 * Private constructor (singleton).
 	 */
 	private function __construct() {
@@ -78,7 +84,9 @@ class WPStrava {
 
 		if ( is_admin() ) {
 			$this->settings->hook();
-		} else {
+		} else { // Front-end.
+			$this->style_translations = new WPStrava_StyleTranslations();
+			$this->style_translations->hook();
 			add_action( 'init', array( $this, 'register_shortcodes' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 		}

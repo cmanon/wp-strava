@@ -12,15 +12,15 @@
 	display: table;
 	margin: 0 auto;
 }
-#activity-details-table tr td {
+.activity-details-table tr td {
 	padding: 5px;
 }
-#activity-details-table th {
+.activity-details-table th {
 	padding: 5px;
 	text-align: center;
 	font-size: 0.8em;
 }
-#activity-details-table td {
+.activity-details-table td {
 	text-align: center;
 	border: 1px solid #e7e7e7;
 }
