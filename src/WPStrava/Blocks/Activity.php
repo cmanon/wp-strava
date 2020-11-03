@@ -5,11 +5,6 @@
 
 class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 
-	public function __construct() {
-		WPStrava_ActivityRenderer::register_block_style_translations( 'wp-strava/activity' );
-		WPStrava_ActivityRenderer::load_style_translations();
-	}
-
 	/**
 	 * Register the wp-strava/activity block.
 	 *
@@ -43,7 +38,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 		}
 
 		$matches = [];
-		preg_match( "/\/activities\/([0-9].*)$/", $attributes['url'], $matches );
+		preg_match( '/\/activities\/([0-9].*)$/', $attributes['url'], $matches );
 		if ( $matches[1] ) {
 			// Transform from block attributes to shortcode standard.
 			$attributes = array(
