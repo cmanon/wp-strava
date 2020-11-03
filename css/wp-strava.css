@@ -12,15 +12,15 @@
 	display: table;
 	margin: 0 auto;
 }
-#activity-details-table tr td {
+.activity-details-table tr td {
 	padding: 5px;
 }
-#activity-details-table th {
+.activity-details-table th {
 	padding: 5px;
 	text-align: center;
 	font-size: 0.8em;
 }
-#activity-details-table td {
+.activity-details-table td {
 	text-align: center;
 	border: 1px solid #e7e7e7;
 }
@@ -31,4 +31,46 @@
 }
 .activity-details-table-units {
 	font-size: 0.8em;
+}
+
+/* Responsive Tables */
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr {
+		display: block;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	td {
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #e7e7e7;
+		position: relative;
+		padding-left: 50%;
+	}
+
+	td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 5px;
+		left: 5px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+		content: attr(data-label);
+	}
+
+	.activity-details-table-info, .activity-details-table-units {
+		display: inline;
+	}
 }

@@ -38,7 +38,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 		}
 
 		$matches = [];
-		preg_match( "/\/activities\/([0-9].*)$/", $attributes['url'], $matches );
+		preg_match( '/\/activities\/([0-9].*)$/', $attributes['url'], $matches );
 		if ( $matches[1] ) {
 			// Transform from block attributes to shortcode standard.
 			$attributes = array(

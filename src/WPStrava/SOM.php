@@ -36,9 +36,9 @@ abstract class WPStrava_SOM {
 	 * @see https://stackoverflow.com/a/20870843/2146022
 	 */
 	public function time( $seconds ) {
-		$zero    = new DateTime( '@0' );
-		$offset  = new DateTime( "@{$seconds}" );
-		$diff    = $zero->diff( $offset );
+		$zero   = new DateTime( '@0' );
+		$offset = new DateTime( "@{$seconds}" );
+		$diff   = $zero->diff( $offset );
 		return sprintf( '%02d:%02d:%02d', $diff->days * 24 + $diff->h, $diff->i, $diff->s );
 	}
 

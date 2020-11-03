@@ -3,7 +3,7 @@
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
-Tested up to: 5.4
+Tested up to: 5.5
 Stable tag: 2.3.2
 Requires PHP: 5.3
 License: GPLv2 or later
@@ -115,6 +115,10 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 
 == Changelog ==
+
+= 2.4.0 =
+Made activity table responsive https://wordpress.org/support/topic/responsive-strava-activity-table/
+Improve output escaping, documentation, and other coding standards
 
 = 2.3.2 =
 Added support to not link to activities https://wordpress.org/support/topic/feature-request-make-link-to-activity-optional

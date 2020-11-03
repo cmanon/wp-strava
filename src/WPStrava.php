@@ -78,7 +78,7 @@ class WPStrava {
 
 		if ( is_admin() ) {
 			$this->settings->hook();
-		} else {
+		} else { // Front-end.
 			add_action( 'init', array( $this, 'register_shortcodes' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 		}

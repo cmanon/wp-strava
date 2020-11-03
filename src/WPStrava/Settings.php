@@ -236,10 +236,19 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function print_id_input() {
+		$first = true;
 		foreach ( $this->get_all_ids() as $id => $nickname ) {
 			?>
 			<input type="text" name="strava_id[]" value="<?php echo esc_attr( $id ); ?>" />
 			<input type="text" name="strava_nickname[]" value="<?php echo esc_attr( $nickname ); ?>" />
+			<?php
+			if ( $first ) :
+				?>
+				<span class="default-id"><?php esc_html_e( 'Default', 'wp-strava' ); ?></span>
+				<?php
+			endif;
+			$first = false;
+			?>
 			<br/>
 			<?php
 		}
@@ -408,7 +417,7 @@ class WPStrava_Settings {
 	public function print_hide_time_input() {
 		?>
 		<label for="strava_hide_time"><input type="checkbox" id="strava_hide_time" name="strava_hide_time" <?php checked( $this->hide_time, 'on' ); ?>/>
-		<?php _e( 'Do not show time on activities', 'wp-strava' ); ?></label>
+		<?php esc_html_e( 'Do not show time on activities', 'wp-strava' ); ?></label>
 		<?php
 	}
 
@@ -436,7 +445,7 @@ class WPStrava_Settings {
 	public function print_hide_elevation_input() {
 		?>
 		<label for="strava_hide_elevation"><input type="checkbox" id="strava_hide_elevation" name="strava_hide_elevation" <?php checked( $this->hide_elevation, 'on' ); ?>/>
-		<?php _e( 'Do not show elevation on activities', 'wp-strava' ); ?></label>
+		<?php esc_html_e( 'Do not show elevation on activities', 'wp-strava' ); ?></label>
 		<?php
 	}
 
@@ -464,7 +473,7 @@ class WPStrava_Settings {
 	public function print_no_link_input() {
 		?>
 		<label for="strava_no_link"><input type="checkbox" id="strava_no_link" name="strava_no_link" <?php checked( $this->no_link, 'on' ); ?>/>
-		<?php _e( 'Do not link activities to Strava.com', 'wp-strava' ); ?></label>
+		<?php esc_html_e( 'Do not link activities to Strava.com', 'wp-strava' ); ?></label>
 		<?php
 	}
 
@@ -492,8 +501,8 @@ class WPStrava_Settings {
 	public function print_clear_input() {
 		?>
 		<label for="strava_cache_clear"><input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" />
-		<?php _e( 'Clear cached image and transient data', 'wp-strava' ); ?></label>
-		<p class="description"><?php _e( 'To clear cache, check this box and click "Save Changes"' ); ?></p>
+		<?php esc_html_e( 'Clear cached image and transient data', 'wp-strava' ); ?></label>
+		<p class="description"><?php esc_html_e( 'To clear cache, check this box and click "Save Changes"' ); ?></p>
 		<?php
 	}
 
@@ -560,7 +569,7 @@ class WPStrava_Settings {
 	/**
 	 * Get all IDs and their nicknames in one array.
 	 *
-	 * @return void
+	 * @return array Array of IDs and nicknames.
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
@@ -644,7 +653,8 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function save_info( $id, $secret, $info ) {
-		$infos = get_option( 'strava_info', array() );
+		$infos = get_option( 'strava_info' );
+		$infos = empty( $infos ) ? array() : $infos;
 		$infos = array_filter( $infos, array( $this, 'filter_by_id' ), ARRAY_FILTER_USE_KEY ); // Remove old IDs.
 
 		$info->client_secret = $secret;
@@ -661,7 +671,7 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function filter_by_id( $key ) {
-		if ( in_array( $key, $this->ids ) ) {
+		if ( in_array( $key, $this->ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Loose comparison OK.
 			return true;
 		}
 		return false;
