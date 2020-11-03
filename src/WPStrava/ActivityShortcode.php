@@ -31,8 +31,6 @@ class WPStrava_ActivityShortcode {
 		add_shortcode( 'ride', array( $this, 'handler' ) ); // @deprecated 1.1
 		add_shortcode( 'activity', array( $this, 'handler' ) );
 		add_action( 'wp_footer', array( $this, 'print_scripts' ) );
-		WPStrava_ActivityRenderer::register_shortcode_style_translations( array( 'ride', 'activity' ) );
-		WPStrava_ActivityRenderer::load_style_translations();
 	}
 
 	/**
@@ -51,7 +49,7 @@ class WPStrava_ActivityShortcode {
 			return __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
 		}
 
-		$this->add_script = WPStrava_ActivityRenderer::has_shortcode( array( 'ride', 'activity' ) );
+		$this->add_script = true;
 
 		$renderer = new WPStrava_ActivityRenderer();
 		return $renderer->get_html( $atts );
