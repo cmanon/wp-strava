@@ -2,7 +2,7 @@
 /*
  * ActivityRenderer has all the markup for the Activity Block & Shortcode.
  */
-class WPStrava_ActivityRenderer extends WPStrava_StyleTranslationRenderer {
+class WPStrava_ActivityRenderer {
 
 	/**
 	 * Get the HTML for a single activity.
@@ -64,15 +64,6 @@ class WPStrava_ActivityRenderer extends WPStrava_StyleTranslationRenderer {
 		return $activity_output;
 	}
 
-	public static function load_style_translations() {
-		self::add_style_translation( 'wp-strava-td-avg-speed', __( 'Average Speed', 'wp-strava' ) );
-		self::add_style_translation( 'wp-strava-td-max-speed', __( 'Max Speed', 'wp-strava' ) );
-		self::add_style_translation( 'wp-strava-td-elevation', __( 'Elevation Gain', 'wp-strava' ) );
-		self::add_style_translation( 'wp-strava-td-elapsed-time', __( 'Elapsed Time', 'wp-strava' ) );
-		self::add_style_translation( 'wp-strava-td-moving-time', __( 'Moving Time', 'wp-strava' ) );
-		self::add_style_translation( 'wp-strava-td-distance', __( 'Distance', 'wp-strava' ) );
-	}
-
 	/**
 	 * The the activity details in in HTML table.
 	 *
@@ -89,7 +80,7 @@ class WPStrava_ActivityRenderer extends WPStrava_StyleTranslationRenderer {
 		$avg_title           = '<th>' . __( 'Average Speed', 'wp-strava' ) . '</th>';
 		$max_title           = '<th>' . __( 'Max Speed', 'wp-strava' ) . '</th>';
 		$elevation_title     = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
-		$elevation           = '<td class="wp-strava-td-elevation">
+		$elevation           = '<td data-label="' . __( 'Elevation Gain', 'wp-strava' ) . '">
 									<div class="activity-details-table-info">' . $strava_som->elevation( $activity_details->total_elevation_gain ) . '</div>
 									<div class="activity-details-table-units">' . $strava_som->get_elevation_label() . '</div>
 								</td>';
@@ -98,30 +89,30 @@ class WPStrava_ActivityRenderer extends WPStrava_StyleTranslationRenderer {
 
 		switch ( $strava_activitytype ) {
 			case WPStrava_ActivityType::TYPE_GROUP_PACE:
-				$avg_speed = '<td class="wp-strava-td-avg-speed">
+				$avg_speed = '<td data-label="' . __( 'Average Speed', 'wp-strava' ) . '">
 								<div class="activity-details-table-info">' . $strava_som->pace( $activity_details->average_speed ) . '</div>
 								<div class="activity-details-table-units">' . $strava_som->get_pace_label() . '</div>
 							</td>';
-				$max_speed = '<td class="wp-strava-td-max-speed">
+				$max_speed = '<td data-label="' . __( 'Max Speed', 'wp-strava' ) . '">
 								<div>' . $strava_som->pace( $activity_details->max_speed ) . '</div>
 							</td>';
 				break;
 			case WPStrava_ActivityType::TYPE_GROUP_SPEED:
-				$avg_speed = '<td class="wp-strava-td-avg-speed">
+				$avg_speed = '<td data-label="' . __( 'Average Speed', 'wp-strava' ) . '">
 								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->average_speed ) . '</div>
 								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
 							</td>';
-				$max_speed = '<td class="wp-strava-td-max-speed">
+				$max_speed = '<td data-label="' . __( 'Max Speed', 'wp-strava' ) . '">
 								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->max_speed ) . '</div>
 								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
 							</td>';
 				break;
 			case WPStrava_ActivityType::TYPE_GROUP_PACE:
-				$avg_speed = '<td class="wp-strava-td-avg-speed">
+				$avg_speed = '<td data-label="' . __( 'Average Speed', 'wp-strava' ) . '">
 								<div class="activity-details-table-info">' . $strava_som->swimpace( $activity_details->average_speed ) . '</div>
 								<div class="activity-details-table-units">' . $strava_som->get_swimpace_label() . '</div>
 							</td>';
-				$max_speed = '<td class="wp-strava-td-max-speed">
+				$max_speed = '<td data-label="' . __( 'Max Speed', 'wp-strava' ) . '">
 								<div class="activity-details-table-info">' . $strava_som->swimpace( $activity_details->max_speed ) . '</div>
 								<div class="activity-details-table-units">' . $strava_som->get_swimpace_label() . '</div>
 							</td>';
@@ -151,15 +142,15 @@ class WPStrava_ActivityRenderer extends WPStrava_StyleTranslationRenderer {
 				</thead>
 				<tbody>
 					<tr>
-						<td class="wp-strava-td-elapsed-time">
+						<td data-label="' . __( 'Elapsed Time', 'wp-strava' ) . '">
 							<div class="activity-details-table-info">' . $strava_som->time( $activity_details->elapsed_time ) . '</div>
 							<div class="activity-details-table-units">' . $strava_som->get_time_label() . '</div>
 						</td>
-						<td class="wp-strava-td-moving-time">
+						<td data-label="' . __( 'Moving Time', 'wp-strava' ) . '">
 							<div class="activity-details-table-info">' . $strava_som->time( $activity_details->moving_time ) . '</div>
 							<div class="activity-details-table-units">' . $strava_som->get_time_label() . '</div>
 						</td>
-						<td class="wp-strava-td-distance">
+						<td data-label="' . __( 'Distance', 'wp-strava' ) . '">
 							<div class="activity-details-table-info">' . $strava_som->distance( $activity_details->distance ) . '</div>
 							<div class="activity-details-table-units">' . $strava_som->get_distance_label() . '</div>
 						</td>
