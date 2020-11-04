@@ -22,9 +22,6 @@ class WPStrava_Settings {
 	 * @since  0.62
 	 */
 	public function hook() {
-		// Load IDs for any subsequent actions.
-		$this->ids = $this->get_ids();
-
 		add_action( 'admin_init', array( $this, 'register_strava_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_strava_menu' ) );
 		add_filter( 'plugin_action_links_' . WPSTRAVA_PLUGIN_NAME, array( $this, 'settings_link' ) );
@@ -59,7 +56,8 @@ class WPStrava_Settings {
 
 		$this->adding_athlete = $this->is_adding_athlete();
 
-		if ( $this->ids_empty( $this->ids ) ) {
+		$ids = $this->get_ids();
+		if ( $this->ids_empty( $ids ) ) {
 			register_setting( $this->option_page, 'strava_client_id', array( $this, 'sanitize_client_id' ) );
 			register_setting( $this->option_page, 'strava_client_secret', array( $this, 'sanitize_client_secret' ) );
 			register_setting( $this->option_page, 'strava_nickname', array( $this, 'sanitize_nickname' ) );
@@ -221,7 +219,7 @@ class WPStrava_Settings {
 	 * @since  1.2.0
 	 */
 	public function print_nickname_input() {
-		$nickname = $this->ids_empty( $this->ids ) ? __( 'Default', 'wp-strava' ) : '';
+		$nickname = $this->ids_empty( $this->get_ids() ) ? __( 'Default', 'wp-strava' ) : '';
 		?>
 		<input type="text" name="strava_nickname[]" value="<?php echo esc_attr( $nickname ); ?>" />
 		<?php
@@ -540,6 +538,10 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function get_ids() {
+		if ( $this->ids ) {
+			return $this->ids;
+		}
+
 		$ids = get_option( 'strava_id' );
 		if ( ! is_array( $ids ) ) {
 			$ids = array( $ids );
@@ -551,7 +553,8 @@ class WPStrava_Settings {
 				$ids = array_values( $ids ); // Rebase array keys after unset @see https://stackoverflow.com/a/5943165/2146022
 			}
 		}
-		return $ids;
+		$this->ids = $ids;
+		return $this->ids;
 	}
 
 	/**
@@ -637,6 +640,7 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function add_id( $id ) {
+		$this->get_ids();
 		if ( false === array_search( $id, $this->ids, true ) ) {
 			$this->ids[] = $id;
 			update_option( 'strava_id', $this->ids );
@@ -671,7 +675,8 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function filter_by_id( $key ) {
-		if ( in_array( $key, $this->ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Loose comparison OK.
+		$ids = $this->get_ids();
+		if ( in_array( $key, $ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Loose comparison OK.
 			return true;
 		}
 		return false;
