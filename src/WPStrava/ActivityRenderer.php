@@ -59,6 +59,10 @@ class WPStrava_ActivityRenderer {
 				$activity_details->name
 			);
 
+			if ( ! empty( $activity_details->description ) ) {
+				$activity_output .= '<div class="wp-strava-activity-description">' . esc_html( $activity_details->description ) . '</div>';
+			}
+
 			$activity_output .= '</div>';
 		} // End if( $activity_details ).
 		return $activity_output;
