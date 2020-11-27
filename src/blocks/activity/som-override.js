@@ -24,7 +24,7 @@ export default function SOMOverride( {
 				<p className="block-editor-som-control-row">
 						{ __( 'System of Measure (override from settings)' ) }
 				</p>
-				<div className="block-editor-image-size-control-row">
+				<div className="block-editor-som-control-row">
 					<ButtonGroup aria-label={ __( 'System of Measure', 'wp-strava' ) }>
 						<Button
 							key={ 'english' }
