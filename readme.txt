@@ -119,7 +119,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 = 2.5.0 =
 Fix missing translation domain on "Save Changes" in settings. https://wordpress.org/support/topic/small-fix-in-settings-php-function-print_clear_input
 Refined styles for responsive tables https://wordpress.org/support/topic/responsive-strava-activity-table/
-Add description under image (if set) https://wordpress.org/support/topic/show-activity-description/
+Add activity description under image (if set) https://wordpress.org/support/topic/show-activity-description/
 
 
 = 2.4.0 =
