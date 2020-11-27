@@ -1,6 +1,7 @@
 /* global wp, wpStrava */
 import EmbedPlaceholder from './embed-placeholder';
 import EmbedControls from './embed-controls';
+import SOMOverride from './som-override';
 
 const { __ } = wp.i18n;
 const { Component } = wp.element;
@@ -97,6 +98,9 @@ class Edit extends Component {
 							label={ __( 'Display Markers' ) }
 							checked={ displayMarkers }
 							onChange={ (checked ) => this.toggleDisplayMarkers( checked ) }
+						/>
+						<SOMOverride
+							onChange={ ( value ) => this.props.setAttributes( { som: value } ) }
 						/>
 					</PanelBody>
 				</InspectorControls>

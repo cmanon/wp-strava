@@ -18,7 +18,11 @@ registerBlockType( 'wp-strava/activity', {
 		displayMarkers: {
 			type: 'boolean',
 			default: false,
-		}
+		},
+		som: {
+			type: 'string',
+			default: null,
+		},
 	},
 	edit,
 	save: () => null,
