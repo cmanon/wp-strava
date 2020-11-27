@@ -28,6 +28,20 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 				'editor_style'    => 'wp-strava-block-editor',
 				'editor_script'   => 'wp-strava-block',
 				'render_callback' => array( $this, 'render_block' ),
+				'attributes'      => array(
+					'url'            => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'imageOnly'      => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+					'displayMarkers' => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+				),
 			)
 		);
 		add_action( 'wp_footer', array( $this, 'print_scripts' ) );
