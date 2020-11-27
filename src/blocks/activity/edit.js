@@ -7,6 +7,7 @@ const { Component } = wp.element;
 const { InspectorControls } = wp.editor;
 const { PanelBody, ToggleControl } = wp.components;
 const { isEmpty } = lodash;
+const { serverSideRender: ServerSideRender } = wp;
 
 
 /**
@@ -83,7 +84,14 @@ class Edit extends Component {
 				<EmbedControls
 					switchBackToURLInput={ this.switchBackToURLInput }
 				/>
-				<img className="wp-strava-img" src={placeholderActivityImg} />
+				<ServerSideRender
+					block="wp-strava/activity"
+					attributes={ {
+						url: url,
+						imageOnly: imageOnly,
+						displayMarkers: displayMarkers,
+					} }
+				/>
 				<InspectorControls>
 					<PanelBody
 						title={ __( 'Display Options' ) }
