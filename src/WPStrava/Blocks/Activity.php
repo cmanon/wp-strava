@@ -6,6 +6,15 @@
 class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 
 	/**
+	 * Whether or not to enqueue styles (if shortcode is present).
+	 *
+	 * @var boolean
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.5.0
+	 */
+	private $add_script = false;
+
+	/**
 	 * Register the wp-strava/activity block.
 	 *
 	 * @author Justin Foell <justin@foell.org>
@@ -21,6 +30,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 				'render_callback' => array( $this, 'render_block' ),
 			)
 		);
+		add_action( 'wp_footer', array( $this, 'print_scripts' ) );
 	}
 
 	/**
@@ -37,6 +47,8 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 			return $content;
 		}
 
+		$this->add_script = true;
+
 		$matches = [];
 		preg_match( '/\/activities\/([0-9].*)$/', $attributes['url'], $matches );
 		if ( $matches[1] ) {
@@ -51,5 +63,17 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 			return $renderer->get_html( $attributes );
 		}
 		return $content;
+	}
+
+	/**
+	 * Enqueue style if shortcode is being used.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.5.0
+	 */
+	public function print_scripts() {
+		if ( $this->add_script ) {
+			wp_enqueue_style( 'wp-strava-style' );
+		}
 	}
 }
