@@ -500,7 +500,7 @@ class WPStrava_Settings {
 		?>
 		<label for="strava_cache_clear"><input type="checkbox" id="strava_cache_clear" name="strava_cache_clear" />
 		<?php esc_html_e( 'Clear cached image and transient data', 'wp-strava' ); ?></label>
-		<p class="description"><?php esc_html_e( 'To clear cache, check this box and click "Save Changes"' ); ?></p>
+		<p class="description"><?php esc_html_e( 'To clear cache, check this box and click "Save Changes"', 'wp-strava' ); ?></p>
 		<?php
 	}
 

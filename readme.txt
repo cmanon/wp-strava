@@ -74,7 +74,7 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 
 == Frequently Asked Questions ==
 
-= Why do I see someone else's activity when embedding a Strava Activity block? =
+= Why do I see someone else's activity in the editor when embedding a Strava Activity block? =
 
 The image you see in the editor is a static placeholder image to give an approximation of what your activity map will look like. You won't see your actual activity map until you view the page or post.
 
@@ -115,6 +115,10 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 
 == Changelog ==
+
+= 2.5.0 =
+Fix missing translation domain on "Save Changes" in settings. https://wordpress.org/support/topic/small-fix-in-settings-php-function-print_clear_input
+
 
 = 2.4.0 =
 Made activity table responsive https://wordpress.org/support/topic/responsive-strava-activity-table/
