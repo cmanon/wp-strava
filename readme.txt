@@ -118,6 +118,7 @@ Fix missing translation domain on "Save Changes" in settings. https://wordpress.
 Refined styles for responsive tables https://wordpress.org/support/topic/responsive-strava-activity-table/
 Add activity description under image (if set) https://wordpress.org/support/topic/show-activity-description/
 Add preview of activity in the block editor using server-side render
+Add System of Measure override in Activity Block display options
 
 
 = 2.4.0 =

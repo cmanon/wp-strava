@@ -41,6 +41,10 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 						'type'    => 'boolean',
 						'default' => false,
 					),
+					'som'            => array(
+						'type'    => 'string',
+						'default' => null,
+					),
 				),
 			)
 		);
@@ -68,9 +72,10 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 		if ( $matches[1] ) {
 			// Transform from block attributes to shortcode standard.
 			$attributes = array(
+				'id'         => $matches[1],
 				'image_only' => isset( $attributes['imageOnly'] ) ? $attributes['imageOnly'] : false,
 				'markers'    => isset( $attributes['displayMarkers'] ) ? $attributes['displayMarkers'] : false,
-				'id'         => $matches[1],
+				'som'        => ! empty( $attributes['som'] ) ? $attributes['som'] : null,
 			);
 
 			$renderer = new WPStrava_ActivityRenderer();
