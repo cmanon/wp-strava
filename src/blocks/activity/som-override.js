@@ -20,11 +20,11 @@ export default function SOMOverride( {
 
 	return (
 		<>
-			<div className="block-editor-som-control">
-				<p className="block-editor-som-control-row">
+			<div className="wp-block-wp-strava-som-control">
+				<p className="wp-block-wp-strava-som-control-row">
 						{ __( 'System of Measure (override from settings)' ) }
 				</p>
-				<div className="block-editor-som-control-row">
+				<div className="wp-block-wp-strava-som-control-row">
 					<ButtonGroup aria-label={ __( 'System of Measure', 'wp-strava' ) }>
 						<Button
 							key={ 'english' }
