@@ -9,14 +9,6 @@ const { PanelBody, ToggleControl } = wp.components;
 const { isEmpty } = lodash;
 const { serverSideRender: ServerSideRender } = wp;
 
-
-/**
- * Localized Data.
- */
-const {
-	placeholderActivityImg,
-} = wpStrava;
-
 class Edit extends Component {
 
 	constructor() {

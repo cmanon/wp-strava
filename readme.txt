@@ -74,13 +74,9 @@ Strava Latest Map - shows map of latest activity with option to limit latest map
 
 == Frequently Asked Questions ==
 
-= Why do I see someone else's activity in the editor when embedding a Strava Activity block? =
-
-The image you see in the editor is a static placeholder image to give an approximation of what your activity map will look like. You won't see your actual activity map until you view the page or post.
-
 = Why am I getting "ERROR 401 Unauthorized"? =
 
-When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as client_id=17791. If you've recently had to re-authorize with Strava, your athlete token may have changed and will need to be updated in your shortcodes and widgets. For widgets, re-select the athlete you'd like to display and click Save.
+When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as client_id=17791.
 
 
 = Why is my Google Map not showing up? =
@@ -117,29 +113,39 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 == Changelog ==
 
 = 2.5.0 =
+
 Fix missing translation domain on "Save Changes" in settings. https://wordpress.org/support/topic/small-fix-in-settings-php-function-print_clear_input
 Refined styles for responsive tables https://wordpress.org/support/topic/responsive-strava-activity-table/
 Add activity description under image (if set) https://wordpress.org/support/topic/show-activity-description/
+Add preview of activity in the block editor using server-side render
 
 
 = 2.4.0 =
+
 Made activity table responsive https://wordpress.org/support/topic/responsive-strava-activity-table/
 Fixed issue when reauthorization erases access tokens https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
 Improve output escaping, documentation, and other coding standards
 
+
 = 2.3.2 =
+
 Added support to not link to activities https://wordpress.org/support/topic/feature-request-make-link-to-activity-optional
 
+
 = 2.3.1 =
+
 Added Image Only and Display Markers toggles to Activity Block.
 
+
 = 2.3.0 =
+
 Renamed LatestActivities classes to ActivitiesList.
 Added exception handling to authorization process.
 Added date_start and date_end to [activities] short code https://wordpress.org/support/topic/activities-shortcode-for-date-range/
 
 
 = 2.2.0 =
+
 Added rudimentary gutenberg block for single Activity.
 Changed all Strava links to HTTPS.
 Moved PHP classes from includes/ to src/.
