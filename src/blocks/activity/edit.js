@@ -1,6 +1,7 @@
 /* global wp, wpStrava */
 import EmbedPlaceholder from './embed-placeholder';
 import EmbedControls from './embed-controls';
+import SOMOverride from './som-override';
 
 const { __ } = wp.i18n;
 const { Component } = wp.element;
@@ -17,11 +18,13 @@ class Edit extends Component {
 		this.switchBackToURLInput = this.switchBackToURLInput.bind( this );
 		this.toggleImageOnly      = this.toggleImageOnly.bind( this );
 		this.toggleDisplayMarkers = this.toggleDisplayMarkers.bind( this );
+		this.overrideSOM          = this.overrideSOM.bind( this );
 
 		this.state = {
 			url: this.props.attributes.url,
 			imageOnly: this.props.attributes.imageOnly,
 			displayMarkers: this.props.attributes.displayMarkers,
+			som: this.props.attributes.som,
 			editingURL: isEmpty( this.props.attributes.url ) ? true : false,
 		};
 	}
@@ -48,12 +51,18 @@ class Edit extends Component {
 		this.props.setAttributes( { displayMarkers: checked } );
 	}
 
+	overrideSOM( newSOM ) {
+		this.setState( { som: newSOM } );
+		this.props.setAttributes( { som: newSOM } );
+	}
+
 	render() {
 		const {
 			url,
 			editingURL,
 			imageOnly,
 			displayMarkers,
+			som
 		} = this.state;
 
 		// Newly inserted block or we've clicked the edit button.
@@ -82,6 +91,7 @@ class Edit extends Component {
 						url: url,
 						imageOnly: imageOnly,
 						displayMarkers: displayMarkers,
+						som: som,
 					} }
 				/>
 				<InspectorControls>
@@ -97,6 +107,10 @@ class Edit extends Component {
 							label={ __( 'Display Markers' ) }
 							checked={ displayMarkers }
 							onChange={ (checked ) => this.toggleDisplayMarkers( checked ) }
+						/>
+						<SOMOverride
+							onChange={ ( value ) => this.overrideSOM( value ) }
+							som={ som }
 						/>
 					</PanelBody>
 				</InspectorControls>
