@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "@wordpress/scripts": "6.1.0"
+  },
+  "dependencies": {
+    "@wordpress/server-side-render": "^1.19.1"
   }
 }
