@@ -1,4 +1,5 @@
-@CHARSET "UTF-8";
+@charset "UTF-8";
+
 .activity-item:before {
 	content: "";
 	width: 16px;
