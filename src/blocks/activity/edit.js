@@ -1,9 +1,6 @@
 /* global wp, wpStrava */
 import EmbedPlaceholder from './embed-placeholder';
 import EmbedControls from './embed-controls';
-// import SOMOverride from './som-override';
-
-import ServerSideRender from '@wordpress/server-side-render';
 
 const { __ } = wp.i18n;
 const { Component } = wp.element;
