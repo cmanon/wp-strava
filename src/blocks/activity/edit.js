@@ -5,9 +5,8 @@ import EmbedControls from './embed-controls';
 const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { InspectorControls } = wp.editor;
-const { PanelBody, ToggleControl } = wp.components;
+const { PanelBody, ToggleControl, ServerSideRender } = wp.components;
 const { isEmpty } = lodash;
-const { serverSideRender: ServerSideRender } = wp;
 
 class Edit extends Component {
 
