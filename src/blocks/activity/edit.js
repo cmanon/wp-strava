@@ -8,7 +8,7 @@ import ServerSideRender from '@wordpress/server-side-render';
 const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { InspectorControls } = wp.editor;
-const { PanelBody, ToggleControl, Button, ButtonGroup } = wp.components;
+const { PanelBody, ToggleControl, ServerSideRender, Button, ButtonGroup } = wp.components;
 const { isEmpty } = lodash;
 
 class Edit extends Component {
