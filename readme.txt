@@ -116,6 +116,9 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 = Unreleased =
 
 Fix latest_map class replacing echo with return https://wordpress.org/support/topic/latest-activity-map-shortcode-wrong-placed-on-page/
+Fix styling on pace activity max speed.
+Fix broken water pace on activity.
+Fix pace types and remove 'other' - making 'speed' default.
 
 = 2.5.0 =
 
