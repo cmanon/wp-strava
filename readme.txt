@@ -24,7 +24,7 @@ Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default
 
 Strava Activity  - embed an activity in any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
 
-Paste in the full activity URL from Strava, such as https://www.strava.com/activities/1793155844 and click "Embed." The preview map shown in the editor is a static sample image, the actual activity map will be displayed on the front-end. In the side-panel you can selection options to show the image only (without the details table) and to display markers at the start & finish points.
+Paste in the full activity URL from Strava, such as https://www.strava.com/activities/1793155844 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can selection options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
 = Shortcodes =
 
