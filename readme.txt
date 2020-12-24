@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.5
-Stable tag: 2.5.0
+Stable tag: 2.5.1
 Requires PHP: 5.3
 License: GPLv2 or later
 
