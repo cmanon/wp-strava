@@ -109,11 +109,22 @@ class WPStrava_Activity {
 	 * @since  2.3.2
 	 */
 	public function get_activity_link( $activity_id, $text, $title = '' ) {
-		if ( WPStrava::get_instance()->settings->no_link ) {
+		if ( $this->is_rest_request() || WPStrava::get_instance()->settings->no_link ) {
 			return $text;
 		}
 		$url        = esc_url( self::ACTIVITIES_URL . $activity_id );
 		$title_attr = $title ? " title='" . esc_attr( $title ) . "'" : '';
 		return "<a href='{$url}'{$title_attr}>{$text}</a>";
+	}
+
+	/**
+	 * Check if rest request to skip link rendering in block editor.
+	 *
+	 * @return boolean
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.5.1
+	 */
+	private function is_rest_request() {
+		return defined( 'REST_REQUEST' ) && REST_REQUEST;
 	}
 }
