@@ -112,6 +112,11 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
+
+= Unreleased =
+
+Fix latest_map class replacing echo with return https://wordpress.org/support/topic/latest-activity-map-shortcode-wrong-placed-on-page/
+
 = 2.5.0 =
 
 Fix missing translation domain on "Save Changes" in settings. https://wordpress.org/support/topic/small-fix-in-settings-php-function-print_clear_input

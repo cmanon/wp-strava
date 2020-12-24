@@ -1,7 +1,20 @@
 <?php
 
+/**
+ * LatestMap class
+ *
+ * @since 2.1.0
+ */
 class WPStrava_LatestMap {
 
+	/**
+	 * Returns Latest Map HTML.
+	 *
+	 * @param array $args
+	 * @return string HTML with static map image.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.1.0
+	 */
 	public static function get_map_html( $args ) {
 		$defaults = array(
 			'client_id'      => WPStrava::get_instance()->settings->get_default_id(),
@@ -35,7 +48,7 @@ class WPStrava_LatestMap {
 
 			$activity = current( $activities );
 
-			echo empty( $activity->map ) ?
+			return empty( $activity->map ) ?
 				// Translators: Text with activity name shown in place of image if not available.
 				esc_html( sprintf( __( 'Map not available for activity "%s"', 'wp-strava' ), $activity->name ) ) :
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Image OK.
