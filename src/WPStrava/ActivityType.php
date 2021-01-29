@@ -1,6 +1,6 @@
 <?php
 /**
- * ActivityType  [activitytype].
+ * ActivityType [activitytype].
  * @package WPStrava
  */
 
@@ -45,22 +45,18 @@ class WPStrava_ActivityType {
 	const TYPE_WORKOUT         = 'Workout';
 	const TYPE_YOGA            = 'Yoga';
 
-	const TYPE_DEFAULT = self::TYPE_RIDE;
-
-	private static $water_types = array( self::TYPE_SWIM );
 	private static $pace_types  = array( self::TYPE_CANOEING, self::TYPE_HIKE, self::TYPE_RUN, self::TYPE_SNOWSHOE, self::TYPE_VIRTUALRUN, self::TYPE_WALK );
-	private static $speed_types = array( self::TYPE_ALPINESKI, self::TYPE_BACKCOUNTRYSKI, self::TYPE_EBIKERIDE, self::TYPE_ELLIPTICAL, self::TYPE_HANDCYCLE, self::TYPE_ICESKATE, self::TYPE_INLINESKATE, self::TYPE_KAYAKING, self::TYPE_KITESURF, self::TYPE_NORDICSKI, self::TYPE_RIDE, self::TYPE_ROCKCLIMBING, self::TYPE_ROLLERSKI, self::TYPE_ROWING, self::TYPE_SNOWBOARD, self::TYPE_STAIRSTEPPER, self::TYPE_STANDUPPADDLING, self::TYPE_SURFING, self::TYPE_VIRTUALRIDE, self::TYPE_WHEELCHAIR, self::TYPE_WINDSURF );
+	private static $water_types = array( self::TYPE_SWIM );
 
-	const TYPE_GROUP_WATER = 'water';
 	const TYPE_GROUP_PACE  = 'pace';
+	const TYPE_GROUP_WATER = 'water';
 	const TYPE_GROUP_SPEED = 'speed';
-	const TYPE_GROUP_OTHER = 'other';
 
 	/**
-	 * Get the type of activity.
+	 * Get the type of activity - defaults to 'speed'.
 	 *
 	 * @param string $type Type provided by Strava.
-	 * @return string Type group (water/pace/speed/other).
+	 * @return string Type group (pace/water/speed).
 	 * @author Sebastian Erb <mail@sebastianerb.com>
 	 * @since  1.7.0
 	 */
@@ -70,15 +66,11 @@ class WPStrava_ActivityType {
 			return self::TYPE_GROUP_PACE;
 		}
 
-		if ( in_array( $type, self::$speed_types, true ) ) {
-			return self::TYPE_GROUP_SPEED;
-		}
-
 		if ( in_array( $type, self::$water_types, true ) ) {
 			return self::TYPE_GROUP_WATER;
 		}
 
-		return self::TYPE_GROUP_OTHER;
+		return self::TYPE_GROUP_SPEED;
 	}
 
 }

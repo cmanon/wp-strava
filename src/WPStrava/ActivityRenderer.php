@@ -98,20 +98,11 @@ class WPStrava_ActivityRenderer {
 								<div class="activity-details-table-units">' . $strava_som->get_pace_label() . '</div>
 							</td>';
 				$max_speed = '<td data-label="' . __( 'Max Speed', 'wp-strava' ) . '">
-								<div>' . $strava_som->pace( $activity_details->max_speed ) . '</div>
+								<div class="activity-details-table-info">' . $strava_som->pace( $activity_details->max_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_pace_label() . '</div>
 							</td>';
 				break;
-			case WPStrava_ActivityType::TYPE_GROUP_SPEED:
-				$avg_speed = '<td data-label="' . __( 'Average Speed', 'wp-strava' ) . '">
-								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->average_speed ) . '</div>
-								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
-							</td>';
-				$max_speed = '<td data-label="' . __( 'Max Speed', 'wp-strava' ) . '">
-								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->max_speed ) . '</div>
-								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
-							</td>';
-				break;
-			case WPStrava_ActivityType::TYPE_GROUP_PACE:
+			case WPStrava_ActivityType::TYPE_GROUP_WATER:
 				$avg_speed = '<td data-label="' . __( 'Average Speed', 'wp-strava' ) . '">
 								<div class="activity-details-table-info">' . $strava_som->swimpace( $activity_details->average_speed ) . '</div>
 								<div class="activity-details-table-units">' . $strava_som->get_swimpace_label() . '</div>
@@ -121,9 +112,16 @@ class WPStrava_ActivityRenderer {
 								<div class="activity-details-table-units">' . $strava_som->get_swimpace_label() . '</div>
 							</td>';
 				break;
+			case WPStrava_ActivityType::TYPE_GROUP_SPEED:
 			default:
-				$avg_title = '';
-				$max_title = '';
+				$avg_speed = '<td data-label="' . __( 'Average Speed', 'wp-strava' ) . '">
+								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->average_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
+							</td>';
+				$max_speed = '<td data-label="' . __( 'Max Speed', 'wp-strava' ) . '">
+								<div class="activity-details-table-info">' . $strava_som->speed( $activity_details->max_speed ) . '</div>
+								<div class="activity-details-table-units">' . $strava_som->get_speed_label() . '</div>
+							</td>';
 				break;
 		}
 
