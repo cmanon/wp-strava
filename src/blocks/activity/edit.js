@@ -69,7 +69,7 @@ class Edit extends Component {
 			return (
 				<EmbedPlaceholder
 					icon="chart-line"
-					label="Strava Activity"
+					label={ __( 'Strava Activity', 'wp-strava' ) }
 					instructions={ __(
 						'Paste a link to the Strava Activity you want to display on your site.',
 						'wp-strava'
@@ -100,15 +100,15 @@ class Edit extends Component {
 				/>
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Display Options' ) }
+						title={ __( 'Display Options', 'wp-strava' ) }
 					>
 						<ToggleControl
-							label={ __( 'Image Only' ) }
+							label={ __( 'Image Only', 'wp-strava' ) }
 							checked={ imageOnly }
 							onChange={ ( checked ) => this.toggleImageOnly( checked ) }
 						/>
 						<ToggleControl
-							label={ __( 'Display Markers' ) }
+							label={ __( 'Display Markers', 'wp-strava' ) }
 							checked={ displayMarkers }
 							onChange={ (checked ) => this.toggleDisplayMarkers( checked ) }
 						/>
