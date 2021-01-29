@@ -4,7 +4,7 @@ import edit from './edit';
 
 registerBlockType( 'wp-strava/route', {
 	title: 'Strava Route',
-	icon: 'chart-line',
+	icon: 'location-alt',
 	category: 'embed',
 	attributes: {
 		url: {

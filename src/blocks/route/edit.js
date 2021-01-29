@@ -68,7 +68,7 @@ class Edit extends Component {
 		if ( editingURL ) {
 			return (
 				<EmbedPlaceholder
-					icon="chart-line"
+					icon="location-alt"
 					label={ __( 'Strava Route', 'wp-strava' ) }
 					instructions={ __(
 						'Paste a link to the Strava Route you want to display on your site.',
