@@ -63,6 +63,17 @@ class WPStrava {
 	}
 
 	/**
+	 * Check if rest request to skip link rendering in block editor.
+	 *
+	 * @return boolean
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.6.0
+	 */
+	public static function is_rest_request() {
+		return defined( 'REST_REQUEST' ) && REST_REQUEST;
+	}
+
+	/**
 	 * Function to install hooks at WP runtime.
 	 *
 	 * @author Justin Foell <justin@foell.org>
@@ -188,7 +199,10 @@ class WPStrava {
 	 * @see https://wordpress.org/gutenberg/handbook/blocks/writing-your-first-block-type/#enqueuing-block-scripts
 	 */
 	public function register_blocks() {
-		static $blocks = array( 'WPStrava_Blocks_Activity' );
+		static $blocks = array(
+			'WPStrava_Blocks_Activity',
+			'WPStrava_Blocks_Route',
+		);
 
 		// automatically load dependencies and version
 		$asset_file = include WPSTRAVA_PLUGIN_DIR . 'build/index.asset.php';
