@@ -20,7 +20,7 @@ const EmbedControls = ( props ) => {
 			<BlockControls>
 				<Toolbar>
 					<Button
-						label={ __( 'Edit URL' ) }
+						label={ __( 'Edit URL', 'wp-strava' ) }
 						onClick={ switchBackToURLInput }
 					>
 						<Icon icon="edit" />

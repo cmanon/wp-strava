@@ -11,6 +11,8 @@ const EmbedPlaceholder = ( props ) => {
 	const {
 		icon,
 		label,
+		instructions,
+		placeholder,
 		value,
 		onSubmit,
 		onChange,
@@ -21,9 +23,7 @@ const EmbedPlaceholder = ( props ) => {
 			icon={ <BlockIcon icon={ icon } showColors /> }
 			label={ label }
 			className="wp-block-embed"
-			instructions={ __(
-				'Paste a link to the Strava Activity you want to display on your site.'
-			) }
+			instructions={ instructions }
 		>
 			<form onSubmit={ onSubmit }>
 				<input
@@ -31,11 +31,11 @@ const EmbedPlaceholder = ( props ) => {
 					value={ value || '' }
 					className="components-placeholder__input"
 					aria-label={ label }
-					placeholder={ __( 'Enter Activity URL to embed here…' ) }
+					placeholder={ placeholder }
 					onChange={ onChange }
 				/>
 				<Button isPrimary type="submit">
-					{ _x( 'Embed', 'button label' ) }
+					{ _x( 'Embed', 'button label', 'wp-strava' ) }
 				</Button>
 			</form>
 		</Placeholder>
