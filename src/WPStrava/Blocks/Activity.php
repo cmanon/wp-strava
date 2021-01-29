@@ -85,7 +85,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 	}
 
 	/**
-	 * Enqueue style if shortcode is being used.
+	 * Enqueue style if block is being used.
 	 *
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.5.0
