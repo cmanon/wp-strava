@@ -70,6 +70,11 @@ class Edit extends Component {
 				<EmbedPlaceholder
 					icon="chart-line"
 					label="Strava Activity"
+					instructions={ __(
+						'Paste a link to the Strava Activity you want to display on your site.',
+						'wp-strava'
+					) }
+					placeholder={ __( 'Enter Activity URL to embed here…', 'wp-strava' ) }
 					onSubmit={ this.setUrl }
 					value={ url }
 					onChange={ ( event ) =>
