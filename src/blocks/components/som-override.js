@@ -1,25 +1,33 @@
 /**
  * WordPress dependencies
  */
-import {
-	Button,
-	ButtonGroup,
-} from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
 
-export default function SOMOverride( {
-	som,
-	onChange,
-} ) {
+const { __ } = wp.i18n;
+const { Component } = wp.element;
+const { Button, ButtonGroup } = wp.components;
 
-	function updateSOM( som ) {
-		return () => {
-			onChange( som );
+class SOMOverride extends Component {
+
+	constructor() {
+		super( ...arguments );
+		this.onChange = this.onChange.bind( this );
+
+		this.state = {
+			som: '',
 		};
 	}
 
-	return (
-		<>
+	onChange( event ) {
+		this.setState( { som: event.target.value } );
+		this.props.onChange( event.target.value );
+	}
+
+	render() {
+		const {
+			som
+		} = this.state;
+
+		return (
 			<div className="wp-block-wp-strava-som-control">
 				<p className="wp-block-wp-strava-som-control-row">
 						{ __( 'System of Measure (override from settings)' ) }
@@ -27,29 +35,35 @@ export default function SOMOverride( {
 				<div className="wp-block-wp-strava-som-control-row">
 					<ButtonGroup aria-label={ __( 'System of Measure', 'wp-strava' ) }>
 						<Button
-							key={ 'english' }
 							isSmall
 							isPrimary={ som == 'english' }
 							isPressed={ som == 'english' }
-							onClick={ updateSOM( 'english' ) }
+							value='english'
+							onClick={ this.onChange }
 						>
 							{ __( 'English', 'wp-strava' ) }
 						</Button>
 						<Button
-							key={ 'metric' }
 							isSmall
 							isPrimary={ som == 'metric' }
 							isPressed={ som == 'metric' }
-							onClick={ updateSOM( 'metric' ) }
+							value='metric'
+							onClick={ this.onChange }
 						>
 							{ __( 'Metric', 'wp-strava' ) }
 						</Button>
 					</ButtonGroup>
-					<Button isSmall onClick={ updateSOM() }>
+					<Button
+						isSmall
+						value=''
+						onClick={ this.onChange }
+					>
 						{ __( 'Reset', 'wp-strava' ) }
 					</Button>
 				</div>
 			</div>
-		</>
-	);
+		);
+	}
 }
+
+export default SOMOverride;
