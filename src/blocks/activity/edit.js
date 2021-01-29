@@ -1,11 +1,12 @@
 /* global wp, wpStrava */
 import EmbedPlaceholder from './embed-placeholder';
 import EmbedControls from './embed-controls';
+import SOMOverride from '../components/som-override';
 
 const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { InspectorControls } = wp.editor;
-const { PanelBody, ToggleControl, ServerSideRender, Button, ButtonGroup } = wp.components;
+const { PanelBody, ToggleControl, ServerSideRender } = wp.components;
 const { isEmpty } = lodash;
 
 class Edit extends Component {
@@ -106,36 +107,9 @@ class Edit extends Component {
 							checked={ displayMarkers }
 							onChange={ (checked ) => this.toggleDisplayMarkers( checked ) }
 						/>
-						<div className="wp-block-wp-strava-som-control">
-							<p className="wp-block-wp-strava-som-control-row">
-									{ __( 'System of Measure (override from settings)' ) }
-							</p>
-							<div className="wp-block-wp-strava-som-control-row">
-								<ButtonGroup aria-label={ __( 'System of Measure', 'wp-strava' ) }>
-									<Button
-										key={ 'english' }
-										isSmall
-										isPrimary={ som == 'english' }
-										aria-pressed={ som == 'english' }
-										onClick={ () => this.overrideSOM( 'english' ) }
-									>
-										{ __( 'English', 'wp-strava' ) }
-									</Button>
-									<Button
-										key={ 'metric' }
-										isSmall
-										isPrimary={ som == 'metric' }
-										aria-pressed={ som == 'metric' }
-										onClick={ () => this.overrideSOM( 'metric' ) }
-									>
-										{ __( 'Metric', 'wp-strava' ) }
-									</Button>
-								</ButtonGroup>
-								<Button isSmall onClick={ () => this.overrideSOM() }>
-									{ __( 'Reset', 'wp-strava' ) }
-								</Button>
-							</div>
-						</div>
+						<SOMOverride
+							onChange={ this.overrideSOM }
+						/>
 					</PanelBody>
 				</InspectorControls>
 			</>

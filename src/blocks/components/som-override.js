@@ -1,25 +1,32 @@
 /**
  * WordPress dependencies
  */
-import {
-	Button,
-	ButtonGroup,
-} from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+
+const { __ } = wp.i18n;
+const { Component } = wp.element;
+const { Button, ButtonGroup } = wp.components;
 
 class SOMOverride extends Component {
 
 	constructor() {
 		super( ...arguments );
-		this.onChange   = this.onChange.bind( this );
+		this.onChange = this.onChange.bind( this );
+
+		this.state = {
+			som: '',
+		};
 	}
 
 	onChange( event ) {
-		console.log(event.target);
-		this.props.onChange( event );
+		this.setState( { som: event.target.value } );
+		this.props.onChange( event.target.value );
 	}
 
 	render() {
+		const {
+			som
+		} = this.state;
+
 		return (
 			<div className="wp-block-wp-strava-som-control">
 				<p className="wp-block-wp-strava-som-control-row">
@@ -28,7 +35,6 @@ class SOMOverride extends Component {
 				<div className="wp-block-wp-strava-som-control-row">
 					<ButtonGroup aria-label={ __( 'System of Measure', 'wp-strava' ) }>
 						<Button
-							key={ 'english' }
 							isSmall
 							isPrimary={ som == 'english' }
 							isPressed={ som == 'english' }
@@ -38,7 +44,6 @@ class SOMOverride extends Component {
 							{ __( 'English', 'wp-strava' ) }
 						</Button>
 						<Button
-							key={ 'metric' }
 							isSmall
 							isPrimary={ som == 'metric' }
 							isPressed={ som == 'metric' }
@@ -60,3 +65,5 @@ class SOMOverride extends Component {
 		);
 	}
 }
+
+export default SOMOverride;
