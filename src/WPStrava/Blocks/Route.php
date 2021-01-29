@@ -1,28 +1,28 @@
 <?php
 /*
- * Activity block.
+ * Route block.
  */
 
-class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
+class WPStrava_Blocks_Route implements WPStrava_Blocks_Interface {
 
 	/**
 	 * Whether or not to enqueue styles (if shortcode is present).
 	 *
 	 * @var boolean
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  2.5.0
+	 * @since  2.6.0
 	 */
 	private $add_script = false;
 
 	/**
-	 * Register the wp-strava/activity block.
+	 * Register the wp-strava/route block.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  2.2.0
+	 * @since  2.6.0
 	 */
 	public function register_block() {
 		register_block_type(
-			'wp-strava/activity',
+			'wp-strava/route',
 			array(
 				'style'           => 'wp-strava-block',
 				'editor_style'    => 'wp-strava-block-editor',
@@ -58,7 +58,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 	 * @param string $content The content from JS save() for this block.
 	 * @return string HTML for this block.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  2.2.0
+	 * @since  2.6.0
 	 */
 	public function render_block( $attributes, $content ) {
 		if ( empty( $attributes['url'] ) ) {
@@ -68,7 +68,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 		$this->add_script = true;
 
 		$matches = [];
-		preg_match( '/\/activities\/([0-9].*)$/', $attributes['url'], $matches );
+		preg_match( '/\/routes\/([0-9].*)$/', $attributes['url'], $matches );
 		if ( $matches[1] ) {
 			// Transform from block attributes to shortcode standard.
 			$attributes = array(
@@ -78,7 +78,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 				'som'        => ! empty( $attributes['som'] ) ? $attributes['som'] : null,
 			);
 
-			$renderer = new WPStrava_ActivityRenderer();
+			$renderer = new WPStrava_RouteRenderer();
 			return $renderer->get_html( $attributes );
 		}
 		return $content;
@@ -88,7 +88,7 @@ class WPStrava_Blocks_Activity implements WPStrava_Blocks_Interface {
 	 * Enqueue style if block is being used.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  2.5.0
+	 * @since  2.6.0
 	 */
 	public function print_scripts() {
 		if ( $this->add_script ) {

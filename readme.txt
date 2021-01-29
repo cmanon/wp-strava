@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
 Requires at least: 4.6
 Tested up to: 5.6
-Stable tag: 2.5.1
+Stable tag: 2.6.0
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -22,9 +22,15 @@ Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default
 
 = Blocks =
 
+*Available in WordPress 5.0 and up.*
+
 Strava Activity  - embed an activity in any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
 
 Paste in the full activity URL from Strava, such as https://www.strava.com/activities/1793155844 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can selection options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
+
+Strava Route - embed a route in any page or post. Shows a summary of the route plus a map if a google maps key has been added.
+
+Paste in the full route URL from Strava, such as hhttps://www.strava.com/routes/2326567 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can selection options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
 = Shortcodes =
 
@@ -112,6 +118,9 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
+= 2.6.0 =
+Make reusable components for embed screens and SOMOverride
+Add Route Block
 
 = 2.5.1 =
 

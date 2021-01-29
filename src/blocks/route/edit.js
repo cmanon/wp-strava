@@ -68,13 +68,13 @@ class Edit extends Component {
 		if ( editingURL ) {
 			return (
 				<EmbedPlaceholder
-					icon="chart-line"
-					label={ __( 'Strava Activity', 'wp-strava' ) }
+					icon="location-alt"
+					label={ __( 'Strava Route', 'wp-strava' ) }
 					instructions={ __(
-						'Paste a link to the Strava Activity you want to display on your site.',
+						'Paste a link to the Strava Route you want to display on your site.',
 						'wp-strava'
 					) }
-					placeholder={ __( 'Enter Activity URL to embed here…', 'wp-strava' ) }
+					placeholder={ __( 'Enter Route URL to embed here…', 'wp-strava' ) }
 					onSubmit={ this.setUrl }
 					value={ url }
 					onChange={ ( event ) =>
@@ -90,7 +90,7 @@ class Edit extends Component {
 					switchBackToURLInput={ this.switchBackToURLInput }
 				/>
 				<ServerSideRender
-					block="wp-strava/activity"
+					block="wp-strava/route"
 					attributes={ {
 						url: url,
 						imageOnly: imageOnly,
