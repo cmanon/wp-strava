@@ -7,19 +7,20 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-export default function SOMOverride( {
-	som,
-	onChange,
-} ) {
+class SOMOverride extends Component {
 
-	function updateSOM( som ) {
-		return () => {
-			onChange( som );
-		};
+	constructor() {
+		super( ...arguments );
+		this.onChange   = this.onChange.bind( this );
 	}
 
-	return (
-		<>
+	onChange( event ) {
+		console.log(event.target);
+		this.props.onChange( event );
+	}
+
+	render() {
+		return (
 			<div className="wp-block-wp-strava-som-control">
 				<p className="wp-block-wp-strava-som-control-row">
 						{ __( 'System of Measure (override from settings)' ) }
@@ -31,7 +32,8 @@ export default function SOMOverride( {
 							isSmall
 							isPrimary={ som == 'english' }
 							isPressed={ som == 'english' }
-							onClick={ updateSOM( 'english' ) }
+							value='english'
+							onClick={ this.onChange }
 						>
 							{ __( 'English', 'wp-strava' ) }
 						</Button>
@@ -40,16 +42,21 @@ export default function SOMOverride( {
 							isSmall
 							isPrimary={ som == 'metric' }
 							isPressed={ som == 'metric' }
-							onClick={ updateSOM( 'metric' ) }
+							value='metric'
+							onClick={ this.onChange }
 						>
 							{ __( 'Metric', 'wp-strava' ) }
 						</Button>
 					</ButtonGroup>
-					<Button isSmall onClick={ updateSOM() }>
+					<Button
+						isSmall
+						value=''
+						onClick={ this.onChange }
+					>
 						{ __( 'Reset', 'wp-strava' ) }
 					</Button>
 				</div>
 			</div>
-		</>
-	);
+		);
+	}
 }
