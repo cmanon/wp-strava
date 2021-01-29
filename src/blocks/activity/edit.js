@@ -1,6 +1,6 @@
 /* global wp, wpStrava */
-import EmbedPlaceholder from './embed-placeholder';
-import EmbedControls from './embed-controls';
+import EmbedPlaceholder from '../components/embed-placeholder';
+import EmbedControls from '../components/embed-controls';
 import SOMOverride from '../components/som-override';
 
 const { __ } = wp.i18n;
