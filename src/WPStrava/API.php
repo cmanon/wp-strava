@@ -95,7 +95,11 @@ class WPStrava_API {
 
 		$data = $this->remote_get( $uri, $args );
 
-		set_transient( $transient_key, $data, HOUR_IN_SECONDS );
+		// Default to 1 hour of transient cache unless set otherwise.
+		$settings = WPStrava::get_instance()->settings;
+		$cache_time = $settings->cache_time ? absint( $settings->cache_time ) : HOUR_IN_SECONDS;
+
+		set_transient( $transient_key, $data, $cache_time );
 
 		return $data;
 	}
