@@ -1,5 +1,4 @@
 {
-	"apiVersion": 2,
 	"name": "wp-strava/activity",
 	"title": "Strava Activity",
 	"category": "embed",
@@ -25,7 +24,7 @@
 		  "default": null
 		}
 	},
-	"editorScript": "wp-strava-block",
-	"editorStyle": "wp-strava-block-editor",
-	"style": "wp-strava-block"
+	"editorScript": "file:../../../build/index.js",
+	"editorStyle": "file:../../../build/editor.css",
+	"style": "file:../../../build/style.css"
 }
