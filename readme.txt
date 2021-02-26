@@ -118,9 +118,14 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
+= 2.7.0 =
+Add setting to choose API cache interval (1 hour / 15 minutes) https://wordpress.org/support/topic/decrease-update-time-for-group-recent-activities/
+
+
 = 2.6.0 =
 Make reusable components for embed screens and SOMOverride
 Add Route Block
+
 
 = 2.5.1 =
 
@@ -129,6 +134,7 @@ Fix styling on pace activity max speed.
 Fix broken water pace on activity.
 Fix pace types and remove 'other' - making 'speed' default.
 Fix to remove map link in editor so you don't leave the editor.
+
 
 = 2.5.0 =
 
@@ -339,6 +345,7 @@ Initial version.
 = 2.0.1 =
 
 Adds API caching - speed up your page loads 8^)
+
 
 = 2.0.0 =
 

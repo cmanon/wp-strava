@@ -99,9 +99,13 @@ class WPStrava_Settings {
 		register_setting( $this->option_page, 'strava_no_link', array( $this, 'sanitize_no_link' ) );
 		add_settings_field( 'strava_no_link', __( 'Links', 'wp-strava' ), array( $this, 'print_no_link_input' ), 'wp-strava', 'strava_options' );
 
+		// Cache lifetime.
+		register_setting( $this->option_page, 'strava_cache_time', array( $this, 'sanitize_cache_time' ) );
+		add_settings_section( 'strava_cache', __( 'Cache', 'wp-strava' ), null, 'wp-strava' );
+		add_settings_field( 'strava_cache_time', __( 'Cache time', 'wp-strava' ), array( $this, 'print_cache_input' ), 'wp-strava', 'strava_cache' );
+
 		// Clear cache.
 		register_setting( $this->option_page, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
-		add_settings_section( 'strava_cache', __( 'Cache', 'wp-strava' ), null, 'wp-strava' );
 		add_settings_field( 'strava_cache_clear', __( 'Clear cache', 'wp-strava' ), array( $this, 'print_clear_input' ), 'wp-strava', 'strava_cache' );
 	}
 
@@ -531,6 +535,35 @@ class WPStrava_Settings {
 	}
 
 	/**
+	 * Print dropdown to select cache lifetime.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.7.0
+	 */
+	public function print_cache_input() {
+		$fifteen_min = 15 * MINUTE_IN_SECONDS;
+		?>
+		<select id="strava_cache_time" name="strava_cache_time">
+			<option value="<?php echo esc_attr( HOUR_IN_SECONDS )?>" <?php selected( $this->cache_time, HOUR_IN_SECONDS ); ?>><?php esc_html_e( '1 Hour', 'wp-strava' ); ?></option>
+			<option value="<?php echo esc_attr( $fifteen_min )?>" <?php selected( $this->cache_time, $fifteen_min ); ?>><?php esc_html_e( '15 Minutes', 'wp-strava' ); ?></option>
+		</select>
+		<p class="description"><?php esc_html_e( 'How often to refresh data from the Strava API', 'wp-strava' ); ?></p>
+		<?php
+	}
+
+	/**
+	 * Sanitize cache time input.
+	 *
+	 * @param int $cache_time Selected cache time from dropdown.
+	 * @return int Cache lifetime in seconds.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.7.0
+	 */
+	public function sanitize_cache_time( $cache_time ) {
+		return absint( $cache_time );
+	}
+
+	/**
 	 * Gets all saved strava ids as an array.
 	 *
 	 * @return array
@@ -598,7 +631,7 @@ class WPStrava_Settings {
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.2.0
 	 *
-	 * @param integer $number Athlete number (default 1).
+	 * @param int $number Athlete number (default 1).
 	 * @return string
 	 */
 	private function get_default_nickname( $number = 1 ) {
