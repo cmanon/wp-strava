@@ -1,7 +1,7 @@
 === WP-Strava ===
 
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
-Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin
+Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
 Tested up to: 5.6
 Stable tag: 2.7.0
