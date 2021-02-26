@@ -1,0 +1,31 @@
+{
+	"apiVersion": 2,
+	"name": "wp-strava/activity",
+	"title": "Strava Activity",
+	"category": "embed",
+	"icon": "chart-line",
+	"description": "Embed a Strava Activity",
+	"keywords": [ "activity", "ride", "map" ],
+	"textdomain": "wp-strava",
+	"attributes": {
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"imageOnly": {
+		  "type": "boolean",
+		  "default": false
+		},
+		"displayMarkers": {
+		  "type": "boolean",
+		  "default": false
+		},
+		"som": {
+		  "type": "string",
+		  "default": null
+		}
+	},
+	"editorScript": "wp-strava-block",
+	"editorStyle": "wp-strava-block-editor",
+	"style": "wp-strava-block"
+}
