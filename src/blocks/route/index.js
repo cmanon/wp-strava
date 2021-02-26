@@ -1,29 +1,12 @@
 /* global wp, wpStrava */
 import { registerBlockType } from '@wordpress/blocks';
 import edit from './edit';
+import metadata from './block.json';
 
-registerBlockType( 'wp-strava/route', {
-	title: 'Strava Route',
-	icon: 'location-alt',
-	category: 'embed',
-	attributes: {
-		url: {
-		  type: 'string',
-		  default: '',
-		},
-		imageOnly: {
-			type: 'boolean',
-			default: false,
-		},
-		displayMarkers: {
-			type: 'boolean',
-			default: false,
-		},
-		som: {
-			type: 'string',
-			default: null,
-		},
-	},
-	edit,
-	save: () => null,
-} );
+metadata.edit = edit;
+metadata.save = () => null;
+
+// Leaving this in place causes problems with the toolbar.
+delete metadata.apiVersion;
+
+registerBlockType( metadata.name, metadata );
