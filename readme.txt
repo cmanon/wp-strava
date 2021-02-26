@@ -30,7 +30,7 @@ Paste in the full activity URL from Strava, such as https://www.strava.com/activ
 
 Strava Route - embed a route in any page or post. Shows a summary of the route plus a map if a google maps key has been added.
 
-Paste in the full route URL from Strava, such as hhttps://www.strava.com/routes/2326567 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can selection options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
+Paste in the full route URL from Strava, such as https://www.strava.com/routes/2326567 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can selection options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
 = Shortcodes =
 
