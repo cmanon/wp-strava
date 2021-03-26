@@ -121,6 +121,9 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 == Changelog ==
 
 
+= Unreleased =
+Add Segment Block
+
 = 2.8.0 =
 Revised `block.json` based on feedback from https://wordpress.org/plugins/developers/block-plugin-validator/
 Add PHPCompatibility checks to coding standards (and fixes from recommendations)

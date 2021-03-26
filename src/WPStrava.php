@@ -166,6 +166,19 @@ class WPStrava {
 	}
 
 	/**
+	 * Get the segments object.
+	 *
+	 * @return WPStrava_Segments
+	 * @since 2.9.0
+	 */
+	public function get_segments() {
+		if ( ! $this->segments ) {
+			$this->segments = new WPStrava_Segments();
+		}
+		return $this->segments;
+	}
+
+	/**
 	 * Register the wp-strava stylesheet.
 	 */
 	public function register_scripts() {

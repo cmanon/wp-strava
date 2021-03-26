@@ -10,7 +10,7 @@ class WPStrava_Activity {
 	/**
 	 * Get single activity by ID.
 	 *
-	 * @param string  $client_id   Client ID of athlete to retrieve for
+	 * @param string  $client_id   Client ID of athlete to retrieve for.
 	 * @param int     $activity_id ID of activity to retrieve.
 	 * @return object stdClass Representing this activity.
 	 * @author Justin Foell <justin@foell.org>
