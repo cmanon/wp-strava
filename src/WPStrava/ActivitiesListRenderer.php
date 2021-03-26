@@ -1,6 +1,6 @@
 <?php
 /**
- * Activities List.
+ * Activities List Renderer.
  * @package WPStrava
  */
 
@@ -10,9 +10,18 @@
  * @author Justin Foell <justin@foell.org>
  * @since  2.3.0
  */
-class WPStrava_ActivitiesList {
-	public static function get_activities_html( $args ) {
-		if ( isset( $args['athlete_token'] ) ) {
+class WPStrava_ActivitiesListRenderer {
+
+	/**
+	 * Get the HTML for an Activities List.
+	 *
+	 * @param array $atts
+	 * @return string HTML for an route.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.8.0
+	 */
+	public function get_html( $atts ) {
+		if ( isset( $atts['athlete_token'] ) ) {
 			// Translators: Message shown when using deprecated athlete_token parameter.
 			return __( 'The <code>athlete_token</code> parameter is deprecated as of WP-Strava version 2 and should be replaced with <code>client_id</code>.', 'wp-strava' );
 		}
@@ -26,14 +35,14 @@ class WPStrava_ActivitiesList {
 			'date_end'       => '',
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$atts = wp_parse_args( $atts, $defaults );
 
-		$som             = WPStrava_SOM::get_som( $args['som'] );
+		$som             = WPStrava_SOM::get_som( $atts['som'] );
 		$strava_activity = WPStrava::get_instance()->activity;
 		$activities      = array();
 
 		try {
-			$activities = $strava_activity->get_activities( $args );
+			$activities = $strava_activity->get_activities( $atts );
 		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}
@@ -51,11 +60,11 @@ class WPStrava_ActivitiesList {
 					// Translators: Shows something like "On <date> <[went 10 miles] [during 2 hours] [climbing 100 feet]>."
 					__( 'On %1$s %2$s', 'wp-strava' ),
 					date_i18n( get_option( 'date_format' ), $unixtime ),
-					self::get_activity_time( $unixtime )
+					$this->get_activity_time( $unixtime )
 				);
 			}
 
-			if ( is_numeric( $args['strava_club_id'] ) ) {
+			if ( is_numeric( $atts['strava_club_id'] ) ) {
 				$name      = $activity->athlete->firstname . ' ' . $activity->athlete->lastname;
 				$response .= empty( $activity->athlete->id ) ?
 					" {$name}" :
@@ -86,7 +95,7 @@ class WPStrava_ActivitiesList {
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  1.7.1
 	 */
-	public static function get_activity_time( $unixtime ) {
+	private function get_activity_time( $unixtime ) {
 		if ( WPStrava::get_instance()->settings->hide_time ) {
 			return '';
 		}

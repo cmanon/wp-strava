@@ -1,0 +1,18 @@
+{
+	"name": "wp-strava/activitieslist",
+	"title": "Strava Activities List",
+	"category": "embed",
+	"icon": "editor-ul",
+	"description": "List of Strava Activities",
+	"keywords": [ "activity", "ride" ],
+	"textdomain": "wp-strava",
+	"attributes": {
+		"som": {
+		  "type": "string",
+		  "default": null
+		}
+	},
+	"editorScript": "file:../../../build/index.js",
+	"editorStyle": "file:../../../build/editor.css",
+	"style": "file:../../../build/style.css"
+}

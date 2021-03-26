@@ -44,7 +44,9 @@ class WPStrava_ActivitiesListShortcode {
 	 */
 	public function handler( $atts ) {
 		$this->add_script = true;
-		return WPStrava_ActivitiesList::get_activities_html( $atts );
+
+		$renderer = new WPStrava_ActivitiesListRenderer();
+		return $renderer->get_html( $atts );
 	}
 
 	/**
