@@ -6,12 +6,12 @@ class WPStrava_SOMEnglishTest extends TestCase {
 
 	private $som;
 
-	public function setUp() : void {
+	public function setUp() {
 		\WP_Mock::setUp();
 		$this->som = new WPStrava_SOMEnglish();
 	}
 
-	public function tearDown() : void {
+	public function tearDown() {
 		\WP_Mock::tearDown();
 	}
 

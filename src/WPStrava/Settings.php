@@ -544,8 +544,8 @@ class WPStrava_Settings {
 		$fifteen_min = 15 * MINUTE_IN_SECONDS;
 		?>
 		<select id="strava_cache_time" name="strava_cache_time">
-			<option value="<?php echo esc_attr( HOUR_IN_SECONDS )?>" <?php selected( $this->cache_time, HOUR_IN_SECONDS ); ?>><?php esc_html_e( '1 Hour', 'wp-strava' ); ?></option>
-			<option value="<?php echo esc_attr( $fifteen_min )?>" <?php selected( $this->cache_time, $fifteen_min ); ?>><?php esc_html_e( '15 Minutes', 'wp-strava' ); ?></option>
+			<option value="<?php echo esc_attr( HOUR_IN_SECONDS ); ?>" <?php selected( $this->cache_time, HOUR_IN_SECONDS ); ?>><?php esc_html_e( '1 Hour', 'wp-strava' ); ?></option>
+			<option value="<?php echo esc_attr( $fifteen_min ); ?>" <?php selected( $this->cache_time, $fifteen_min ); ?>><?php esc_html_e( '15 Minutes', 'wp-strava' ); ?></option>
 		</select>
 		<p class="description"><?php esc_html_e( 'How often to refresh data from the Strava API', 'wp-strava' ); ?></p>
 		<?php
