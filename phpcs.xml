@@ -8,10 +8,12 @@
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
 	</rule>
 
-	<file>./includes</file>
+	<rule ref="PHPCompatibility"/>
+	<config name="testVersion" value="5.3-7.4"/>
+	<arg name="extensions" value="php"/>
+
+	<file>./src</file>
 	<file>./wp-strava.php</file>
 
 	<exclude-pattern>*/vendor/*</exclude-pattern>
-
-	<config name="installed_paths" value="../../../vendor/wp-coding-standards/wpcs/" />
 </ruleset>

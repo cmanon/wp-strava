@@ -6,12 +6,12 @@ class WPStrava_SOMEnglishTest extends TestCase {
 
 	private $som;
 
-	public function setUp() : void {
+	public function setUp() : void { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound -- PHPUnit requires PHP7
 		\WP_Mock::setUp();
 		$this->som = new WPStrava_SOMEnglish();
 	}
 
-	public function tearDown() : void {
+	public function tearDown() : void { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound -- PHPUnit requires PHP7
 		\WP_Mock::tearDown();
 	}
 

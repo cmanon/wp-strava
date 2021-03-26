@@ -67,7 +67,7 @@ class WPStrava_Blocks_Route implements WPStrava_Blocks_Interface {
 
 		$this->add_script = true;
 
-		$matches = [];
+		$matches = array();
 		preg_match( '/\/routes\/([0-9].*)$/', $attributes['url'], $matches );
 		if ( $matches[1] ) {
 			// Transform from block attributes to shortcode standard.

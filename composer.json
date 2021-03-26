@@ -10,6 +10,11 @@
     "require-dev": {
         "wp-coding-standards/wpcs": "^2",
         "phpunit/phpunit": "^8",
-        "10up/wp_mock": "^0.4"
+        "10up/wp_mock": "^0.4",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1"
+    },
+    "scripts": {
+        "lint": "@php ./vendor/bin/phpcs -s"
     }
 }

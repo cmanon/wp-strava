@@ -3,7 +3,7 @@
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
-Tested up to: 5.6
+Tested up to: 5.7
 Stable tag: 2.7.0
 Requires PHP: 5.3
 License: GPLv2 or later
@@ -121,6 +121,8 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 = Unreleased =
 Revised `block.json` based on feedback from https://wordpress.org/plugins/developers/block-plugin-validator/
+Add PHPCompatibility checks to coding standards (and fixes from recommendations)
+
 
 = 2.7.0 =
 Add setting to choose API cache interval (1 hour / 15 minutes) https://wordpress.org/support/topic/decrease-update-time-for-group-recent-activities/

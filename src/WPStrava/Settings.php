@@ -544,8 +544,8 @@ class WPStrava_Settings {
 		$fifteen_min = 15 * MINUTE_IN_SECONDS;
 		?>
 		<select id="strava_cache_time" name="strava_cache_time">
-			<option value="<?php echo esc_attr( HOUR_IN_SECONDS )?>" <?php selected( $this->cache_time, HOUR_IN_SECONDS ); ?>><?php esc_html_e( '1 Hour', 'wp-strava' ); ?></option>
-			<option value="<?php echo esc_attr( $fifteen_min )?>" <?php selected( $this->cache_time, $fifteen_min ); ?>><?php esc_html_e( '15 Minutes', 'wp-strava' ); ?></option>
+			<option value="<?php echo esc_attr( HOUR_IN_SECONDS ); ?>" <?php selected( $this->cache_time, HOUR_IN_SECONDS ); ?>><?php esc_html_e( '1 Hour', 'wp-strava' ); ?></option>
+			<option value="<?php echo esc_attr( $fifteen_min ); ?>" <?php selected( $this->cache_time, $fifteen_min ); ?>><?php esc_html_e( '15 Minutes', 'wp-strava' ); ?></option>
 		</select>
 		<p class="description"><?php esc_html_e( 'How often to refresh data from the Strava API', 'wp-strava' ); ?></p>
 		<?php
@@ -692,7 +692,9 @@ class WPStrava_Settings {
 	public function save_info( $id, $secret, $info ) {
 		$infos = get_option( 'strava_info' );
 		$infos = empty( $infos ) ? array() : $infos;
-		$infos = array_filter( $infos, array( $this, 'filter_by_id' ), ARRAY_FILTER_USE_KEY ); // Remove old IDs.
+
+		array_walk( $infos, array( $this, 'filter_by_id' ) );
+		$infos = array_filter( $infos );
 
 		$info->client_secret = $secret;
 		$infos[ $id ]        = $info;
@@ -700,19 +702,19 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * array_filter() callback to remove info for IDs we no longer have.
+	 * array_walk() callback to clear IDs we no longer want.
 	 *
 	 * @param int $key Strava Client ID
-	 * @return boolean True if Client ID is in $this->ids, false otherwise.
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
-	public function filter_by_id( $key ) {
+	public function filter_by_id( &$value, $key ) {
 		$ids = $this->get_ids();
 		if ( in_array( $key, $ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Loose comparison OK.
-			return true;
+			return;
 		}
-		return false;
+
+		$value = null;
 	}
 
 	/**
