@@ -1,5 +1,10 @@
 <?php
-/*
+/**
+ * Route Renderer.
+ * @package WPStrava
+ */
+
+/**
  * RouteRenderer has all the markup for the Route Block & Shortcode.
  */
 class WPStrava_RouteRenderer {
