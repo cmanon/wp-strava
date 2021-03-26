@@ -121,6 +121,8 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 = Unreleased =
 Revised `block.json` based on feedback from https://wordpress.org/plugins/developers/block-plugin-validator/
+Add PHPCompatibility checks to coding standards (and fixes from recommendations)
+
 
 = 2.7.0 =
 Add setting to choose API cache interval (1 hour / 15 minutes) https://wordpress.org/support/topic/decrease-update-time-for-group-recent-activities/
