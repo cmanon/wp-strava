@@ -42,7 +42,10 @@ class WPStrava_ActivitiesListWidget extends WP_Widget {
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
-		echo WPStrava_ActivitiesList::get_activities_html( $activities_args );
+
+		$renderer = new WPStrava_ActivitiesListRenderer();
+		echo $renderer->get_html( $activities_args );
+
 		echo $args['after_widget'];
 		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	}

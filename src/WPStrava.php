@@ -202,6 +202,7 @@ class WPStrava {
 		static $blocks = array(
 			'WPStrava_Blocks_Activity',
 			'WPStrava_Blocks_Route',
+			'WPStrava_Blocks_ActivitiesList',
 		);
 
 		// automatically load dependencies and version
