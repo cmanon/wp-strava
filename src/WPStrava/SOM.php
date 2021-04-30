@@ -99,4 +99,15 @@ abstract class WPStrava_SOM {
 	public function get_calories_label() {
 		return __( 'kcal', 'wp-strava' );
 	}
+
+	/**
+	 * Get percent with % symbol.
+	 *
+	 * @param mixed $pct
+	 * @author Justin Foell <justin.foell@webdevstudios.com>
+	 * @since 2.9.0
+	 */
+	public function percent( $pct ) {
+		return number_format_i18n( $pct, 1 ) . '%';
+	}
 }

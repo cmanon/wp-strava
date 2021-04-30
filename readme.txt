@@ -121,12 +121,10 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 == Changelog ==
 
 = 2.9.0 =
+Added Segment Block https://wordpress.org/support/topic/show-segments-feature/ / https://wordpress.org/support/topic/embed-segments-feature/
 Switched Activities List to display moving time instead of elapsed time https://wordpress.org/support/topic/moving-time-instead-of-elapsed-time/
 Added calories burned (when available) to Activity and Activities List https://wordpress.org/support/topic/calorie/
 
-
-= Unreleased =
-Add Segment Block
 
 = 2.8.0 =
 Revised `block.json` based on feedback from https://wordpress.org/plugins/developers/block-plugin-validator/

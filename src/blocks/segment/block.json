@@ -1,0 +1,30 @@
+{
+	"name": "wp-strava/segment",
+	"title": "Strava Segment",
+	"category": "embed",
+	"icon": "location-alt",
+	"description": "Embed a Strava Segment",
+	"keywords": [ "segment", "map" ],
+	"textdomain": "wp-strava",
+	"attributes": {
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"imageOnly": {
+		  "type": "boolean",
+		  "default": false
+		},
+		"displayMarkers": {
+			"type": "boolean",
+			"default": true
+		},
+		"som": {
+		  "type": "string",
+		  "default": null
+		}
+	},
+	"editorScript": "file:../../../build/index.js",
+	"editorStyle": "file:../../../build/editor.css",
+	"style": "file:../../../build/style.css"
+}

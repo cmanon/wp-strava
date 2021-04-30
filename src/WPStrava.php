@@ -42,6 +42,12 @@ class WPStrava {
 	private $routes = null;
 
 	/**
+	 * Segment object to get segments.
+	 * @var WPStrava_Segments
+	 */
+	private $segments = null;
+
+	/**
 	 * Private constructor (singleton).
 	 */
 	private function __construct() {
@@ -113,6 +119,10 @@ class WPStrava {
 
 		if ( 'routes' === $name ) {
 			return $this->get_routes();
+		}
+
+		if ( 'segments' === $name ) {
+			return $this->get_segments();
 		}
 
 		if ( isset( $this->{$name} ) ) {
@@ -216,6 +226,7 @@ class WPStrava {
 			'WPStrava_Blocks_Activity',
 			'WPStrava_Blocks_Route',
 			'WPStrava_Blocks_ActivitiesList',
+			'WPStrava_Blocks_Segment',
 		);
 
 		// automatically load dependencies and version

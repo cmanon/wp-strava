@@ -18,7 +18,7 @@ class WPStrava_SegmentsRenderer {
 	 * @param array $atts
 	 * @return string HTML for an segment.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  2.2.0
+	 * @since  2.9.0
 	 */
 	public function get_html( $atts ) {
 		$defaults = array(
@@ -27,7 +27,7 @@ class WPStrava_SegmentsRenderer {
 			'map_width'  => '480',
 			'map_height' => '320',
 			'client_id'  => WPStrava::get_instance()->settings->get_default_id(),
-			'markers'    => false,
+			'markers'    => true,
 			'image_only' => false,
 		);
 
@@ -43,7 +43,7 @@ class WPStrava_SegmentsRenderer {
 		$segment_details = null;
 
 		try {
-			$segment_details = $segments->get_segments( $atts['client_id'], $atts['id'] );
+			$segment_details = $segments->get_segment( $atts['client_id'], $atts['id'] );
 		} catch ( WPStrava_Exception $e ) {
 			return $e->to_html();
 		}
@@ -91,31 +91,38 @@ class WPStrava_SegmentsRenderer {
 		$strava_som          = WPStrava_SOM::get_som( $som );
 		$elevation_title     = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
 		$elevation           = '<td data-label="' . __( 'Elevation Gain', 'wp-strava' ) . '">
-									<div class="segment-details-table-info">' . $strava_som->elevation( $segment_details->total_elevation_gain ) . '</div>
-									<div class="segment-details-table-units">' . $strava_som->get_elevation_label() . '</div>
+									<div class="activity-details-table-info">' . $strava_som->elevation( $segment_details->total_elevation_gain ) . '</div>
+									<div class="activity-details-table-units">' . $strava_som->get_elevation_label() . '</div>
+								</td>';
+		$grade_title         = '<th>' . __( 'Avg. Grade', 'wp-strava' ) . '</th>';
+		$grade               = '<td data-label="' . __( 'Avg. Grade', 'wp-strava' ) . '">
+									<div class="activity-details-table-info">' . $strava_som->percent( $segment_details->average_grade ) . '</div>
+									<div class="activity-details-table-units">&nbsp;</div>
 								</td>';
 
 		if ( WPStrava::get_instance()->settings->hide_elevation ) {
 			$elevation_title = '';
 			$elevation       = '';
+			$grade_title     = '';
+			$grade_title     = '';
 		}
 
 		return '
-			<table class="segment-details-table">
+			<table class="activity-details-table">
 				<thead>
 					<tr>
-						<th>' . __( 'Elapsed Time', 'wp-strava' ) . '</th>
-						<th>' . __( 'Moving Time', 'wp-strava' ) . '</th>
 						<th>' . __( 'Distance', 'wp-strava' ) . '</th>
+						' . $grade_title . '
 						' . $elevation_title . '
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td data-label="' . __( 'Distance', 'wp-strava' ) . '">
-							<div class="segment-details-table-info">' . $strava_som->distance( $segment_details->distance ) . '</div>
-							<div class="segment-details-table-units">' . $strava_som->get_distance_label() . '</div>
+							<div class="activity-details-table-info">' . $strava_som->distance( $segment_details->distance ) . '</div>
+							<div class="activity-details-table-units">' . $strava_som->get_distance_label() . '</div>
 						</td>
+						' . $grade . '
 						' . $elevation . '
 					</tr>
 				</tbody>

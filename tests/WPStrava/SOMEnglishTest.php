@@ -107,4 +107,15 @@ class WPStrava_SOMEnglishTest extends TestCase {
 		$this->assertEquals( '1,304', $this->som->calories( 1304 ) );
 	}
 
+	/**
+	 * Test that 5.7 grade is 5.7% using both string and int inputs.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.9.0
+	 */
+	public function test_percent() {
+		$this->assertEquals( '5.7%', $this->som->percent( '5.7' ) );
+		$this->assertEquals( '5.7%', $this->som->percent( 5.7 ) );
+	}
+
 }
