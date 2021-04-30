@@ -96,4 +96,15 @@ class WPStrava_SOMEnglishTest extends TestCase {
 		$this->assertEquals( '61:24:31', $this->som->time( 221071 ) );
 	}
 
+	/**
+	 * Test that 1304 calories is 1,304 using both string and int inputs.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.9.0
+	 */
+	public function test_calories() {
+		$this->assertEquals( '1,304', $this->som->calories( '1304' ) );
+		$this->assertEquals( '1,304', $this->som->calories( 1304 ) );
+	}
+
 }

@@ -48,7 +48,9 @@ class WPStrava_ActivitiesListRenderer {
 		}
 
 		$response = "<ul id='activities'>";
-		foreach ( $activities as $activity ) {
+		foreach ( $activities as $activity_summary ) {
+			// Re-get single activity for greater detail (will be cached).
+			$activity = $strava_activity->get_activity( $atts['client_id'], $activity_summary->id );
 			$response .= "<li class='activity'>";
 			$response .= empty( $activity->id ) ?
 				$activity->name : $strava_activity->get_activity_link( $activity->id, $activity->name );
@@ -79,6 +81,11 @@ class WPStrava_ActivitiesListRenderer {
 			if ( ! WPStrava::get_instance()->settings->hide_elevation ) {
 				// Translators: "climbing 100 ft."
 				$response .= sprintf( __( ' climbing %1$s %2$s', 'wp-strava' ), $som->elevation( $activity->total_elevation_gain ), $som->get_elevation_label() );
+			}
+
+			if ( $activity->calories ) {
+				// Translators: "burning 200 calories."
+				$response .= sprintf( __( ' burning %1$s calories.', 'wp-strava' ), $som->calories( $activity->calories ) );
 			}
 
 			$response .= '</div></li>';

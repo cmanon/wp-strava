@@ -90,6 +90,8 @@ class WPStrava_ActivityRenderer {
 								</td>';
 		$avg_speed           = '';
 		$max_speed           = '';
+		$calories_title      = '';
+		$calories            = '';
 
 		switch ( $strava_activitytype ) {
 			case WPStrava_ActivityType::TYPE_GROUP_PACE:
@@ -130,6 +132,14 @@ class WPStrava_ActivityRenderer {
 			$elevation       = '';
 		}
 
+		if ( $activity_details->calories ) {
+			$calories_title  = '<th>' . __( 'Calories Burned', 'wp-strava' ) . '</th>';
+			$calories        = '<td data-label="' . __( 'Calories Burned', 'wp-strava' ) . '">
+									<div class="activity-details-table-info">' . $strava_som->calories( $activity_details->calories ) . '</div>
+									<div class="activity-details-table-units">' . $strava_som->get_calories_label() . '</div>
+								</td>';
+		}
+
 		return '
 			<table class="activity-details-table">
 				<thead>
@@ -140,6 +150,7 @@ class WPStrava_ActivityRenderer {
 						' . $avg_title . '
 						' . $max_title . '
 						' . $elevation_title . '
+						' . $calories_title . '
 					</tr>
 				</thead>
 				<tbody>
@@ -159,6 +170,7 @@ class WPStrava_ActivityRenderer {
 						' . $avg_speed . '
 						' . $max_speed . '
 						' . $elevation . '
+						' . $calories . '
 					</tr>
 				</tbody>
 			</table>
