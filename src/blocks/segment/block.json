@@ -2,7 +2,7 @@
 	"name": "wp-strava/segment",
 	"title": "Strava Segment",
 	"category": "embed",
-	"icon": "location-alt",
+	"icon": "chart-area",
 	"description": "Embed a Strava Segment",
 	"keywords": [ "segment", "map" ],
 	"textdomain": "wp-strava",

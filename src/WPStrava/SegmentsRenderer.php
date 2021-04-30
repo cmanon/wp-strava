@@ -85,7 +85,6 @@ class WPStrava_SegmentsRenderer {
 	 * @author Justin Foell <justin@foell.org>
 	 * @author Sebastian Erb <mail@sebastianerb.com>
 	 * @since  2.9.0
-	 * @TODO FIXME
 	 */
 	private function get_table( $segment_details, $som ) {
 		$strava_som          = WPStrava_SOM::get_som( $som );
