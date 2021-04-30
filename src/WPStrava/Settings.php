@@ -131,17 +131,18 @@ class WPStrava_Settings {
 				__(
 					"<p>Steps:</p>
 					<ol>
-						<li>Create your free API Application/Connection here: <a href='%1\$s'>%2\$s</a> using the following information:</li>
-						<ul>
-							<li>App Icon: <strong>upload <a href='%3\$s'>this image</a></strong></li>
-							<li>Application Name: <strong>%4\$s</strong></li>
-							<li>Category: OK to leave at default 'other'</li>
-							<li>Club: OK to leave blank</li>
-							<li>Website: <strong>%5\$s</strong></li>
-							<li>Application Description: <strong>%6\$s</strong></li>
-							<li>Authorization Callback Domain: <strong>%7\$s</strong></li>
-						</ul>
-						<li>Once you've created your API Application at strava.com, enter the <strong>Client ID</strong> and <strong>Client Secret</strong> below, which can now be found on that same strava API Settings page.
+						<li>Create your free API Application/Connection here: <a href='%1\$s'>%2\$s</a> using the following information:
+							<ul class='ul-disc'>
+								<li>App Icon: <strong>upload <a href='%3\$s'>this image</a></strong></li>
+								<li>Application Name: <strong>%4\$s</strong></li>
+								<li>Category: OK to leave at default 'other'</li>
+								<li>Club: OK to leave blank</li>
+								<li>Website: <strong>%5\$s</strong></li>
+								<li>Application Description: <strong>%6\$s</strong></li>
+								<li>Authorization Callback Domain: <strong>%7\$s</strong></li>
+							</ul>
+						</li>
+						<li>Once you've created your API Application at strava.com, enter the <strong>Client ID</strong> and <strong>Client Secret</strong> below, which can now be found on that same strava API Settings page.</li>
 						<li>After saving your Client ID and Secret, you'll be redirected to strava to authorize your API Application. If successful, your Strava ID will display in a table, next to your nickname.</li>
 						<li>If you need to re-authorize your API Application, erase your Strava ID next to your nickname and click 'Save Changes' to start over.</li>
 					</ol>",
@@ -172,7 +173,7 @@ class WPStrava_Settings {
 					"<p>Steps:</p>
 					<ol>
 						<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
-						<li>Once you've created your Google Static Maps API Key, enter the key below.
+						<li>Once you've created your Google Static Maps API Key, enter the key below.</li>
 					</ol>",
 					'wp-strava'
 				),
