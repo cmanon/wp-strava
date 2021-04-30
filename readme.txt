@@ -120,6 +120,10 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
+= 2.9.0 =
+Switched Activities List to display moving time instead of elapsed time https://wordpress.org/support/topic/moving-time-instead-of-elapsed-time/
+
+
 
 = 2.8.0 =
 Revised `block.json` based on feedback from https://wordpress.org/plugins/developers/block-plugin-validator/

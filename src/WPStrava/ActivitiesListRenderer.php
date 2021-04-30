@@ -74,7 +74,7 @@ class WPStrava_ActivitiesListRenderer {
 			// Translators: "went 10 miles"
 			$response .= sprintf( __( ' went %1$s %2$s', 'wp-strava' ), $som->distance( $activity->distance ), $som->get_distance_label() );
 			// Translators: "during 2 hours"
-			$response .= sprintf( __( ' during %1$s %2$s', 'wp-strava' ), $som->time( $activity->elapsed_time ), $som->get_time_label() );
+			$response .= sprintf( __( ' during %1$s %2$s', 'wp-strava' ), $som->time( $activity->moving_time ), $som->get_time_label() );
 
 			if ( ! WPStrava::get_instance()->settings->hide_elevation ) {
 				// Translators: "climbing 100 ft."
