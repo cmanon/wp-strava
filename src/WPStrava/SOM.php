@@ -77,4 +77,26 @@ abstract class WPStrava_SOM {
 
 		return "{$min}:{$sec}";
 	}
+
+	/**
+	 * Format calories to add appropriate comma.
+	 *
+	 * @param string|int $kcal Kilocalories
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.9.0
+	 */
+	public function calories( $kcal ) {
+		return number_format_i18n( $kcal, 0 );
+	}
+
+	/**
+	 * Abbreviated label for kilocalories.
+	 *
+	 * @return string
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.9.0
+	 */
+	public function get_calories_label() {
+		return __( 'kcal', 'wp-strava' );
+	}
 }
