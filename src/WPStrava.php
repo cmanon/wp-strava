@@ -42,6 +42,12 @@ class WPStrava {
 	private $routes = null;
 
 	/**
+	 * Segment object to get segments.
+	 * @var WPStrava_Segments
+	 */
+	private $segments = null;
+
+	/**
 	 * Private constructor (singleton).
 	 */
 	private function __construct() {
@@ -115,6 +121,10 @@ class WPStrava {
 			return $this->get_routes();
 		}
 
+		if ( 'segments' === $name ) {
+			return $this->get_segments();
+		}
+
 		if ( isset( $this->{$name} ) ) {
 			return $this->{$name};
 		}
@@ -166,6 +176,19 @@ class WPStrava {
 	}
 
 	/**
+	 * Get the segments object.
+	 *
+	 * @return WPStrava_Segments
+	 * @since 2.9.0
+	 */
+	public function get_segments() {
+		if ( ! $this->segments ) {
+			$this->segments = new WPStrava_Segments();
+		}
+		return $this->segments;
+	}
+
+	/**
 	 * Register the wp-strava stylesheet.
 	 */
 	public function register_scripts() {
@@ -203,6 +226,7 @@ class WPStrava {
 			'WPStrava_Blocks_Activity',
 			'WPStrava_Blocks_Route',
 			'WPStrava_Blocks_ActivitiesList',
+			'WPStrava_Blocks_Segment',
 		);
 
 		// automatically load dependencies and version
