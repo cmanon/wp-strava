@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 2.9.0
+Stable tag: 2.9.1
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -44,7 +44,9 @@ Shows your most recent activities in a bulleted list.
 
 Embed a segment in a page or post. Shows a summary of the segment plugs a map if a google maps key has been added.
 
-Paste in the full segment URL from Strava, such as https://www.strava.com/segments/18803428 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
+Paste in the full segment URL from Strava, such as https://www.strava.com/segments/18803428 and click "Embed."  The easiest way that to navigate to a segment URL on strava.com is by clicking “View Full Leaderboard” or “View Local Legend Stats” while you're viewing a segment from an activity.
+
+A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
 = Shortcodes =
 
