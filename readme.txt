@@ -133,7 +133,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 == Changelog ==
 
 = 2.9.1 =
-
+Add conditional to look for zero/null/empty activity time to avoid exception https://wordpress.org/support/topic/exception-thrown-oceanwp-theme/
 
 = 2.9.0 =
 Added Segment Block https://wordpress.org/support/topic/show-segments-feature/ / https://wordpress.org/support/topic/embed-segments-feature/
