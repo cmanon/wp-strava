@@ -97,6 +97,18 @@ class WPStrava_SOMEnglishTest extends TestCase {
 	}
 
 	/**
+	 * Test that null or empty seconds input will return an empty string (not an exception).
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  2.9.1
+	 */
+	public function test_time_empty() {
+		$this->assertEquals( '', $this->som->time( '' ) );
+		$this->assertEquals( '', $this->som->time( null ) );
+		$this->assertEquals( '', $this->som->time( 0 ) );
+	}
+
+	/**
 	 * Test that 1304 calories is 1,304 using both string and int inputs.
 	 *
 	 * @author Justin Foell <justin@foell.org>

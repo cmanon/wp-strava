@@ -36,6 +36,10 @@ abstract class WPStrava_SOM {
 	 * @see https://stackoverflow.com/a/20870843/2146022
 	 */
 	public function time( $seconds ) {
+		if ( empty( $seconds ) ) {
+			return '';
+		}
+
 		$zero   = new DateTime( '@0' );
 		$offset = new DateTime( "@{$seconds}" );
 		$diff   = $zero->diff( $offset );
