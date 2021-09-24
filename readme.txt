@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 2.10.0
+Stable tag: 2.10.1
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -133,6 +133,10 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 
 == Changelog ==
+
+= 2.10.1 =
+Reworked settings save with multiple athletes, related to https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
+
 
 = 2.10.0 =
 Add ability to paste Activity/Route/Segment URL into the block editor and have it insert the appropriate block https://wordpress.org/support/topic/sorry-this-content-could-not-be-embedded-5/
