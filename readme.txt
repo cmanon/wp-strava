@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 2.9.1
+Stable tag: 2.9.2
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -135,10 +135,13 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 == Changelog ==
 
 = 2.9.2 =
-Add ability to paste Activity/Route/Segment URL into the block editor
+Add ability to paste Activity/Route/Segment URL into the block editor and have it insert the appropriate block https://wordpress.org/support/topic/sorry-this-content-could-not-be-embedded-5/
+Add `reduce_polyline()` for maps with large polylines but no summary provided (prevents empty map) https://wordpress.org/support/topic/map-embed-from-segment-shows-default-map/
+
 
 = 2.9.1 =
 Add conditional to look for zero/null/empty activity time to avoid exception https://wordpress.org/support/topic/exception-thrown-oceanwp-theme/
+
 
 = 2.9.0 =
 Added Segment Block https://wordpress.org/support/topic/show-segments-feature/ / https://wordpress.org/support/topic/embed-segments-feature/

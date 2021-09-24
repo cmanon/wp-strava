@@ -83,7 +83,7 @@ class WPStrava_ActivitiesListRenderer {
 				$response .= sprintf( __( ' climbing %1$s %2$s', 'wp-strava' ), $som->elevation( $activity->total_elevation_gain ), $som->get_elevation_label() );
 			}
 
-			if ( $activity->calories ) {
+			if ( ! empty( $activity->calories ) ) { // LOL - empty calories :^)
 				// Translators: "burning 200 calories."
 				$response .= sprintf( __( ' burning %1$s calories.', 'wp-strava' ), $som->calories( $activity->calories ) );
 			}
