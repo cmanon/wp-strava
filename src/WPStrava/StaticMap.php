@@ -2,6 +2,8 @@
 
 class WPStrava_StaticMap {
 
+	private static $max_chars = 1865;
+
 	/**
 	 * Get an image tag to a static google map. Will render with
 	 * detailed polyline if not greater than 1865 chars, otherwise
@@ -29,15 +31,17 @@ class WPStrava_StaticMap {
 			$width  = 480;
 		}
 
-		$url       = "https://maps.googleapis.com/maps/api/staticmap?maptype=terrain&size={$width}x{$height}&scale=2&sensor=false&key={$key}&path=color:0xFF0000BF|weight:2|enc:";
-		$url_len   = strlen( $url );
-		$max_chars = 1865;
+		$url     = "https://maps.googleapis.com/maps/api/staticmap?maptype=terrain&size={$width}x{$height}&scale=2&sensor=false&key={$key}&path=color:0xFF0000BF|weight:2|enc:";
+		$url_len = strlen( $url );
 
 		$polyline = '';
-		if ( ! empty( $activity->map->polyline ) && ( $url_len + strlen( $activity->map->polyline ) < $max_chars ) ) {
+		if ( ! empty( $activity->map->polyline ) && ( $url_len + strlen( $activity->map->polyline ) < self::$max_chars ) ) {
 			$polyline = $activity->map->polyline;
 		} elseif ( ! empty( $activity->map->summary_polyline ) ) {
 			$polyline = $activity->map->summary_polyline;
+		} elseif ( ! empty( $activity->map->polyline ) ) {
+			// Need to reduce the polyline b/c it's too big and no summary was provided.
+			$polyline = self::reduce_polyline( $url_len, $activity->map->polyline );
 		}
 		$url .= $polyline;
 
@@ -76,13 +80,40 @@ class WPStrava_StaticMap {
 		require_once WPSTRAVA_PLUGIN_DIR . 'src/Polyline.php';
 		$points = Polyline::decode( $enc );
 		$points = Polyline::pair( $points );
-		$start  = $points[0];
-		$finish = $points[ count( $points ) - 1 ];
 
 		return array(
-			'start'  => $start,
-			'finish' => $finish,
+			'start'  => $points[0],
+			'finish' => end( $points ),
 		);
 	}
 
+	/**
+	 * From a (large) encoded polyline, reduce the number of points
+	 * until it is small enough for a GET URL.
+	 *
+	 * @param int    $url_len Length of map URL.
+	 * @param string $enc     Encoded polyline.
+	 * @return string Smaller encoded polyline.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.9.2
+	 */
+	private static function reduce_polyline( $url_len, $enc ) {
+		require_once WPSTRAVA_PLUGIN_DIR . 'src/Polyline.php';
+		$points = Polyline::decode( $enc );
+		$points = Polyline::pair( $points );
+
+		// Reduce by half https://stackoverflow.com/a/6519046/2146022
+		$keys   = range( 0, count( $points ), 2 );
+		$points = array_values( array_intersect_key( $points, array_combine( $keys, $keys ) ) );
+
+		$points   = Polyline::flatten( $points );
+		$polyline = Polyline::encode( $points );
+
+		if ( $url_len + strlen( $polyline ) >= self::$max_chars ) {
+			// Reduce again.
+			$polyline = self::reduce_polyline( $url_len, $polyline );
+		}
+
+		return $polyline;
+	}
 }
