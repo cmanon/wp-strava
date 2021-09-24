@@ -95,7 +95,7 @@ class WPStrava_StaticMap {
 	 * @param string $enc     Encoded polyline.
 	 * @return string Smaller encoded polyline.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since 2.9.2
+	 * @since 2.10.0
 	 */
 	private static function reduce_polyline( $url_len, $enc ) {
 		require_once WPSTRAVA_PLUGIN_DIR . 'src/Polyline.php';
