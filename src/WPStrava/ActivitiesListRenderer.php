@@ -48,9 +48,11 @@ class WPStrava_ActivitiesListRenderer {
 		}
 
 		$response = "<ul id='activities'>";
-		foreach ( $activities as $activity_summary ) {
-			// Re-get single activity for greater detail (will be cached).
-			$activity = $strava_activity->get_activity( $atts['client_id'], $activity_summary->id );
+		foreach ( $activities as $activity ) {
+			if ( ! empty( $activity->id ) ) {
+				// Re-get single activity for greater detail (will be cached).
+				$activity = $strava_activity->get_activity( $atts['client_id'], $activity->id );
+			}
 			$response .= "<li class='activity'>";
 			$response .= empty( $activity->id ) ?
 				$activity->name : $strava_activity->get_activity_link( $activity->id, $activity->name );
@@ -66,19 +68,24 @@ class WPStrava_ActivitiesListRenderer {
 				);
 			}
 
-			if ( is_numeric( $atts['strava_club_id'] ) ) {
+			if ( is_numeric( $atts['strava_club_id'] ) && ! empty( $activity->athlete ) ) {
 				$name      = $activity->athlete->firstname . ' ' . $activity->athlete->lastname;
 				$response .= empty( $activity->athlete->id ) ?
 					" {$name}" :
 					" <a href='" . WPStrava_Activity::ATHLETES_URL . $activity->athlete->id . "'>" . $name . '</a>';
 			}
 
-			// Translators: "went 10 miles"
-			$response .= sprintf( __( ' went %1$s %2$s', 'wp-strava' ), $som->distance( $activity->distance ), $som->get_distance_label() );
-			// Translators: "during 2 hours"
-			$response .= sprintf( __( ' during %1$s %2$s', 'wp-strava' ), $som->time( $activity->moving_time ), $som->get_time_label() );
+			if ( ! empty( $activity->distance ) ) {
+				// Translators: "went 10 miles"
+				$response .= sprintf( __( ' went %1$s %2$s', 'wp-strava' ), $som->distance( $activity->distance ), $som->get_distance_label() );
+			}
 
-			if ( ! WPStrava::get_instance()->settings->hide_elevation ) {
+			if ( ! empty( $activity->moving_time ) ) {
+				// Translators: "during 2 hours"
+				$response .= sprintf( __( ' during %1$s %2$s', 'wp-strava' ), $som->time( $activity->moving_time ), $som->get_time_label() );
+			}
+
+			if ( ! WPStrava::get_instance()->settings->hide_elevation && ! empty( $activity->total_elevation_gain ) ) {
 				// Translators: "climbing 100 ft."
 				$response .= sprintf( __( ' climbing %1$s %2$s', 'wp-strava' ), $som->elevation( $activity->total_elevation_gain ), $som->get_elevation_label() );
 			}
