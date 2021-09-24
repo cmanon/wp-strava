@@ -333,8 +333,8 @@ class WPStrava_Settings {
 				}
 			}
 
-			// Process $nicknames so indexes start with zero.
-			$nicknames = array_merge( $nicknames, array() );
+			// Rebase array keys after unset.
+			$nicknames = array_values( $nicknames );
 		}
 
 		foreach ( $nicknames as $index => $nickname ) {
@@ -351,13 +351,54 @@ class WPStrava_Settings {
 	 *
 	 * Renamed from sanitize_token().
 	 *
-	 * @param string $id Client ID.
-	 * @return string
+	 * @param array $ids Client IDs.
+	 * @return array
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0
 	 */
-	public function sanitize_id( $id ) {
-		return $id;
+	public function sanitize_id( $ids ) {
+		$this->get_ids();
+
+		if ( ! is_array( $ids ) ) {
+			$ids = array( $ids );
+		}
+
+		// Filter empty IDs.
+		$ids = array_filter( $ids );
+
+		// Rebase array keys after unset.
+		$ids = array_values( $ids );
+
+		$this->maybe_clean_info( $ids );
+
+		$this->ids = $ids;
+
+		return $ids;
+	}
+
+	/**
+	 * Remove IDs from strava_info that are being deleted.
+	 *
+	 * @param array $ids IDs that we're keeping.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.10.1
+	 */
+	private function maybe_clean_info( $ids ) {
+		$update = false;
+
+		$infos = $this->info;
+
+		foreach ( $infos as $id => $info ) {
+			if ( ! in_array( $id, $ids ) ) {
+				$update = true;
+				unset( $infos[ $id ] );
+			}
+		}
+
+		if ( $update ) {
+			update_option( 'strava_info', $infos );
+		}
+
 	}
 
 	/**
@@ -584,10 +625,11 @@ class WPStrava_Settings {
 		foreach ( $ids as $index => $id ) {
 			if ( empty( $id ) ) {
 				unset( $ids[ $index ] );
-				$ids = array_values( $ids ); // Rebase array keys after unset @see https://stackoverflow.com/a/5943165/2146022
 			}
 		}
-		$this->ids = $ids;
+
+		// Rebase array keys after unset @see https://stackoverflow.com/a/5943165/2146022
+		$this->ids = array_values( $ids );
 		return $this->ids;
 	}
 
