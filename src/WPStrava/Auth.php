@@ -85,7 +85,6 @@ abstract class WPStrava_Auth {
 					// Translators: New strava token
 					add_settings_error( 'strava_token', 'strava_token', sprintf( __( 'New Strava token retrieved. %s', 'wp-strava' ), $this->feedback ), 'updated' );
 				} else {
-					// throw new WPStrava_Exception( '' );
 					add_settings_error( 'strava_token', 'strava_token', $this->feedback );
 				}
 			} elseif ( isset( $_GET['error'] ) ) {
