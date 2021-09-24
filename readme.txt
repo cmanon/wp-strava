@@ -137,6 +137,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 = 2.10.0 =
 Add ability to paste Activity/Route/Segment URL into the block editor and have it insert the appropriate block https://wordpress.org/support/topic/sorry-this-content-could-not-be-embedded-5/
 Add `reduce_polyline()` for maps with large polylines but no summary provided (prevents empty map) https://wordpress.org/support/topic/map-embed-from-segment-shows-default-map/
+Fix for ActivitiesList where lists were showing all zeroes https://wordpress.org/support/topic/zero-on-all-activities-for-club-on-list-mocule/
 
 
 = 2.9.1 =
