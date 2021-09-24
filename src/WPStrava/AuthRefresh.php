@@ -39,12 +39,23 @@ class WPStrava_AuthRefresh extends WPStrava_Auth {
 	/**
 	 * Cron method to refresh auth tokens from Strava.
 	 *
+	 * @throws WPStrava_Exception
 	 * @author Justin Foell
 	 * @since  2.0.0
 	 */
 	public function auth_refresh() {
 		$settings = WPStrava::get_instance()->settings;
-		foreach ( $settings->info as $client_id => $info ) {
+		$info     = $settings->info;
+
+		if ( ! is_array( $info ) ) {
+			$message = 'strava_info should be an array, received: ' . var_export( $info, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export -- Debug only.
+			if ( WPSTRAVA_DEBUG ) {
+				error_log( $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug only.
+			}
+			throw new WPStrava_Exception( $message );
+		}
+
+		foreach ( $info as $client_id => $info ) {
 			if ( ! empty( $info->refresh_token ) ) {
 				$this->token_exchange_refresh( $client_id, $info );
 			}
