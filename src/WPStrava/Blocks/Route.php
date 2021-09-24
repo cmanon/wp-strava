@@ -48,6 +48,7 @@ class WPStrava_Blocks_Route implements WPStrava_Blocks_Interface {
 				),
 			)
 		);
+
 		add_action( 'wp_footer', array( $this, 'print_scripts' ) );
 	}
 
@@ -68,7 +69,7 @@ class WPStrava_Blocks_Route implements WPStrava_Blocks_Interface {
 		$this->add_script = true;
 
 		$matches = array();
-		preg_match( '/\/routes\/([0-9].*)$/', $attributes['url'], $matches );
+		preg_match( '#/routes/([0-9].*)$#', $attributes['url'], $matches );
 		if ( $matches[1] ) {
 			// Transform from block attributes to shortcode standard.
 			$attributes = array(
