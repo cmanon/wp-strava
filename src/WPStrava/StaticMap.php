@@ -2,7 +2,7 @@
 
 class WPStrava_StaticMap {
 
-	private static $MAX_CHARS = 1865;
+	private static $max_chars = 1865;
 
 	/**
 	 * Get an image tag to a static google map. Will render with
@@ -31,11 +31,11 @@ class WPStrava_StaticMap {
 			$width  = 480;
 		}
 
-		$url       = "https://maps.googleapis.com/maps/api/staticmap?maptype=terrain&size={$width}x{$height}&scale=2&sensor=false&key={$key}&path=color:0xFF0000BF|weight:2|enc:";
-		$url_len   = strlen( $url );
+		$url     = "https://maps.googleapis.com/maps/api/staticmap?maptype=terrain&size={$width}x{$height}&scale=2&sensor=false&key={$key}&path=color:0xFF0000BF|weight:2|enc:";
+		$url_len = strlen( $url );
 
 		$polyline = '';
-		if ( ! empty( $activity->map->polyline ) && ( $url_len + strlen( $activity->map->polyline ) < self::$MAX_CHARS ) ) {
+		if ( ! empty( $activity->map->polyline ) && ( $url_len + strlen( $activity->map->polyline ) < self::$max_chars ) ) {
 			$polyline = $activity->map->polyline;
 		} elseif ( ! empty( $activity->map->summary_polyline ) ) {
 			$polyline = $activity->map->summary_polyline;
@@ -109,7 +109,7 @@ class WPStrava_StaticMap {
 		$points   = Polyline::flatten( $points );
 		$polyline = Polyline::encode( $points );
 
-		if ( $url_len + strlen( $polyline ) >= self::$MAX_CHARS ) {
+		if ( $url_len + strlen( $polyline ) >= self::$max_chars ) {
 			// Reduce again.
 			$polyline = self::reduce_polyline( $url_len, $polyline );
 		}
