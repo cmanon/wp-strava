@@ -3,7 +3,7 @@
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
-Tested up to: 5.7
+Tested up to: 5.8
 Stable tag: 2.9.1
 Requires PHP: 5.3
 License: GPLv2 or later
@@ -28,13 +28,13 @@ Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default
 
 Embed an activity in any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
 
-Paste in the full activity URL from Strava, such as https://www.strava.com/activities/1793155844 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
+Paste in the full activity URL from Strava, such as https://www.strava.com/activities/1793155844 and click "Embed" (pasting a link directly into the editor also works). A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
 == Strava Route==
 
 Embed a route in any page or post. Shows a summary of the route plus a map if a google maps key has been added.
 
-Paste in the full route URL from Strava, such as https://www.strava.com/routes/2326567 and click "Embed." A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
+Paste in the full route URL from Strava, such as https://www.strava.com/routes/2326567 and click "Embed" (pasting a link directly into the editor also works). A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
 == Strava Activities List ==
 
@@ -44,7 +44,7 @@ Shows your most recent activities in a bulleted list.
 
 Embed a segment in a page or post. Shows a summary of the segment plugs a map if a google maps key has been added.
 
-Paste in the full segment URL from Strava, such as https://www.strava.com/segments/18803428 and click "Embed."  The easiest way that to navigate to a segment URL on strava.com is by clicking “View Full Leaderboard” or “View Local Legend Stats” while you're viewing a segment from an activity.
+Paste in the full segment URL from Strava, such as https://www.strava.com/segments/18803428 and click "Embed" (pasting a link directly into the editor also works). The easiest way that to navigate to a segment URL on strava.com is by clicking “View Full Leaderboard” or “View Local Legend Stats” while you're viewing a segment from an activity.
 
 A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
