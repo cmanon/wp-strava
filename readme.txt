@@ -134,6 +134,9 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
+= 2.9.2 =
+Add ability to paste Activity/Route/Segment URL into the block editor
+
 = 2.9.1 =
 Add conditional to look for zero/null/empty activity time to avoid exception https://wordpress.org/support/topic/exception-thrown-oceanwp-theme/
 
