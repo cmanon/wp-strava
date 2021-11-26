@@ -54,7 +54,7 @@ class WPStrava_LatestMap {
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Image OK.
 				$strava_activity->get_activity_link(
 					$activity->id,
-					WPStrava_StaticMap::get_image_tag( $activity, null, null, false, $activity->name ),
+					WPStrava_StaticMap::get_map()->get_image_tag( $activity, null, null, false, $activity->name ),
 					$activity->name
 				);
 				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped

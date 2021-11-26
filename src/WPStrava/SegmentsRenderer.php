@@ -63,7 +63,7 @@ class WPStrava_SegmentsRenderer {
 
 			$segments_output .= $segments->get_segments_link(
 				$segment_details->id,
-				WPStrava_StaticMap::get_image_tag( $segment_details, $map_height, $map_width, $atts['markers'], $segment_details->name ),
+				WPStrava_StaticMap::get_map()->get_image_tag( $segment_details, $map_height, $map_width, $atts['markers'], $segment_details->name ),
 				$segment_details->name
 			);
 
