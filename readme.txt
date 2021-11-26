@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 2.10.1
+Stable tag: 2.10.2-beta1
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -133,6 +133,10 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 
 == Changelog ==
+
+= 2.10.2 =
+Added debugging for API POST to troubleshoot 401 errors https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
+
 
 = 2.10.1 =
 Reworked settings save with multiple athletes, related to https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
