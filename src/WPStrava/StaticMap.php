@@ -5,12 +5,8 @@ abstract class WPStrava_StaticMap {
 	protected static $max_chars = 1865;
 
 	/**
-	 * Get an image tag to a static google map. Will render with
-	 * detailed polyline if not greater than 1865 chars, otherwise
-	 * rendering will use summary polyline.
+	 * Get an image tag to a static map.
 	 *
-	 * @static
-	 * @access public
 	 * @param object  $activity Activity object to get image tag for.
 	 * @param int     $height   Height of map in pixels.
 	 * @param int     $width    Width of map in pixels.
@@ -21,31 +17,24 @@ abstract class WPStrava_StaticMap {
 	abstract public function get_image_tag( $activity, $height = 320, $width = 480, $markers = false, $title = '' );
 
 	/**
-	 * Factory method to get the correct StaticMap class based on specified string
-	 * or by the options setting.
+	 * Factory method to get the correct StaticMap class based on options setting.
 	 *
-	 * @param string $auth 'google' or 'mapbox' (default 'google').
 	 * @return WPStrava_StaticMap Instance of StaticMap
 	 * @author Justin Foell <justin@foell.org>
 	 * @since NEXT
 	 */
-	public static function get_map( $type = 'google' ) {
-		/*
-		if ( 'google' === $type ) {
-			return new WPStrava_StaticGMap();
+	public static function get_map() {
+		if ( 'mapbox' === WPStrava::get_instance()->settings->map_type ) {
+			return new WPStrava_StaticMapbox();
 		}
-		*/
-		// Default to refresh.
-		return new WPStrava_StaticMapbox();
+		return new WPStrava_StaticGMap();
 	}
 
 	/**
 	 * From an encoded polyline, get the start and finish points for
 	 * the purposes of displaying start and finish markers.
 	 *
-	 * @static
 	 * @see https://developers.google.com/maps/documentation/utilities/polylinealgorithm
-	 * @access private
 	 * @param string $enc Encoded polyline.
 	 * @return array {
 	 *     Indexes of start & finish containing lat/lon for each.
@@ -74,11 +63,11 @@ abstract class WPStrava_StaticMap {
 	 * From a (large) encoded polyline, reduce the number of points
 	 * until it is small enough for a GET URL.
 	 *
-	 * @param int    $base_url_len Length of map URL.
-	 * @param string $enc          Encoded polyline.
-	 * @return string Smaller encoded polyline.
+	 * @param  int    $base_url_len Length of map URL.
+	 * @param  string $enc          Encoded polyline.
+	 * @return string               Smaller encoded polyline.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since 2.10.0
+	 * @since 2.10
 	 */
 	protected function reduce_polyline( $base_url_len, $enc ) {
 		require_once WPSTRAVA_PLUGIN_DIR . 'src/Polyline.php';
@@ -100,6 +89,14 @@ abstract class WPStrava_StaticMap {
 		return $polyline;
 	}
 
+	/**
+	 * Get the length of a polyline.
+	 *
+	 * @param  mixed $polyline Polyline string.
+	 * @return int             Polyline string length.
+	 * @author Justin Foell <justin@foell.org>
+	 * @since next
+	 */
 	protected function polyline_length( $polyline ) {
 		return strlen( $polyline );
 	}

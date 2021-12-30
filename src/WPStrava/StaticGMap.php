@@ -1,14 +1,12 @@
 <?php
 
-class WPStrava_StaticMapGoogle extends WPStrava_StaticMap {
+class WPStrava_StaticGMap extends WPStrava_StaticMap {
 
 	/**
 	 * Get an image tag to a static google map. Will render with
 	 * detailed polyline if not greater than 1865 chars, otherwise
 	 * rendering will use summary polyline.
 	 *
-	 * @static
-	 * @access public
 	 * @param object  $activity Activity object to get image tag for.
 	 * @param int     $height   Height of map in pixels.
 	 * @param int     $width    Width of map in pixels.
