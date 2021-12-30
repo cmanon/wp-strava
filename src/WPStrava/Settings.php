@@ -170,7 +170,7 @@ class WPStrava_Settings {
 	 * Print the map type selection.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	public function print_map_type_input() {
 		$gmaps_url    = 'https://developers.google.com/maps/documentation/static-maps/';
@@ -234,7 +234,7 @@ class WPStrava_Settings {
 	 * @param string $map_type
 	 * @return string
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	public function sanitize_map_type_input( $map_type ) {
 		if ( in_array( $map_type, array( 'gmaps', 'mapbox' ), true ) ) {
@@ -489,7 +489,7 @@ class WPStrava_Settings {
 	 * Print the Mapbox token input.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	public function print_mapbox_token_input() {
 		?>
@@ -503,7 +503,7 @@ class WPStrava_Settings {
 	 * @param string $token
 	 * @return string
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	public function sanitize_mapbox_token( $token ) {
 		return $token;

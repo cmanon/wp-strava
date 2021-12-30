@@ -21,7 +21,7 @@ abstract class WPStrava_StaticMap {
 	 *
 	 * @return WPStrava_StaticMap Instance of StaticMap
 	 * @author Justin Foell <justin@foell.org>
-	 * @since NEXT
+	 * @since 2.11
 	 */
 	public static function get_map() {
 		if ( 'mapbox' === WPStrava::get_instance()->settings->map_type ) {
@@ -95,7 +95,7 @@ abstract class WPStrava_StaticMap {
 	 * @param  mixed $polyline Polyline string.
 	 * @return int             Polyline string length.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	protected function polyline_length( $polyline ) {
 		return strlen( $polyline );

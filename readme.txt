@@ -135,7 +135,8 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 == Changelog ==
 
 = 2.11.0 =
-Added additional block transformations for "Activity" (from: Paragraph, Classic Shortcode; to: Paragraph)
+Add additional block transformations for "Activity" (from: Paragraph, Classic Shortcode; to: Paragraph)
+Add Mapbox Static Map support https://github.com/cmanon/wp-strava/issues/26
 
 
 = 2.10.1 =

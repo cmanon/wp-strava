@@ -56,7 +56,7 @@ class WPStrava_StaticMapbox extends WPStrava_StaticMap {
 	 * @param  bool   $markers  Display start and finish markers.
 	 * @return string           Image URL.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	private function build_url( $polyline, $height = 320, $width = 480, $markers = false ) {
 
@@ -86,7 +86,7 @@ class WPStrava_StaticMapbox extends WPStrava_StaticMap {
 	 * @param  mixed $polyline Polyline string.
 	 * @return int             Encoded polyline string length.
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	protected function polyline_length( $polyline ) {
 		return strlen( rawurlencode( $polyline ) );

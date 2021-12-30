@@ -193,7 +193,7 @@ class WPStrava {
 	 * Register/enqueue admin javascript.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @since next
+	 * @since 2.11
 	 */
 	public function register_admin_scripts() {
 		if ( $this->settings->is_settings_page() ) {
