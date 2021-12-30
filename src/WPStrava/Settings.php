@@ -80,9 +80,16 @@ class WPStrava_Settings {
 		}
 
 		// Google Maps API.
+		add_settings_section( 'strava_maps', __( 'Maps', 'wp-strava' ), null, 'wp-strava' );
+
+		register_setting( $this->option_page, 'strava_map_type', array( $this, 'sanitize_map_type' ) );
+		add_settings_field( 'strava_map_type', __( 'Map Type', 'wp-strava' ), array( $this, 'print_map_type_input' ), 'wp-strava', 'strava_maps' );
+
 		register_setting( $this->option_page, 'strava_gmaps_key', array( $this, 'sanitize_gmaps_key' ) );
-		add_settings_section( 'strava_gmaps', __( 'Google Maps', 'wp-strava' ), array( $this, 'print_gmaps_instructions' ), 'wp-strava' );
-		add_settings_field( 'strava_gmaps_key', __( 'Static Maps Key', 'wp-strava' ), array( $this, 'print_gmaps_key_input' ), 'wp-strava', 'strava_gmaps' );
+		add_settings_field( 'strava_gmaps_key', __( 'Google Static Maps API Key', 'wp-strava' ), array( $this, 'print_gmaps_key_input' ), 'wp-strava', 'strava_maps' );
+
+		register_setting( $this->option_page, 'strava_mapbox_token', array( $this, 'sanitize_mapbox_token' ) );
+		add_settings_field( 'strava_mapbox_token', __( 'Mapbox Public Token', 'wp-strava' ), array( $this, 'print_mapbox_token_input' ), 'wp-strava', 'strava_maps' );
 
 		// System of Measurement.
 		register_setting( $this->option_page, 'strava_som', array( $this, 'sanitize_som' ) );
@@ -160,27 +167,80 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Print the google maps instructions.
+	 * Print the map type selection.
 	 *
 	 * @author Justin Foell <justin@foell.org>
-	 * @since  1.1
+	 * @since 2.11
 	 */
-	public function print_gmaps_instructions() {
-		$maps_url = 'https://developers.google.com/maps/documentation/static-maps/';
-		echo wp_kses_post(
-			sprintf(
-				__(
-					"<p>Steps:</p>
-					<ol>
-						<li>To use Google map images, you must create a Static Maps API Key. Create a free key by going here: <a href='%1\$s'>%2\$s</a> and clicking <strong>Get a Key</strong></li>
-						<li>Once you've created your Google Static Maps API Key, enter the key below.</li>
-					</ol>",
-					'wp-strava'
-				),
-				$maps_url,
-				$maps_url
-			)
-		);
+	public function print_map_type_input() {
+		$gmaps_url    = 'https://developers.google.com/maps/documentation/static-maps/';
+		$mapbox_url   = 'https://www.mapbox.com/static-maps';
+		$selected     = 'mapbox' === $this->map_type ? 'mapbox' : 'gmaps';
+		$gmaps_class  = 'gmaps' !== $selected ? 'hidden' : '';
+		$mapbox_class = 'mapbox' !== $selected ? 'hidden' : '';
+
+		?>
+		<select id="strava_map_type" name="strava_map_type">
+			<option value="gmaps" <?php selected( $this->map_type, 'gmaps' ); ?>><?php esc_html_e( 'Google Maps', 'wp-strava' ); ?></option>
+			<option value="mapbox" <?php selected( $this->map_type, 'mapbox' ); ?>><?php esc_html_e( 'Mapbox', 'wp-strava' ); ?></option>
+		</select>
+		<p class="description">
+			<br/>
+			<div class="strava-maps">
+				<div id="strava-maps-gmaps-instructions" class="<?php echo esc_attr( $gmaps_class ); ?>">
+					<?php
+					echo wp_kses_post(
+						sprintf(
+							__(
+								"<p>Steps:</p>
+								<ol>
+									<li>To use Google map images, you must create a Static Maps API Key. Google now requires billing information for overages, but effectively gives you 100k map loads for free each month. Create your Google Static Maps API key by going here: <a href='%1\$s'>%2\$s</a></li>
+									<li>Once you've created your Google Static Maps API Key, enter the key below.</li>
+								</ol>",
+								'wp-strava'
+							),
+							$gmaps_url,
+							$gmaps_url
+						)
+					);
+					?>
+				</div>
+				<div id="strava-maps-mapbox-instructions" class="<?php echo esc_attr( $mapbox_class ); ?>">
+				<?php
+					echo wp_kses_post(
+						sprintf(
+							__(
+								"<p>Steps:</p>
+								<ol>
+									<li>To use Mapbox map images, create a free Mapbox account here: <a href='%1\$s'>%2\$s</a></li>
+									<li>All Mapbox accounts are issued a default public access token, enter the token below.</li>
+								</ol>",
+								'wp-strava'
+							),
+							$mapbox_url,
+							$mapbox_url
+						)
+					);
+				?>
+				</div>
+			</div>
+		</p>
+		<?php
+	}
+
+	/**
+	 * Sanitize map type select input.
+	 *
+	 * @param string $map_type
+	 * @return string
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.11
+	 */
+	public function sanitize_map_type_input( $map_type ) {
+		if ( in_array( $map_type, array( 'gmaps', 'mapbox' ), true ) ) {
+			return $map_type;
+		}
+		return '';
 	}
 
 	/**
@@ -389,7 +449,7 @@ class WPStrava_Settings {
 		$infos = $this->info;
 
 		foreach ( $infos as $id => $info ) {
-			if ( ! in_array( $id, $ids ) ) {
+			if ( ! in_array( $id, $ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- loose OK.
 				$update = true;
 				unset( $infos[ $id ] );
 			}
@@ -423,6 +483,30 @@ class WPStrava_Settings {
 	 */
 	public function sanitize_gmaps_key( $key ) {
 		return $key;
+	}
+
+	/**
+	 * Print the Mapbox token input.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.11
+	 */
+	public function print_mapbox_token_input() {
+		?>
+		<input type="text" id="strava_mapbox_token" name="strava_mapbox_token" value="<?php echo esc_attr( $this->mapbox_token ); ?>" />
+		<?php
+	}
+
+	/**
+	 * Sanitize Mapbox token input.
+	 *
+	 * @param string $token
+	 * @return string
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.11
+	 */
+	public function sanitize_mapbox_token( $token ) {
+		return $token;
 	}
 
 	/**
