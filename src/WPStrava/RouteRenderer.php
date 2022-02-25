@@ -60,7 +60,7 @@ class WPStrava_RouteRenderer {
 
 			$route_output .= $route->get_route_link(
 				$route_details->id,
-				WPStrava_StaticMap::get_image_tag( $route_details, $map_height, $map_width, $atts['markers'], $route_details->name ),
+				WPStrava_StaticMap::get_map()->get_image_tag( $route_details, $map_height, $map_width, $atts['markers'], $route_details->name ),
 				$route_details->name
 			);
 

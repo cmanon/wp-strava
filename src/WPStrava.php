@@ -95,6 +95,7 @@ class WPStrava {
 
 		if ( is_admin() ) {
 			$this->settings->hook();
+			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ) );
 		} else { // Front-end.
 			add_action( 'init', array( $this, 'register_shortcodes' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
@@ -186,6 +187,18 @@ class WPStrava {
 			$this->segments = new WPStrava_Segments();
 		}
 		return $this->segments;
+	}
+
+	/**
+	 * Register/enqueue admin javascript.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since 2.11
+	 */
+	public function register_admin_scripts() {
+		if ( $this->settings->is_settings_page() ) {
+			wp_enqueue_script( 'strava-admin-settings', WPSTRAVA_PLUGIN_URL . 'src/admin-settings.js', array(), WPSTRAVA_PLUGIN_VERSION, true );
+		}
 	}
 
 	/**
