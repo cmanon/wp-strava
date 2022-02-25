@@ -9,19 +9,51 @@ metadata.save = () => null;
 metadata.transforms = {
 	from: [
 		{
-			type: "raw",
-			priority: 10,
-			isMatch: ( node ) =>
-				node.nodeName === "P" &&
-				node.innerText.startsWith( "https://www.strava.com/activities/" ),
-
+			type: 'raw',
+			isMatch: ( node ) => {
+				return (
+					node.nodeName === 'P' &&
+					node.innerText.startsWith( 'https://www.strava.com/activities/' )
+				);
+			},
 			transform: function( node ) {
 				return createBlock( metadata.name, {
 					url: node.innerText,
 				} );
 			}
+		},
+		{
+			type: 'block',
+			blocks: [ 'core/paragraph' ],
+			isMatch: ( node ) => {
+				return node.content.startsWith( 'https://www.strava.com/activities/' );
+			},
+			transform: function( node ) {
+				return createBlock( metadata.name, { url: node.content } );
+			}
+		},
+		{
+			type: 'shortcode',
+			tag: [ 'activity', 'ride' ],
+			attributes: {
+				url: {
+					type: 'string',
+					shortcode: ( { named: atts } ) => {
+						return 'https://www.strava.com/activities/' + atts.id;
+					},
+				},
+			},
 		}
-	]
+	],
+	to: [
+		{
+			type: 'block',
+			blocks: [ 'core/paragraph' ],
+			transform: ( attributes ) => {
+				return createBlock( 'core/paragraph', { content: attributes.url } );
+			}
+		},
+	],
 };
 
 registerBlockType( metadata.name, metadata );

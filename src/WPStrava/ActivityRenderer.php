@@ -55,7 +55,7 @@ class WPStrava_ActivityRenderer {
 
 			$activity_output .= $activity->get_activity_link(
 				$activity_details->id,
-				WPStrava_StaticMap::get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'], $activity_details->name ),
+				WPStrava_StaticMap::get_map()->get_image_tag( $activity_details, $map_height, $map_width, $atts['markers'], $activity_details->name ),
 				$activity_details->name
 			);
 
