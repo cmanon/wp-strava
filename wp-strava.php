@@ -27,7 +27,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'WPSTRAVA_PLUGIN_VERSION', '2.12.0-beta' );
+define( 'WPSTRAVA_PLUGIN_VERSION', '2.12.0-beta1' );
 define( 'WPSTRAVA_PLUGIN_FILE', __FILE__ );
 define( 'WPSTRAVA_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 define( 'WPSTRAVA_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
