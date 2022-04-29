@@ -151,6 +151,22 @@ class WPStrava_API {
 		}
 
 		$response = wp_remote_get( $url, $get_args );
+
+		if ( WPSTRAVA_DEBUG ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions -- Debug output.
+			error_log(
+				print_r(
+					array(
+						'url'      => $url,
+						'args'     => $get_args,
+						'response' => $response,
+					),
+					true
+				)
+			);
+			// phpcs:enable
+		}
+
 		if ( is_wp_error( $response ) ) {
 			throw WPStrava_Exception::from_wp_error( $response );
 		}
