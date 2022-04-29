@@ -134,6 +134,9 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
+= 2.11.1 =
+Add class selector to responsive tables https://wordpress.org/support/topic/shortcode-embed-responsive-table-styling-issues/
+
 = 2.11.0 =
 Add additional block transformations for "Activity" (from: Paragraph, Classic Shortcode; to: Paragraph)
 Add Mapbox Static Map support https://github.com/cmanon/wp-strava/issues/26
