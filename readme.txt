@@ -134,17 +134,18 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
-<<<<<<< HEAD
-= 2.12.0-beta1 =
+= 2.12.0-beta2 =
 Added debugging for API POST to troubleshoot 401 errors https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
-=======
+
+
 = 2.11.1 =
 Add class selector to responsive tables https://wordpress.org/support/topic/shortcode-embed-responsive-table-styling-issues/
->>>>>>> main
+
 
 = 2.11.0 =
 Add additional block transformations for "Activity" (from: Paragraph, Classic Shortcode; to: Paragraph)
 Add Mapbox Static Map support https://github.com/cmanon/wp-strava/issues/26
+
 
 = 2.10.1 =
 Reworked settings save with multiple athletes, related to https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
