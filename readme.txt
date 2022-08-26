@@ -3,8 +3,13 @@
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
+<<<<<<< HEAD
 Tested up to: 5.9
 Stable tag: 2.12.0-beta2
+=======
+Tested up to: 6.0
+Stable tag: 2.11.2
+>>>>>>> @{-1}
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -22,7 +27,7 @@ Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default
 
 = Blocks =
 
-*Available in WordPress 5.0 and up.*
+*Available in WordPress 5.0 and up.* Embeds described in this section will only work in the WP Block (Gutenberg) editor. Compatibility with WPBakery, Visual Composer, Elementor, Beaver Builder, etc. may differ.
 
 == Strava Activity ==
 
@@ -103,7 +108,7 @@ When you have multiple athletes saved, the first is considered to be the default
 
 = Why is my Google Map not showing up? =
 
-If your API key works with other Google Maps plugins but not WP Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
+If your API key works with other Google Maps plugins but not WP-Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
 
 
 = I recently uploaded an activity, why is it not showing on my site? =
@@ -118,7 +123,7 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Screenshots ==
 
-1. WP Strava settings - this walks you through connecting the WP Strava plugin to your Strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
+1. WP-Strava settings - this walks you through connecting the WP-Strava plugin to your Strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
 2. Strava Activities List Widget - shows a list of the most recent activities for the selected athlete.
 3. Strava Activities List Widget Settings - settings for the Strava Activities List Widget.
 4. Strava Latest Map Widget - shows a map of your most recent activity.
@@ -134,8 +139,17 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
-= 2.12.0-beta2 =
+= Unreleased =
 Added debugging for API POST to troubleshoot 401 errors https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
+
+
+= 2.11.2 =
+Update documentation around block embeds https://wordpress.org/support/topic/which-editor-to-use-2/
+
+
+= 2.11.1 =
+Add class selector to responsive tables https://wordpress.org/support/topic/shortcode-embed-responsive-table-styling-issues/
+>>>>>>> @{-1}
 
 = 2.11.0 =
 Add additional block transformations for "Activity" (from: Paragraph, Classic Shortcode; to: Paragraph)
