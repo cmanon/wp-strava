@@ -243,7 +243,7 @@ class WPStrava {
 		);
 
 		// automatically load dependencies and version
-		$asset_file = include WPSTRAVA_PLUGIN_DIR . 'build/index.asset.php';
+		$asset_file = require WPSTRAVA_PLUGIN_DIR . 'build/index.asset.php';
 
 		wp_register_script(
 			'wp-strava-block',
