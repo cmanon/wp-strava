@@ -177,11 +177,8 @@ class WPStrava_API {
 			$auth  = WPStrava::get_instance()->auth;
 			if ( $auth instanceof WPStrava_AuthRefresh ) {
 				$auth->auth_refresh();
-				$access_token = $this->get_access_token();
-				if ( $access_token ) {
-					$get_args['headers']['Authorization'] = 'Bearer ' . $access_token;
-				}
-				return $this->remote_get( $uri, $get_args );
+				// Try again.
+				return $this->remote_get( $uri, $args );
 			}
 		}
 
