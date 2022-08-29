@@ -1,6 +1,5 @@
 {
   "name": "wp-strava-blocks",
-  "version": "1.0.0",
   "license": "GPL-2.0-or-later",
   "description": "",
   "main": "build/index.js",
@@ -9,6 +8,10 @@
     "start": "wp-scripts start"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^24.0.0"
+    "@wordpress/scripts": "12.6.1"
+  },
+  "engines": {
+    "node": "~14",
+    "npm": ">7 <=8"
   }
 }
