@@ -12,7 +12,7 @@ class WPStrava_Settings {
 
 	private $ids            = array();
 	private $page_name      = 'wp-strava-options';
-	private $option_page    = 'wp-strava-settings-group';
+	private $option_group   = 'wp-strava-settings-group';
 	private $adding_athlete = true;
 
 	/**
@@ -58,21 +58,21 @@ class WPStrava_Settings {
 
 		$ids = $this->get_ids();
 		if ( $this->ids_empty( $ids ) ) {
-			register_setting( $this->option_page, 'strava_client_id', array( $this, 'sanitize_client_id' ) );
-			register_setting( $this->option_page, 'strava_client_secret', array( $this, 'sanitize_client_secret' ) );
-			register_setting( $this->option_page, 'strava_nickname', array( $this, 'sanitize_nickname' ) );
+			register_setting( $this->option_group, 'strava_client_id', array( $this, 'sanitize_client_id' ) );
+			register_setting( $this->option_group, 'strava_client_secret', array( $this, 'sanitize_client_secret' ) );
+			register_setting( $this->option_group, 'strava_nickname', array( $this, 'sanitize_nickname' ) );
 
 			add_settings_field( 'strava_client_id', __( 'Strava Client ID', 'wp-strava' ), array( $this, 'print_client_input' ), 'wp-strava', 'strava_api' );
 			add_settings_field( 'strava_client_secret', __( 'Strava Client Secret', 'wp-strava' ), array( $this, 'print_secret_input' ), 'wp-strava', 'strava_api' );
 			add_settings_field( 'strava_nickname', __( 'Strava Nickname', 'wp-strava' ), array( $this, 'print_nickname_input' ), 'wp-strava', 'strava_api' );
 		} else {
-			register_setting( $this->option_page, 'strava_id', array( $this, 'sanitize_id' ) );
+			register_setting( $this->option_group, 'strava_id', array( $this, 'sanitize_id' ) );
 			add_settings_field( 'strava_id', __( 'Saved ID', 'wp-strava' ), array( $this, 'print_id_input' ), 'wp-strava', 'strava_api' );
 
 			// Add additional fields
-			register_setting( $this->option_page, 'strava_client_id', array( $this, 'sanitize_client_id' ) );
-			register_setting( $this->option_page, 'strava_client_secret', array( $this, 'sanitize_client_secret' ) );
-			register_setting( $this->option_page, 'strava_nickname', array( $this, 'sanitize_nickname' ) );
+			register_setting( $this->option_group, 'strava_client_id', array( $this, 'sanitize_client_id' ) );
+			register_setting( $this->option_group, 'strava_client_secret', array( $this, 'sanitize_client_secret' ) );
+			register_setting( $this->option_group, 'strava_nickname', array( $this, 'sanitize_nickname' ) );
 
 			add_settings_field( 'strava_client_id', __( 'Additional Athlete Client ID', 'wp-strava' ), array( $this, 'print_client_input' ), 'wp-strava', 'strava_api' );
 			add_settings_field( 'strava_client_secret', __( 'Additional Athlete Client Secret', 'wp-strava' ), array( $this, 'print_secret_input' ), 'wp-strava', 'strava_api' );
@@ -82,38 +82,43 @@ class WPStrava_Settings {
 		// Google Maps API.
 		add_settings_section( 'strava_maps', __( 'Maps', 'wp-strava' ), null, 'wp-strava' );
 
-		register_setting( $this->option_page, 'strava_map_type', array( $this, 'sanitize_map_type' ) );
+		register_setting( $this->option_group, 'strava_map_type', array( $this, 'sanitize_map_type' ) );
 		add_settings_field( 'strava_map_type', __( 'Map Type', 'wp-strava' ), array( $this, 'print_map_type_input' ), 'wp-strava', 'strava_maps' );
 
-		register_setting( $this->option_page, 'strava_gmaps_key', array( $this, 'sanitize_gmaps_key' ) );
+		register_setting( $this->option_group, 'strava_gmaps_key', array( $this, 'sanitize_gmaps_key' ) );
 		add_settings_field( 'strava_gmaps_key', __( 'Google Static Maps API Key', 'wp-strava' ), array( $this, 'print_gmaps_key_input' ), 'wp-strava', 'strava_maps' );
 
-		register_setting( $this->option_page, 'strava_mapbox_token', array( $this, 'sanitize_mapbox_token' ) );
+		register_setting( $this->option_group, 'strava_mapbox_token', array( $this, 'sanitize_mapbox_token' ) );
 		add_settings_field( 'strava_mapbox_token', __( 'Mapbox Public Token', 'wp-strava' ), array( $this, 'print_mapbox_token_input' ), 'wp-strava', 'strava_maps' );
 
 		// System of Measurement.
-		register_setting( $this->option_page, 'strava_som', array( $this, 'sanitize_som' ) );
+		register_setting( $this->option_group, 'strava_som', array( $this, 'sanitize_som' ) );
 		add_settings_section( 'strava_options', __( 'Options', 'wp-strava' ), null, 'wp-strava' );
 		add_settings_field( 'strava_som', __( 'System of Measurement', 'wp-strava' ), array( $this, 'print_som_input' ), 'wp-strava', 'strava_options' );
 
 		// Hide Options.
-		register_setting( $this->option_page, 'strava_hide_time', array( $this, 'sanitize_hide_time' ) );
+		register_setting( $this->option_group, 'strava_hide_time', array( $this, 'sanitize_hide_time' ) );
 		add_settings_field( 'strava_hide_time', __( 'Time', 'wp-strava' ), array( $this, 'print_hide_time_input' ), 'wp-strava', 'strava_options' );
-		register_setting( $this->option_page, 'strava_hide_elevation', array( $this, 'sanitize_hide_elevation' ) );
+		register_setting( $this->option_group, 'strava_hide_elevation', array( $this, 'sanitize_hide_elevation' ) );
 		add_settings_field( 'strava_hide_elevation', __( 'Elevation', 'wp-strava' ), array( $this, 'print_hide_elevation_input' ), 'wp-strava', 'strava_options' );
 
 		// No Activity Links.
-		register_setting( $this->option_page, 'strava_no_link', array( $this, 'sanitize_no_link' ) );
+		register_setting( $this->option_group, 'strava_no_link', array( $this, 'sanitize_no_link' ) );
 		add_settings_field( 'strava_no_link', __( 'Links', 'wp-strava' ), array( $this, 'print_no_link_input' ), 'wp-strava', 'strava_options' );
 
 		// Cache lifetime.
-		register_setting( $this->option_page, 'strava_cache_time', array( $this, 'sanitize_cache_time' ) );
+		register_setting( $this->option_group, 'strava_cache_time', array( $this, 'sanitize_cache_time' ) );
 		add_settings_section( 'strava_cache', __( 'Cache', 'wp-strava' ), null, 'wp-strava' );
 		add_settings_field( 'strava_cache_time', __( 'Cache time', 'wp-strava' ), array( $this, 'print_cache_input' ), 'wp-strava', 'strava_cache' );
 
 		// Clear cache.
-		register_setting( $this->option_page, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
+		register_setting( $this->option_group, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
 		add_settings_field( 'strava_cache_clear', __( 'Clear cache', 'wp-strava' ), array( $this, 'print_clear_input' ), 'wp-strava', 'strava_cache' );
+
+		if ( WPSTRAVA_DEBUG ) {
+			add_settings_section( 'strava_debug', __( 'Debug', 'wp-strava' ), null, 'wp-strava' );
+			add_settings_field( 'strava_debug_info', __( 'Connection Info', 'wp-strava' ), array( $this, 'print_debug_info' ), 'wp-strava', 'strava_debug' );
+		}
 	}
 
 	/**
@@ -449,7 +454,8 @@ class WPStrava_Settings {
 		$infos = $this->info;
 
 		foreach ( $infos as $id => $info ) {
-			if ( ! in_array( $id, $ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- loose OK.
+			// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Loose comparison OK.
+			if ( ! in_array( $id, $ids ) ) {
 				$update = true;
 				unset( $infos[ $id ] );
 			}
@@ -678,6 +684,17 @@ class WPStrava_Settings {
 	}
 
 	/**
+	 * Print stored connection info.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  NEXT
+	 */
+	public function print_debug_info() {
+		// phpcs:ignore Squiz.PHP.EmbeddedPhp, WordPress.PHP.DevelopmentFunctions -- Formatting & debug OK.
+		?><textarea style="width: 100%;" rows="11" readonly="readonly"><?php var_export( get_option( 'strava_info' ) ); ?></textarea><?php
+	}
+
+	/**
 	 * Sanitize cache time input.
 	 *
 	 * @param int $cache_time Selected cache time from dropdown.
@@ -868,14 +885,15 @@ class WPStrava_Settings {
 	}
 
 	/**
-	 * Whether or not we're on the options page.
+	 * Whether or not we're on the options.php page (saving options).
 	 *
 	 * @return boolean
 	 * @author Justin Foell <justin@foell.org>
 	 * @since  2.0.0
 	 */
-	public function is_option_page() {
-		return filter_input( INPUT_POST, 'option_page', FILTER_SANITIZE_STRING ) === $this->option_page;
+	public function is_options_page() {
+		$screen = get_current_screen();
+		return isset( $screen->id ) && 'options' === $screen->id;
 	}
 
 	/**
@@ -886,7 +904,7 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function is_settings_page() {
-		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) === $this->page_name;
+		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) === $this->page_name;
 	}
 
 	/**
@@ -908,7 +926,8 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	private function is_adding_athlete() {
-		return filter_input( INPUT_POST, 'strava_client_id', FILTER_SANITIZE_NUMBER_INT ) && filter_input( INPUT_POST, 'strava_client_secret', FILTER_SANITIZE_STRING );
+		return filter_input( INPUT_POST, 'strava_client_id', FILTER_SANITIZE_NUMBER_INT ) &&
+			filter_input( INPUT_POST, 'strava_client_secret', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 	}
 
 	/**

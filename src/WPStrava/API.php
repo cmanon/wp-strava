@@ -45,6 +45,21 @@ class WPStrava_API {
 
 		$response = wp_remote_post( $url . $uri, $args );
 
+		if ( WPSTRAVA_DEBUG ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions -- Debug output.
+			error_log(
+				print_r(
+					array(
+						'url'      => $url . $uri,
+						'args'     => $args,
+						'response' => $response,
+					),
+					true
+				)
+			);
+			// phpcs:enable
+		}
+
 		if ( is_wp_error( $response ) ) {
 			throw WPStrava_Exception::from_wp_error( $response );
 		}
@@ -136,6 +151,22 @@ class WPStrava_API {
 		}
 
 		$response = wp_remote_get( $url, $get_args );
+
+		if ( WPSTRAVA_DEBUG ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions -- Debug output.
+			error_log(
+				print_r(
+					array(
+						'url'      => $url,
+						'args'     => $get_args,
+						'response' => $response,
+					),
+					true
+				)
+			);
+			// phpcs:enable
+		}
+
 		if ( is_wp_error( $response ) ) {
 			throw WPStrava_Exception::from_wp_error( $response );
 		}
@@ -146,11 +177,8 @@ class WPStrava_API {
 			$auth  = WPStrava::get_instance()->auth;
 			if ( $auth instanceof WPStrava_AuthRefresh ) {
 				$auth->auth_refresh();
-				$access_token = $this->get_access_token();
-				if ( $access_token ) {
-					$get_args['headers']['Authorization'] = 'Bearer ' . $access_token;
-				}
-				return $this->remote_get( $uri, $get_args );
+				// Try again.
+				return $this->remote_get( $uri, $args );
 			}
 		}
 

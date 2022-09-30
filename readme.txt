@@ -4,7 +4,7 @@ Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
 Tested up to: 6.0
-Stable tag: 2.11.2
+Stable tag: 2.12.0
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -134,12 +134,14 @@ On the WP-Strava settings page you cannot currently remove and add another athle
 
 == Changelog ==
 
-= 2.11.2 =
+= 2.12.0 =
 Update documentation around block embeds https://wordpress.org/support/topic/which-editor-to-use-2/
+Added debugging for API GET/POST to troubleshoot 401 errors https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
 
 
 = 2.11.1 =
 Add class selector to responsive tables https://wordpress.org/support/topic/shortcode-embed-responsive-table-styling-issues/
+
 
 = 2.11.0 =
 Add additional block transformations for "Activity" (from: Paragraph, Classic Shortcode; to: Paragraph)

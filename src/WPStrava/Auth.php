@@ -47,7 +47,7 @@ abstract class WPStrava_Auth {
 				'filter' => FILTER_SANITIZE_NUMBER_INT,
 				'flags'  => FILTER_REQUIRE_SCALAR,
 			),
-			'strava_client_secret' => FILTER_SANITIZE_STRING,
+			'strava_client_secret' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		);
 
 		$input = filter_input_array( INPUT_POST, $input_args );
@@ -57,7 +57,7 @@ abstract class WPStrava_Auth {
 		}
 
 		// Redirect only if all the right options are in place.
-		if ( $settings->is_settings_updated( $value ) && $settings->is_option_page() ) {
+		if ( $settings->is_settings_updated( $value ) && $settings->is_options_page() ) {
 			// Only re-auth if client ID and secret were saved.
 			if ( ! empty( $input['strava_client_id'] ) && ! empty( $input['strava_client_secret'] ) ) {
 				wp_redirect( $this->get_authorize_url( $input['strava_client_id'] ) );
@@ -71,8 +71,8 @@ abstract class WPStrava_Auth {
 		$settings = WPStrava::get_instance()->settings;
 
 		$input_args = array(
-			'settings-updated' => FILTER_SANITIZE_STRING,
-			'code'             => FILTER_SANITIZE_STRING,
+			'settings-updated' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'code'             => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		);
 
 		$input = filter_input_array( INPUT_GET, $input_args );
