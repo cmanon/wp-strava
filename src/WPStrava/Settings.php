@@ -114,6 +114,11 @@ class WPStrava_Settings {
 		// Clear cache.
 		register_setting( $this->option_page, 'strava_cache_clear', array( $this, 'sanitize_cache_clear' ) );
 		add_settings_field( 'strava_cache_clear', __( 'Clear cache', 'wp-strava' ), array( $this, 'print_clear_input' ), 'wp-strava', 'strava_cache' );
+
+		if ( WPSTRAVA_DEBUG ) {
+			add_settings_section( 'strava_debug', __( 'Debug', 'wp-strava' ), null, 'wp-strava' );
+			add_settings_field( 'strava_debug_info', __( 'Connection Info', 'wp-strava' ), array( $this, 'print_debug_info' ), 'wp-strava', 'strava_debug' );
+		}
 	}
 
 	/**
@@ -449,7 +454,8 @@ class WPStrava_Settings {
 		$infos = $this->info;
 
 		foreach ( $infos as $id => $info ) {
-			if ( ! in_array( $id, $ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- loose OK.
+			// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict -- Loose comparison OK.
+			if ( ! in_array( $id, $ids ) ) {
 				$update = true;
 				unset( $infos[ $id ] );
 			}
@@ -678,6 +684,17 @@ class WPStrava_Settings {
 	}
 
 	/**
+	 * Print stored connection info.
+	 *
+	 * @author Justin Foell <justin@foell.org>
+	 * @since  NEXT
+	 */
+	public function print_debug_info() {
+		// phpcs:ignore Squiz.PHP.EmbeddedPhp, WordPress.PHP.DevelopmentFunctions -- Formatting & debug OK.
+		?><textarea style="width: 100%;" rows="11" readonly="readonly"><?php print_r( get_option( 'strava_info' ) ); ?></textarea><?php
+	}
+
+	/**
 	 * Sanitize cache time input.
 	 *
 	 * @param int $cache_time Selected cache time from dropdown.
@@ -875,7 +892,8 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function is_option_page() {
-		return filter_input( INPUT_POST, 'option_page', FILTER_SANITIZE_STRING ) === $this->option_page;
+		// phpcs:ignore WordPress.Security.NonceVerification -- Comparison only.
+		return htmlspecialchars( $_POST['options_page'], ENT_QUOTES, get_bloginfo( 'charset' ) ) === $this->option_page;
 	}
 
 	/**
@@ -886,7 +904,8 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	public function is_settings_page() {
-		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) === $this->page_name;
+		// phpcs:ignore WordPress.Security.NonceVerification -- Comparison only.
+		return htmlspecialchars( $_GET['page'], ENT_QUOTES, get_bloginfo( 'charset' ) ) === $this->page_name;
 	}
 
 	/**
@@ -908,7 +927,8 @@ class WPStrava_Settings {
 	 * @since  2.0.0
 	 */
 	private function is_adding_athlete() {
-		return filter_input( INPUT_POST, 'strava_client_id', FILTER_SANITIZE_NUMBER_INT ) && filter_input( INPUT_POST, 'strava_client_secret', FILTER_SANITIZE_STRING );
+		return filter_input( INPUT_POST, 'strava_client_id', FILTER_SANITIZE_NUMBER_INT ) &&
+			htmlspecialchars( $_POST['strava_client_secret'], ENT_QUOTES, get_bloginfo( 'charset' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Comparison only.
 	}
 
 	/**
