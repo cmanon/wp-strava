@@ -68,8 +68,8 @@ class WPStrava_StaticMapbox extends WPStrava_StaticMap {
 
 		if ( $markers ) {
 			$points = $this->decode_start_finish( $polyline );
-			$path[] = "pin-s+008000({$points['start'][0]},{$points['start'][1]})";
-			$path[] = "pin-s+ff0000({$points['finish'][0]},{$points['finish'][1]})";
+			$path[] = "pin-s+008000({$points['start'][1]},{$points['start'][0]})";
+			$path[] = "pin-s+ff0000({$points['finish'][1]},{$points['finish'][0]})";
 		}
 
 		// polyline must be URL encoded https://stackoverflow.com/a/65523379/2146022
