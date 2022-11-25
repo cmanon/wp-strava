@@ -76,22 +76,22 @@ class WPStrava_ActivitiesListRenderer {
 			}
 
 			if ( ! empty( $activity->distance ) ) {
-				// Translators: "went 10 miles"
+				// Translators: " went 10 miles" - leave a space at the beginning (or at the end for right-to-left languages).
 				$response .= sprintf( __( ' went %1$s %2$s', 'wp-strava' ), $som->distance( $activity->distance ), $som->get_distance_label() );
 			}
 
 			if ( ! empty( $activity->moving_time ) ) {
-				// Translators: "during 2 hours"
+				// Translators: " during 2 hours" - leave a space at the beginning (or at the end for right-to-left languages).
 				$response .= sprintf( __( ' during %1$s %2$s', 'wp-strava' ), $som->time( $activity->moving_time ), $som->get_time_label() );
 			}
 
 			if ( ! WPStrava::get_instance()->settings->hide_elevation && ! empty( $activity->total_elevation_gain ) ) {
-				// Translators: "climbing 100 ft."
+				// Translators: " climbing 100 ft." - leave a space at the beginning (or at the end for right-to-left languages).
 				$response .= sprintf( __( ' climbing %1$s %2$s', 'wp-strava' ), $som->elevation( $activity->total_elevation_gain ), $som->get_elevation_label() );
 			}
 
 			if ( ! empty( $activity->calories ) ) { // LOL - empty calories :^)
-				// Translators: "burning 200 calories."
+				// Translators: " burning 200 calories." - leave a space at the beginning (or at the end for right-to-left languages).
 				$response .= sprintf( __( ' burning %1$s calories.', 'wp-strava' ), $som->calories( $activity->calories ) );
 			}
 
