@@ -1,10 +1,11 @@
 === WP-Strava ===
 
 Contributors: cmanon, jrfoell, lancewillett, dlintott, sebastianerb
+Donate link: https://github.com/sponsors/jrfoell
 Tags: strava, activity, bicycle, cycling, biking, running, run, swimming, swim, paddle, kayak, gps, shortcode, widget, plugin, block, blocks
 Requires at least: 4.6
-Tested up to: 6.0
-Stable tag: 2.12.0
+Tested up to: 6.1
+Stable tag: 2.12.1
 Requires PHP: 5.3
 License: GPLv2 or later
 
@@ -12,27 +13,23 @@ Show your Strava activity on your WordPress site.
 
 == Description ==
 
-This plugin uses the Strava API to embed maps and activity for athletes and clubs on your WordPress site. Included are several widgets and shortcodes for showing maps and activity summaries.
-
-
-= Cron =
-
-Using WP-Strava 2.0+ requires a working WordPress cron configuration. By default, WordPress has a built-in cron system to run scheduled events, but it relies on your website getting frequent visitors. The Strava authentication token system expires after 6 hours if not refreshed. If you think your site will not get any visitors over the span on 6 hours, you might want to set up a _real_ cron: https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/. Setting up this sort of cron is beyond the scope of support for this free plugin, so you should seek assistance through your host. Force-running the WordPress cron once an hour is good enough for WP-Strava.
-
+This plugin uses the Strava API to embed maps and activities for athletes on your WordPress site. Included are several widgets and shortcodes for showing maps and activity summaries.
 
 = Blocks =
 
-*Available in WordPress 5.0 and up.* Embeds described in this section will only work in the WP Block (Gutenberg) editor. Compatibility with WPBakery, Visual Composer, Elementor, Beaver Builder, etc. may differ.
+*Available in WordPress 5.0 and up.*
+
+Embeds described in this section will only work in the WP Block (Gutenberg) editor. Compatibility with WPBakery, Visual Composer, Elementor, Beaver Builder, etc. may differ.
 
 == Strava Activity ==
 
-Embed an activity in any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
+Embed an activity in any page or post. Shows a summary of the activity plus a map if a map key has been added.
 
 Paste in the full activity URL from Strava, such as https://www.strava.com/activities/1793155844 and click "Embed" (pasting a link directly into the editor also works). A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
 == Strava Route==
 
-Embed a route in any page or post. Shows a summary of the route plus a map if a google maps key has been added.
+Embed a route in any page or post. Shows a summary of the route plus a map if a map key has been added.
 
 Paste in the full route URL from Strava, such as https://www.strava.com/routes/2326567 and click "Embed" (pasting a link directly into the editor also works). A preview map will be shown in the editor, similar to what will be displayed on the front-end. In the side-panel you can select options to show the image only (without the details table), display markers at the start & finish points, and override the system of measure from your default selection under Settings -> Strava.
 
@@ -42,7 +39,7 @@ Shows your most recent activities in a bulleted list.
 
 == Strava Segment ==
 
-Embed a segment in a page or post. Shows a summary of the segment plugs a map if a google maps key has been added.
+Embed a segment in a page or post. Shows a summary of the segment plugs a map if a map key has been added.
 
 Paste in the full segment URL from Strava, such as https://www.strava.com/segments/18803428 and click "Embed" (pasting a link directly into the editor also works). The easiest way that to navigate to a segment URL on strava.com is by clicking “View Full Leaderboard” or “View Local Legend Stats” while you're viewing a segment from an activity.
 
@@ -50,7 +47,7 @@ A preview map will be shown in the editor, similar to what will be displayed on 
 
 = Shortcodes =
 
-[activity id=NUMBER] - add to any page or post. Shows a summary of the activity plus a map if a google maps key has been added.
+[activity id=NUMBER] - add to any page or post. Shows a summary of the activity plus a map if a map key has been added.
 
 You should replace NUMBER with an activity ID from Strava. The easiest way to find it is from a Strava URL like https://www.strava.com/activities/1793155844 - where 1793155844 is the activity ID number.
 
@@ -86,71 +83,68 @@ This also takes the same optional parameters as the [activity] shortcode above.
 * distance_min - show only the latest activity longer than this distance in km/mi.
 * client_id - specify a different athlete (you can copy this value from https://www.strava.com/settings/api or the wp-strava settings page at /wp-admin/options-general.php?page=wp-strava-options).
 
-
 = Widgets =
 
 Strava Activities List - shows a list of the most recent activities.
 
 Strava Latest Map - shows map of latest activity with option to limit latest map to activities of a certain minimum distance.
 
+= Cron =
+
+Using WP-Strava 2.0+ may require a WordPress cron configuration. By default, WordPress has a built-in cron system to run scheduled events, but it relies on your website getting frequent visitors. The Strava authentication token system expires after 6 hours if not refreshed. If you think your site will not get any visitors over the span on 6 hours, you might want to set up a _real_ cron: https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/. Setting up this sort of cron is beyond the scope of support for this free plugin, so you should seek assistance through your host. Force-running the WordPress cron once an hour is good enough for WP-Strava.
 
 == Frequently Asked Questions ==
 
 = Why am I getting "ERROR 401 Unauthorized"? =
 
-When you have multiple athletes saved, the first is considered to be the default athlete. If you use a shortcode to display activity from anyone other than the default athlete, you must add the athlete token (found on the wp-strava settings page) to the shortcode, such as client_id=17791.
+1) There may be an issue with app authentication. In some cases it appears that the credentials from authorizing with your Strava app may not save into the database. If you're experiencing "ERROR 401 Unauthorized" on everything, that may be the case. Steps to help diagnose this are here: https://github.com/cmanon/wp-strava/issues/109
 
+2) There may be an issue with multiple athlete's activities. If you're seeing "ERROR 401 Unauthorized" only on certain activities, this may be the case. When you have multiple athletes saved, the first is considered to be the default athlete. If you display activity from anyone other than the default athlete, you must add the athlete client ID (found on the wp-strava settings page) to the shortcode, such as client_id=17791.
 
 = Why is my Google Map not showing up? =
 
 If your API key works with other Google Maps plugins but not WP-Strava, you may need to enable the "Static Maps" functionality on your google account. This is especially true for people using G Suite accounts (not just a @gmail.com address). While logged into your G Suite email, visit https://console.developers.google.com/apis/library/static-maps-backend.googleapis.com/?q=static and make sure the "Static Maps API" is enabled. For more details see https://wordpress.org/support/topic/no-data-errors/
 
-
 = I recently uploaded an activity, why is it not showing on my site? =
 
 WP-Strava caches activity for one hour so your site doesn't hit the Strava API on every page load. If you recently uploaded activity and want to see it right away, go to the Settings -> Strava in the wp-admin dashboard, check the checkbox labeled "Clear cache (images & transient data)" and then click Save Changes.
 
-
-- Why can't I remove and add an athlete at the same time? -
+= Why can't I remove and add an athlete at the same time? =
 
 On the WP-Strava settings page you cannot currently remove and add another athlete at the same time. This is a known limitation. WP-Strava will remove the athlete(s) that you cleared the ID/Nickname fields for, but the new athlete will no be added. Please complete the add/remove operations as separate save actions on the WP-Strava settings page.
 
-
 == Screenshots ==
 
-1. WP-Strava settings - this walks you through connecting the WP-Strava plugin to your Strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
-2. Strava Activities List Widget - shows a list of the most recent activities for the selected athlete.
-3. Strava Activities List Widget Settings - settings for the Strava Activities List Widget.
-4. Strava Latest Map Widget - shows a map of your most recent activity.
-5. Strava Latest Map Widget Settings - settings for the Latest Map Widget. You can limit your activity by minimum distance to show only longer efforts.
-6. Activity Shortcode - Shows a map of activity with some statistics.
-7. Activity Shortcode Settings - An example activity shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
-8. Route Shortcode - Shows a map of a route.
+1. Strava Activity embedded in a page or post - options for image only, start/end markers, image size, etc.
+2. Strava Activity in the block editor.
+3. Strava Latest Map Widget - put a map of your latest activity your sidebar. Options to filter out shorter activities.
+4. Strava Activities List (Block & Widget) - put a list of most recent activities in a sidebar, post, page, etc.
+5. WP-Strava settings - this walks you through connecting the WP-Strava plugin to your Strava account. You can connect multiple accounts by authenticating each one here. Add your Google Maps key for map display here. You can also set the system of measurement (miles/kilometers) and clear any saved data.
+6. Strava Activities List Widget Settings - settings for the Strava Activities List Widget.
+7. Strava Latest Map Widget Settings - settings for the Latest Map Widget. You can limit your activity by minimum distance to show only longer efforts.
+8. Activity Shortcode Settings - An example activity shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
 9. Route Shortcode Settings - An example route shortcode. Add markers=true to show green/red start/stop points.
-10. Activities Shortcode - Shows latest athlete activity in a page or post.
-11. Activities Shortcode Settings - An example activities shortcode. The client_id parameter is only needed if your site is connected to multiple athlete accounts.
-12. Strava Activity Block - Shows the activity block and options with a placeholder image in the editor.
-
 
 == Changelog ==
+
+= 2.12.1 =
+Update translation strings that have space padding https://wordpress.org/support/topic/missing-space-3/
+Set CSS image width to 100% of container
+Fix lat/lon parameter order on Mapbox maps
 
 = 2.12.0 =
 Update documentation around block embeds https://wordpress.org/support/topic/which-editor-to-use-2/
 Added debugging for API GET/POST to troubleshoot 401 errors https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
 
-
 = 2.11.1 =
 Add class selector to responsive tables https://wordpress.org/support/topic/shortcode-embed-responsive-table-styling-issues/
-
 
 = 2.11.0 =
 Add additional block transformations for "Activity" (from: Paragraph, Classic Shortcode; to: Paragraph)
 Add Mapbox Static Map support https://github.com/cmanon/wp-strava/issues/26
 
-
 = 2.10.1 =
 Reworked settings save with multiple athletes, related to https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
-
 
 = 2.10.0 =
 Add ability to paste Activity/Route/Segment URL into the block editor and have it insert the appropriate block https://wordpress.org/support/topic/sorry-this-content-could-not-be-embedded-5/
@@ -158,121 +152,89 @@ Add `reduce_polyline()` for maps with large polylines but no summary provided (p
 Fix for ActivitiesList where lists were showing all zeroes https://wordpress.org/support/topic/zero-on-all-activities-for-club-on-list-mocule/
 Add additional authorization error logging to troubleshoot 401 Unauthorized https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
 
-
 = 2.9.1 =
 Add conditional to look for zero/null/empty activity time to avoid exception https://wordpress.org/support/topic/exception-thrown-oceanwp-theme/
-
 
 = 2.9.0 =
 Added Segment Block https://wordpress.org/support/topic/show-segments-feature/ / https://wordpress.org/support/topic/embed-segments-feature/
 Switched Activities List to display moving time instead of elapsed time https://wordpress.org/support/topic/moving-time-instead-of-elapsed-time/
 Added calories burned (when available) to Activity and Activities List https://wordpress.org/support/topic/calorie/
 
-
 = 2.8.0 =
 Revised `block.json` based on feedback from https://wordpress.org/plugins/developers/block-plugin-validator/
 Add PHPCompatibility checks to coding standards (and fixes from recommendations)
 Add Activities List Block
 
-
 = 2.7.0 =
 Add setting to choose API cache interval (1 hour / 15 minutes) https://wordpress.org/support/topic/decrease-update-time-for-group-recent-activities/
 Move block type metadata to `block.json` for future discoverability.
-
 
 = 2.6.0 =
 Make reusable components for embed screens and SOMOverride
 Add Route Block
 
-
 = 2.5.1 =
-
 Fix latest_map class replacing echo with return https://wordpress.org/support/topic/latest-activity-map-shortcode-wrong-placed-on-page/
 Fix styling on pace activity max speed.
 Fix broken water pace on activity.
 Fix pace types and remove 'other' - making 'speed' default.
 Fix to remove map link in editor so you don't leave the editor.
 
-
 = 2.5.0 =
-
 Fix missing translation domain on "Save Changes" in settings. https://wordpress.org/support/topic/small-fix-in-settings-php-function-print_clear_input
 Refined styles for responsive tables https://wordpress.org/support/topic/responsive-strava-activity-table/
 Add activity description under image (if set) https://wordpress.org/support/topic/show-activity-description/
 Add preview of activity in the block editor using server-side render
 Add System of Measure override in Activity Block display options
 
-
 = 2.4.0 =
-
 Made activity table responsive https://wordpress.org/support/topic/responsive-strava-activity-table/
 Fixed issue when reauthorization erases access tokens https://wordpress.org/support/topic/wp-strava-error-401-unauthorized/
 Improve output escaping, documentation, and other coding standards
 
-
 = 2.3.2 =
-
 Added support to not link to activities https://wordpress.org/support/topic/feature-request-make-link-to-activity-optional
 
-
 = 2.3.1 =
-
 Added Image Only and Display Markers toggles to Activity Block.
 
-
 = 2.3.0 =
-
 Renamed LatestActivities classes to ActivitiesList.
 Added exception handling to authorization process.
 Added date_start and date_end to [activities] short code https://wordpress.org/support/topic/activities-shortcode-for-date-range/
 
-
 = 2.2.0 =
-
 Added rudimentary gutenberg block for single Activity.
 Changed all Strava links to HTTPS.
 Moved PHP classes from includes/ to src/.
 
 = 2.1.0 =
-
 Updated settings to work with WP 5.3.
 
-
 = 2.0.1 =
-
 Added [latest_map] shortcode https://wordpress.org/support/topic/show-latest-map-not-in-widget/
 Code formatting cleanup, escaping, and input filtering
 Added caching to all API requests https://wordpress.org/support/topic/data-not-cached/
 
-
 = 2.0.0 =
-
 Added new Strava "refresh tokens" ala https://developers.strava.com/docs/oauth-updates/#migration-instructions
 Fixed long activity filter https://wordpress.org/support/topic/minimum-distance-on-last-activity-map-widget-not-working/
 
-
 = 1.7.3 =
-
 Added update notice.
 
-
 = 1.7.2 =
-
 Added setting to hide elevation.
 Fixed hours for activities greater than 24 hours.
 Added scale=2 to static map to which allows for greater pixel resolution (up to 1024x1024 at 2x) for Google Maps API Premium Plan subscribers https://developers.google.com/maps/documentation/maps-static/dev-guide#Imagesizes
 
-
 = 1.7.1 =
-
 Added PHPUnit tests for all System of Measure calculations.
 Fixed swimpace calculation.
 Fixed seconds display on pace.
 Added Hide Activity Time option to hide time display from Latest Activities List.
 
-
 = 1.7.0 =
-
 Added Sebastian Erb to contributors.
 Added Pace support (min/km) and (min/mile) for Activity Shortcode
 Added Swimpace support (min/100m) for Activity Shortcode
@@ -280,50 +242,36 @@ Added 'image_only' attribute to [activity] and [route] shortcode to optionally r
 Added boolean filtering to shortcodes to prevent false-positive "truthiness" to a shortcode attribute like image_only="false".
 Removed 'max-width: none' from activity image to make it responsive.
 
-
 = 1.6.0 =
-
 Added class autoloader (removed composer autoloader).
 Added exception handling and cleaned up error reporting.
 
-
 = 1.5.1 =
-
 rawurlencode() redirect_uri so authentication works more consistently.
 Added FAQ about caching.
 Changed to new-style phpcs ignores and ignored some additional lines.
 Simplified auth token logic to troubleshoot https://wordpress.org/support/topic/problem-authenticating-with-strava/
 Increased API request timeout to 30 seconds.
 
-
 = 1.5.0 =
-
 Added additional checks for abridged club data to avoid undefined index/property errors https://wordpress.org/support/topic/club-activities-bugs-strava/
 Added composer with PSR-0 autoloader (will switch to PSR-4 once WP's PHP 5.2 requirement goes away).
 Moved files into appropriate place to support autoloader.
 Added WordPress-Extra coding standards rule definition to project
 
-
 = 1.4.3 =
-
 Fix WPStrava_Activity class not found error.
 
-
 = 1.4.2 =
-
 Better Club ID support.
 Refined cache clearing to include club IDs.
 Removed links to 'app.strava.com'
 Fixed unclosed href anchor on activity shortcode.
 
-
 = 1.4.1 =
-
 Fix array indices on map widget
 
-
 = 1.4.0 =
-
 Added Daniel Lintott to contributors.
 Fixed non-existent settings js from being enqueued.
 Changed all 'ride' styles and functions to 'activity'.
@@ -334,31 +282,23 @@ Removed target="_blank" from hrefs for accessibility best practices.
 Added links from activity and route shortcodes to respective strava page.
 Removed all instances of extract().
 
-
 = 1.3.0 =
-
 Added [route] shortcode and start/finish https://github.com/cmanon/wp-strava/pull/10/
 Fixed error with /rides link (should be /activities). https://wordpress.org/support/topic/problem-with-link-4/
 Added [activities] shortcode to show list of activity
 
-
 = 1.2.0 =
-
 Added multi-athlete configuration. https://wordpress.org/support/topic/multi-strava-user/
 Additional transitions from Ride -> Activity.
 Updated setup instructions to reflect latest Strava API set up process.
 Backwards Compatibility - removed PHP 5.3+ specific operator (should work with PHP 5.2 now - versions 1.1 and 1.1.1 don't). https://wordpress.org/support/topic/version-1-1-broken/
 Reworked error reporting and formatting. https://wordpress.org/support/topic/updating-settings-failure/#post-9764942
 
-
 = 1.1.1 =
-
 Changes to better support translations through https://translate.wordpress.org.
 Cleaned up formatting.
 
-
 = 1.1 =
-
 Added [activity] shortcode to deprecate [ride] in the future.
 Fixed static method call error in shortcode.
 Added title to Strava Latest Map Widget. https://wordpress.org/support/topic/change-widget-title-from-latest-ride-to-latest-run-or-something-else/
@@ -368,48 +308,32 @@ Added Google Maps Key to settings (required for map images). https://wordpress.o
 Added cache clear option to remove transient & image data.
 Cleaned up formatting.
 
-
 = 1.0 =
-
 Change to Strava API V3. https://wordpress.org/support/topic/does-not-work-354/
 Switch ride shortcode to use static map.
 
-
 = 0.70 =
-
 Use WordPress HTTP API for all remote calls.
 Use WordPress Settings API for settings page.
 
-
 = 0.62 =
-
 Refactor some code.
 Fixed several bugs.
 Added feature to show athlete name/link to the widget if the search option is by club.
 
-
 = 0.61 =
-
 Added option to select unit of measurements on the widget. https://wordpress.org/support/topic/feature-request-runs-in-minkm/
 
-
 = 0.6 =
-
 Initial version.
-
 
 == Upgrade Notice ==
 
 = 2.0.1 =
-
 Adds API caching - speed up your page loads 8^)
 
-
 = 2.0.0 =
-
 Version 2.0 is mandatory after October 15th, 2019. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
 
-
 = 1.7.3 =
-
 Version 2.0 is mandatory after October 15th, 2019. Try the 2.0 beta: <a href="https://github.com/cmanon/wp-strava/releases">https://github.com/cmanon/wp-strava/releases</a>. 2.0 settings upgrade instructions: <a href="https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade">https://github.com/cmanon/wp-strava/wiki/2.0-Upgrade</a>.
