@@ -15,12 +15,20 @@
 	margin: 0 auto;
 }
 
+.wp-strava-img {
+	width: 100%;
+}
+
+.activity-details-table {
+	padding-bottom: 0.5em;
+}
+
 .activity-details-table tr td {
-	padding: 5px;
+	padding: 0.25em;
 }
 
 .activity-details-table th {
-	padding: 5px;
+	padding: 0.25em;
 	text-align: center;
 	font-size: 0.8em;
 }
