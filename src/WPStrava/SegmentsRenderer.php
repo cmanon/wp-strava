@@ -87,14 +87,14 @@ class WPStrava_SegmentsRenderer {
 	 * @since  2.9.0
 	 */
 	private function get_table( $segment_details, $som ) {
-		$strava_som          = WPStrava_SOM::get_som( $som );
-		$elevation_title     = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
-		$elevation           = '<td data-label="' . __( 'Elevation Gain', 'wp-strava' ) . '">
+		$strava_som      = WPStrava_SOM::get_som( $som );
+		$elevation_title = '<th>' . __( 'Elevation Gain', 'wp-strava' ) . '</th>';
+		$elevation       = '<td data-label="' . __( 'Elevation Gain', 'wp-strava' ) . '">
 									<div class="activity-details-table-info">' . $strava_som->elevation( $segment_details->total_elevation_gain ) . '</div>
 									<div class="activity-details-table-units">' . $strava_som->get_elevation_label() . '</div>
 								</td>';
-		$grade_title         = '<th>' . __( 'Avg. Grade', 'wp-strava' ) . '</th>';
-		$grade               = '<td data-label="' . __( 'Avg. Grade', 'wp-strava' ) . '">
+		$grade_title     = '<th>' . __( 'Avg. Grade', 'wp-strava' ) . '</th>';
+		$grade           = '<td data-label="' . __( 'Avg. Grade', 'wp-strava' ) . '">
 									<div class="activity-details-table-info">' . $strava_som->percent( $segment_details->average_grade ) . '</div>
 									<div class="activity-details-table-units">&nbsp;</div>
 								</td>';

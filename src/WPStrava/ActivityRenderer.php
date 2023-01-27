@@ -133,8 +133,8 @@ class WPStrava_ActivityRenderer {
 		}
 
 		if ( $activity_details->calories ) {
-			$calories_title  = '<th>' . __( 'Calories Burned', 'wp-strava' ) . '</th>';
-			$calories        = '<td data-label="' . __( 'Calories Burned', 'wp-strava' ) . '">
+			$calories_title = '<th>' . __( 'Calories Burned', 'wp-strava' ) . '</th>';
+			$calories       = '<td data-label="' . __( 'Calories Burned', 'wp-strava' ) . '">
 									<div class="activity-details-table-info">' . $strava_som->calories( $activity_details->calories ) . '</div>
 									<div class="activity-details-table-units">' . $strava_som->get_calories_label() . '</div>
 								</td>';
