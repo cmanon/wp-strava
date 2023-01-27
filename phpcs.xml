@@ -9,7 +9,7 @@
 	</rule>
 
 	<rule ref="PHPCompatibility"/>
-	<config name="testVersion" value="5.3-7.4"/>
+	<config name="testVersion" value="5.3-8.0"/>
 	<arg name="extensions" value="php"/>
 
 	<file>./src</file>
